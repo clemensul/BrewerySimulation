@@ -1,4 +1,4 @@
-package org.example.model;
+package org.planspiel.model;
 
 public class Device {
 

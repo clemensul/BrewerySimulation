@@ -20,11 +20,11 @@ function signin() {
     console.log(socket);
 
     var name = form.elements["name"].value;
-    var session_id = form.elements["game-id"].value;
+    var game_id = form.elements["game-id"].value;
 
     var Player = {
         name: name,
-        session_id: session_id,
+        game_id: game_id,
         action: "login"
     };
     

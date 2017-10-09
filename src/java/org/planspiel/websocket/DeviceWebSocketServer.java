@@ -1,8 +1,9 @@
-package org.example.websocket;
+package org.planspiel.websocket;
 
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.input.KeyCode;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -14,7 +15,7 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.example.model.Device;
+import org.planspiel.model.Device;
     
 @ApplicationScoped
 @ServerEndpoint("/actions")
@@ -32,7 +33,19 @@ public class DeviceWebSocketServer {
 
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
-
+            System.out.println(message);
+            
+            if ("login".equals(jsonMessage.getString("action"))) {
+                System.out.println(jsonMessage.getString("name") + " - " + jsonMessage.getString("game_id"));
+                //if(jsonMessage.getString("game_id") != HASHMAP GAME_ID)
+                //create new game id
+                
+                //send game_id to session
+                sessionHandler.sendGameId(0, session);
+                //sth happens | game->hashmap->game_id
+                
+                
+            }
             if ("add".equals(jsonMessage.getString("action"))) {
                 Device device = new Device();
                 device.setName(jsonMessage.getString("name"));

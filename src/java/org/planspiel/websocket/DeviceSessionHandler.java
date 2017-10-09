@@ -1,5 +1,5 @@
 
-package org.example.websocket;
+package org.planspiel.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import org.example.model.Device;
+import org.planspiel.model.Device;
 import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ import javax.json.spi.JsonProvider;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
-import org.example.model.Device; 
+import org.planspiel.model.Device; 
 
 @ApplicationScoped
 public class DeviceSessionHandler {
@@ -119,5 +119,10 @@ public class DeviceSessionHandler {
             sessions.remove(session);
             Logger.getLogger(DeviceSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void sendGameId(int game_id, Session session){
+        //Integer.toString(game_id) to JsonObject
+        //sendToSession(session, Integer.toString(game_id));
     }
 }
