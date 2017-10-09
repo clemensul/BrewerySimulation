@@ -7,6 +7,18 @@ function onMessage(event) {
 
     console.log(event);
 
+    json = event.data;
+    reply = JSON.parse(json);
+
+    switch (reply.action) {
+        case "login": {
+            switch (reply.status) {
+                case "ok": lobby(reply.game_id);
+                case "err": ;   
+            };
+            break;
+        }
+    }
 }
 
 function onOpen(event) {

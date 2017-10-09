@@ -4,45 +4,22 @@
     --accent-dark:#E4BC53;
     --accent-light:#CECCB2;
 
-    --background:#37515E;
+    --background:rgb(39, 57, 66);
 }
 
 body {
-    background: var(--background);
-    position: relative;
-    width: 100%;
-    overflow-y: scroll;
-    height: 100%;
-}
-
-.sidebar {
-    background: var(--primary-dark);
-    box-shadow: 0px 0px 40px black;
-
-    margin-left: -250px;
-    left: 250px;
-    width: 250px;
-    position: fixed;
-    height: 100%;
-    overflow-y: auto;
-    transition: all 0.4s ease 0s;
-}
-
-.wrapper {
-    padding-left: 250px;
-    transition: all 0.4s ease 0s;
-}
-
-.content-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    
+    background: var(--background); /* For browsers that do not support gradients */
+    /*background: -webkit-linear-gradient(var(--background), var(--primary-dark)); /* For Safari 5.1 to 6.0 */
+    /*background: -o-linear-gradient(var(--background), var(--primary-dark)); /* For Opera 11.1 to 12.0 */
+    /*background: -moz-linear-gradient(var(--background), var(--primary-dark)); /* For Firefox 3.6 to 15 */
+    /*background: linear-gradient(var(--background), var(--primary-dark)); /* Standard syntax */
 }
 
 .card {   
     box-shadow: 0px 0px 20px black;
-    padding: 3%;
-    margin: 3%;
+    padding: 2%;
+    margin: 2%;
 }
 
 form + .card-title {
