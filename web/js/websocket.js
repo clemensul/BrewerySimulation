@@ -42,4 +42,6 @@ function signin() {
     
     socket.send(JSON.stringify(Player));
     console.log(JSON.stringify(Player));
+
+    lobby();
 }
