@@ -20,11 +20,12 @@ function signin() {
     console.log(socket);
 
     var name = form.elements["name"].value;
-    var session_id = form.elements["session-id"].value;
+    var session_id = form.elements["game-id"].value;
 
     var Player = {
         name: name,
-        session_id: session_id
+        session_id: session_id,
+        action: "login"
     };
     
     socket.send(JSON.stringify(Player));
