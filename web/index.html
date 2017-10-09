@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--THANKS TO http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/HomeWebsocket/WebsocketHome.html#section10 -->
 
 <head>
     <!-- Required meta tags -->
@@ -8,75 +7,346 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-        crossorigin="anonymous">
-    <title> Startseite </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/form.css" />
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <title>Brauerei</title>
 </head>
 
 <body>
-    <!-- Grid für die Überschrift -->
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col col-lg-2">
-
+    <div class="container-fluid wrapper">
+        <div class="row justify-content-center">
+            <!-- Sidebar -->
+            <div class="col hidden-xs-down sidebar p-0">
+                <nav class="nav">
+                    <!-- Naviagtion an der Seite -->
+                    <div class="navbar-brand">Brauerei Simulation</div>
+                    <ul class="nav flex-column sidebar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="start-tab" data-toggle="tab" href="#start" role="tab" aria-controls="start" aria-expanded="true">Start</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="marketing-tab" data-toggle="tab" href="#marketing" role="tab" aria-controls="marketing" aria-expanded="true">Marketing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="forschung-tab" data-toggle="tab" href="#forschung" role="tab" aria-controls="forschung-und-entwicklung"
+                                aria-expanded="true">Forschung und Entwicklung</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="produktion-tab" data-toggle="tab" href="#produktion" role="tab" aria-controls="produktion" aria-expanded="true">Produktionsentwicklung</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <div class="col-md-auto">
-                <br>
-                <h1> Brauerei Simulation </h1>
-                <br>
+            <div class="col content-wrapper">
 
-            </div>
-            <div class="col col-lg-2">
 
-            </div>
-        </div>
-    </div>
+                <!-- **** -->
+                <!-- Card -->
+                <!-- **** -->
+                <div class="card" id="start">
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-3">Brauerei Simulation</h1>
+                            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+                        </div>
+                    </div>
 
-    <!-- Grid für die Karte zum Einloggen -->
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col col-lg-2">
-
-            </div>
-            <div class="col-md-auto">
-                <!-- hier fängt die login card an -->
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Spiel-Einstellungen</h4>
-                        <p class="card-text">
+                    <div class="row">
+                        <div class="col">+
+                            <h3>Deine Brauerei</h3>
+                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                                ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
+                                duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+                                dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+                                eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                sanctus est Lorem ipsum dolor sit amet.</p>
+                        </div>
+                        <div class="col">+
+                            <h3>Das Spielziel</h3>
+                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                                ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
+                                duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+                                dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+                                eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+                                eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                sanctus est Lorem ipsum dolor sit amet.</p>
+                        </div>
+                        <div class="col">+
+                            <h3>Anmeldung</h3>
                             <form name="anmeldung">
-                                <label for="name">Füge Spieler/Unternehmen hinzu:</label>
-                                    <input name="name" type="text" class="form-control" placeholder="Name deines Unternehmens..." aria-label="Name deines Unternehmens...">
+                                <div class="form-group">
+                                    <label for="game-id">Name der Session:</label>
+                                    <input name="game-id" class="form-control" type="text" placeholder="Session-Id">
+                                    <small class="form-text text-muted">Leer lassen, um eine neune Session zu starten.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Name deines Unternehmens:</label>
+                                    <input name="name" class="form-control" type="text" placeholder="Unternehmen">
                                 </div>
                             </form>
-                        </p>
-                        <!-- hier gibts noch ein problem mit der Formatierung des knopfs -->
-                        <button class="btn" onclick="addplayer();">
-                            Text
-                        <!--  <a href="spiel.html" class="card text-center" class="btn btn-primary">Start Game</a> -->
-                        </button>
+                            <button class="btn" onclick="signin(); lobby();">Anmelden</button>
+                        </div>
                     </div>
                 </div>
-                <!-- hier hört die card auf -->
-            </div>
-            <div class="col col-lg-2">
 
+
+                <div class="card" id="lobby">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Lobby</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- **** -->
+                <!-- Card -->
+                <!-- **** -->
+                <div class="card" id="marketing">
+
+                    <h4 class="card-title">Investitionsmöglichkeiten</h4>
+                    <p class="card-text">Verteile dein Budget in die verschiedenen Projekte unserer Marketing-Abteilung!</p>
+
+                    <div class="row table_head">
+                        <div class="col-md-4">Projekt</div>
+                        <div class="col-md-5">Beschreibung</div>
+                        <div class="col-md-3">Budget</div>
+                    </div>
+                    <form name="form_marketing">
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-info-circle" aria-hidden="true"></i> Plakate</div>
+                            <div class="col-md-5">Plakate werden in der Stadt verteilt.</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_plakate" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-info-circle" aria-hidden="true"></i> TV-Werbung</div>
+                            <div class="col-md-5">TV-Spots deines Bieres laufen auf verschiedenen Sendern.</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_tv" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-info-circle" aria-hidden="true"></i> Radiospots</div>
+                            <div class="col-md-5">Es laufen verschiedene Spots im Radio.</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h5 class="card-title">vorherige Perioden</h5>
+                    <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <canvas id="marketing-plakat"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="marketing-tv"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="marketing-radio"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="marketing-vergleich"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- **** -->
+                <!-- Card -->
+                <!-- **** -->
+                <div class="card" id="forschung">
+                    <h4 class="card-title">Investitionsmöglichkeiten</h4>
+                    <p class="card-text">Verteile dein Budget innerhalb der unserer Forschungsprojekte!</p>
+
+                    <div class="row table_head">
+                        <div class="col-md-4">Projekte</div>
+                        <div class="col-md-5">Beschreibung</div>
+                        <div class="col-md-3">Budget</div>
+                    </div>
+                    <form name="form_FuE">
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-info-circle" aria-hidden="true"></i> Bierkonzentartionsrecherche</div>
+                            <div class="col-md-5">Plakate werden in der Stadt verteilt.</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-info-circle" aria-hidden="true"></i> Chemische Forschung</div>
+                            <div class="col-md-5">TV-Spots deines Bieres laufen auf verschiedenen Sendern.</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-info-circle" aria-hidden="true"></i> Weiterentwicklung des Hopfendüngers</div>
+                            <div class="col-md-5">Es laufen verschiedene Spots im Radio.</div>
+                            <div class="col-md-3    ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                    <span class="input-group-addon">,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h5 class="card-title">vorherige Perioden</h5>
+                    <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <canvas id="FuE-geschmack"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="FuE-chemie"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="FuE-hopfen"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="FuE-vergleich"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- **** -->
+                <!-- Card -->
+                <!-- **** -->
+                <div class="card" id="produktion">
+                    <h4 class="card-title">Investitionsmöglichkeiten</h4>
+                    <p class="card-text">Verteile dein Budget innerhalb der Produktionsabteilung!</p>
+
+                    <form name="form_produktion">
+
+                        <div class="row">
+                            <div class="col tile checked" name="investment_pumpe" class="col tile">
+                                <div onclick="checkInvestment('investment_pumpe')">effizintere Pumpen</div>
+                                <span>Das ist eine sehr sehr spannende Beschreibung der oben überschriebenen Errungenschaft.</span>
+                                <div>Preis: 100.000€</div>
+                            </div>
+                            <div class="col tile">
+                                <div>Erdgas LKWs</div>
+                                <span>Das ist eine sehr sehr spannende Beschreibung der oben überschriebenen Errungenschaft.</span>
+                                <div>Preis: 100.000€</div>
+                            </div>
+                            <div class="col tile">
+                                <div>effizintere Pumpen</div>
+                                <span>Das ist eine sehr sehr spannende Beschreibung der oben überschriebenen Errungenschaft.</span>
+                                <div>Preis: 100.000€</div>
+                            </div>
+                            <div class="col tile">
+                                <div>effizintere Pumpen</div>
+                                <span>Das ist eine sehr sehr spannende Beschreibung der oben überschriebenen Errungenschaft.</span>
+                                <div>Preis: 100.000€</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col tile">
+                                <p>effizintere Pumpen</p>
+                            </div>
+                            <div class="col tile">
+                                <p>Erdgas LKWs</p>
+                            </div>
+                            <div class="col tile">
+                                <p>effizintere Pumpen</p>
+                            </div>
+                            <div class="col tile">
+                                <p>effizintere Pumpen</p>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <h5 class="card-title">vorherige Perioden</h5>
+                    <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <canvas id="canvas-1"></canvas>
+                        </div>
+                        <div class="col-4">
+                            <canvas id="canvas-2"></canvas>
+                        </div>
+                        <div class="col-4">
+                            <canvas id="canvas-3"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <canvas id="canvas-4"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
-
+    <!--
+        <footer class="fixed-bottom">
+            <div class="row">
+                <div class="col align-items-start align-self-center">
+                    <div class="countdown-widget">
+                        <i id="countdown">00:00</i>
+                    </div>
+                </div>
+                <div class="col align-items-end align-self-center">
+                    <button class="btn">Reset</button>
+                    <button class="btn" onclick='socket.send({submit: "text"});'>Submit</button>
+                </div>
+            </div>
+        </footer>
+        -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-        crossorigin="anonymous"></script>
-    <script src="js/form.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+
+    <script src="js/charts.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/smooth-scroll.js"></script>
+
+    <script src="js/websocket.js"></script>
+
+    <script src="js/content.js"></script>
+
 </body>
 
 </html>
