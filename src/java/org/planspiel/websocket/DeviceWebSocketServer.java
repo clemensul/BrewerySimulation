@@ -1,6 +1,10 @@
 package org.planspiel.websocket;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.input.KeyCode;
@@ -15,11 +19,15 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import org.planspiel.controller.Game;
 import org.planspiel.model.Device;
     
 @ApplicationScoped
 @ServerEndpoint("/actions")
 public class DeviceWebSocketServer {
+    //gamesActive is reseted every time a new message comes in --> seperate class to control and save game-units
+    private Set<org.planspiel.controller.Game> gamesActive = new HashSet<>();
+    
  @Inject
     private DeviceSessionHandler sessionHandler;
  
@@ -37,33 +45,51 @@ public class DeviceWebSocketServer {
             
             if ("login".equals(jsonMessage.getString("action"))) {
                 System.out.println(jsonMessage.getString("name") + " - " + jsonMessage.getString("game_id"));
-                //if(jsonMessage.getString("game_id") != HASHMAP GAME_ID)
-                //create new game id
+                boolean alreadyExists = false;
+                //if the game already exists, add a new player to it
+                for(org.planspiel.controller.Game game : gamesActive){
+                    System.out.println(game.getId());
+                    if(jsonMessage.getString("game_id").equals(game.getId())){
+                        game.addPlayer(jsonMessage.getString("name"));
+                        alreadyExists = true;
+                        System.out.println("Added " + jsonMessage.getString("name") + " to game " + jsonMessage.getString("game_id"));
+                    }
+                }
+                //else create a new game, add a new player to it
+                if(!alreadyExists){
+                        //newGame.addPlayer(jsonMessage.getString("name"));
+                        gamesActive.add(new Game(1,2, jsonMessage.getString("game_id"), jsonMessage.getString("name"))); //TODO .add not working properly 
+                        System.out.println("Created new Game and Added " + jsonMessage.getString("name") + " to game " + jsonMessage.getString("game_id"));
+                }
                 
                 //send game_id to session
                 sessionHandler.sendGameId(0, session);
-                //sth happens | game->hashmap->game_id
                 
-                
+                //iterator to debug gamesActive
+                Iterator it = gamesActive.iterator();
+                while(it.hasNext()){
+                    Game g = (Game) it.next();
+                    System.out.println("games in gamesActive" + g.getId());
+                }
             }
-            if ("add".equals(jsonMessage.getString("action"))) {
-                Device device = new Device();
-                device.setName(jsonMessage.getString("name"));
-                device.setDescription(jsonMessage.getString("description"));
-                device.setType(jsonMessage.getString("type"));
-                device.setStatus("Off");
-                sessionHandler.addDevice(device);
-            }
-
-            if ("remove".equals(jsonMessage.getString("action"))) {
-                int id = (int) jsonMessage.getInt("id");
-                sessionHandler.removeDevice(id);
-            }
-
-            if ("toggle".equals(jsonMessage.getString("action"))) {
-                int id = (int) jsonMessage.getInt("id");
-                sessionHandler.toggleDevice(id);
-            }
+//            if ("add".equals(jsonMessage.getString("action"))) {
+//                Device device = new Device();
+//                device.setName(jsonMessage.getString("name"));
+//                device.setDescription(jsonMessage.getString("description"));
+//                device.setType(jsonMessage.getString("type"));
+//                device.setStatus("Off");
+//                sessionHandler.addDevice(device);
+//            }
+//
+//            if ("remove".equals(jsonMessage.getString("action"))) {
+//                int id = (int) jsonMessage.getInt("id");
+//                sessionHandler.removeDevice(id);
+//            }
+//
+//            if ("toggle".equals(jsonMessage.getString("action"))) {
+//                int id = (int) jsonMessage.getInt("id");
+//                sessionHandler.toggleDevice(id);
+//            }
         }
     }
     
