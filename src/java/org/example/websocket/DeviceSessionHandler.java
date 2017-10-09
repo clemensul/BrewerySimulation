@@ -1,4 +1,3 @@
-
 package org.example.websocket;
 
 import java.io.IOException;
@@ -22,14 +21,15 @@ import javax.json.spi.JsonProvider;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
-import org.example.model.Device; 
+import org.example.model.Device;
 
 @ApplicationScoped
 public class DeviceSessionHandler {
+
     private final Set<Session> sessions = new HashSet<>();
     private final Set<Device> devices = new HashSet<>();
     private int deviceId = 0;
-    
+
     public void addSession(Session session) {
         sessions.add(session);
         for (Device device : devices) {
@@ -41,12 +41,13 @@ public class DeviceSessionHandler {
     public void removeSession(Session session) {
         sessions.remove(session);
     }
+
     public List<Device> getDevices() {
         return new ArrayList<>(devices);
     }
 
     public void addDevice(Device device) {
-         device.setId(deviceId);
+        device.setId(deviceId);
         devices.add(device);
         deviceId++;
         JsonObject addMessage = createAddMessage(device);
@@ -54,7 +55,7 @@ public class DeviceSessionHandler {
     }
 
     public void removeDevice(int id) {
-          Device device = getDeviceById(id);
+        Device device = getDeviceById(id);
         if (device != null) {
             devices.remove(device);
             JsonProvider provider = JsonProvider.provider();
@@ -85,7 +86,7 @@ public class DeviceSessionHandler {
     }
 
     private Device getDeviceById(int id) {
-         for (Device device : devices) {
+        for (Device device : devices) {
             if (device.getId() == id) {
                 return device;
             }
@@ -106,18 +107,23 @@ public class DeviceSessionHandler {
         return addMessage;
     }
 
-    public void sendToAllConnectedSessions(JsonObject message) {
+    private void sendToAllConnectedSessions(JsonObject message) {
         for (Session session : sessions) {
             sendToSession(session, message);
         }
     }
 
-    public void sendToSession(Session session, JsonObject message) {
-         try {
+    private void sendToSession(Session session, JsonObject message) {
+        try {
             session.getBasicRemote().sendText(message.toString());
         } catch (IOException ex) {
             sessions.remove(session);
             Logger.getLogger(DeviceSessionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void sendGameId(int game_id, Session session) {
+        //Integer.toString(game_id) to JsonObject
+        //sendToSession(session, Integer.toString(game_id));
     }
 }
