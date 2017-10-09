@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--THANKS TO http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/HomeWebsocket/WebsocketHome.html#section10 -->
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -9,7 +10,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
     <title> Startseite </title>
 </head>
 
@@ -44,28 +44,17 @@
                     <div class="card-body">
                         <h4 class="card-title">Spiel-Einstellungen</h4>
                         <p class="card-text">
-                            <form>
-                                <label for="anzspiele">Wähle die Anzahl der Spieler:</label>
-                                <div class="btn-toolbar mb-3" id="anzspiele" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                                        <button type="button" class="btn btn-secondary">1</button>
-                                        <button type="button" class="btn btn-secondary">2</button>
-                                        <button type="button" class="btn btn-secondary">3</button>
-                                        <button type="button" class="btn btn-secondary">4</button>
-                                    </div>
-                                </div>
-
-                                <label for="">Füge Spieler/Unternehmen hinzu:</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Name deines Unternehmens..." aria-label="Name deines Unternehmens...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-secondary" type="button">+</button>
-                                    </span>
+                            <form name="anmeldung">
+                                <label for="name">Füge Spieler/Unternehmen hinzu:</label>
+                                    <input name="name" type="text" class="form-control" placeholder="Name deines Unternehmens..." aria-label="Name deines Unternehmens...">
                                 </div>
                             </form>
                         </p>
                         <!-- hier gibts noch ein problem mit der Formatierung des knopfs -->
-                        <a href="spiel.html" class="card text-center" class="btn btn-primary">Start Game</a>
+                        <button class="btn" onclick="addplayer();">
+                            Text
+                        <!--  <a href="spiel.html" class="card text-center" class="btn btn-primary">Start Game</a> -->
+                        </button>
                     </div>
                 </div>
                 <!-- hier hört die card auf -->
@@ -87,6 +76,7 @@
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
         crossorigin="anonymous"></script>
+    <script src="js/form.js"></script>
 </body>
 
 </html>
