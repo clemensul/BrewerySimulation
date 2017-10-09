@@ -1,0 +1,53 @@
+.form-money {
+    text-align: right;
+}
+
+.input-group > span {
+    color: #777;
+}
+
+.input-group {
+    min-width: 100px;
+}
+
+.table_head * {
+    font-size: 1,2em;
+    font-weight: bold;
+}
+
+.table_head ~ .row {
+    margin-bottom: 0.25em;
+    margin-top: 0.25em;    
+}
+.table_head {
+    padding-bottom: 1em;
+}
+
+.tile {
+    padding: 20px;
+    margin: 10px;
+    background: #cccccc;
+    text-align: center;
+}
+
+.tile:hover {
+    border: 2px solid black;
+    margin: 8px; 
+}
+
+.tile.checked {
+    background: #eeeeee;
+}
+.tile.checked * {
+    color: #777
+}
+
+.tile > div {
+    color: #111111;
+    border: 0 solid #ffffff;
+    align-content: center;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+}
