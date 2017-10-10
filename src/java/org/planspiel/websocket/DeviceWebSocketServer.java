@@ -26,7 +26,7 @@ import org.planspiel.model.Device;
 @ServerEndpoint("/actions")
 public class DeviceWebSocketServer {
     //gamesActive is reseted every time a new message comes in --> seperate class to control and save game-units
-    private Set<org.planspiel.controller.Game> gamesActive = new HashSet<>();
+    //private Set<org.planspiel.controller.Game> gamesActive = new HashSet<>();
     
  @Inject
     private DeviceSessionHandler sessionHandler;
@@ -44,33 +44,7 @@ public class DeviceWebSocketServer {
             System.out.println(message);
             
             if ("login".equals(jsonMessage.getString("action"))) {
-                System.out.println(jsonMessage.getString("name") + " - " + jsonMessage.getString("game_id"));
-                boolean alreadyExists = false;
-                //if the game already exists, add a new player to it
-                for(org.planspiel.controller.Game game : gamesActive){
-                    System.out.println(game.getId());
-                    if(jsonMessage.getString("game_id").equals(game.getId())){
-                        game.addPlayer(jsonMessage.getString("name"));
-                        alreadyExists = true;
-                        System.out.println("Added " + jsonMessage.getString("name") + " to game " + jsonMessage.getString("game_id"));
-                    }
-                }
-                //else create a new game, add a new player to it
-                if(!alreadyExists){
-                        //newGame.addPlayer(jsonMessage.getString("name"));
-                        gamesActive.add(new Game(1,2, jsonMessage.getString("game_id"), jsonMessage.getString("name"))); //TODO .add not working properly 
-                        System.out.println("Created new Game and Added " + jsonMessage.getString("name") + " to game " + jsonMessage.getString("game_id"));
-                }
-                
-                //send game_id to session
-                sessionHandler.sendGameId(0, session);
-                
-                //iterator to debug gamesActive
-                Iterator it = gamesActive.iterator();
-                while(it.hasNext()){
-                    Game g = (Game) it.next();
-                    System.out.println("games in gamesActive" + g.getId());
-                }
+                sessionHandler.login(jsonMessage);
             }
 //            if ("add".equals(jsonMessage.getString("action"))) {
 //                Device device = new Device();
@@ -95,7 +69,7 @@ public class DeviceWebSocketServer {
     
     @OnClose
     public void close(Session session) {
-        sessionHandler.removeSession(session);
+//        sessionHandler.removeSession(session);
     }
 
     @OnError
