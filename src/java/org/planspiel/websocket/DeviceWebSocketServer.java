@@ -1,13 +1,8 @@
 package org.planspiel.websocket;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.input.KeyCode;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -19,8 +14,6 @@ import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.planspiel.controller.Game;
-import org.planspiel.model.Device;
     
 @ApplicationScoped
 @ServerEndpoint("/actions")
@@ -46,6 +39,9 @@ public class DeviceWebSocketServer {
             if ("login".equals(jsonMessage.getString("action"))) {
                 sessionHandler.login(jsonMessage, session);
                 //sessionHandler.sendGameId(0, session);
+            }
+             if ("start_game".equals(jsonMessage.getString("action"))) {
+                sessionHandler.startGame(jsonMessage, session);
             }
 //            if ("add".equals(jsonMessage.getString("action"))) {
 //                Device device = new Device();

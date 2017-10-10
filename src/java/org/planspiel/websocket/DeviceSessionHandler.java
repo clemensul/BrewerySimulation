@@ -2,31 +2,16 @@
 package org.planspiel.websocket;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import javax.inject.Inject;
-import javax.json.JsonObject;
-import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import org.planspiel.model.Device;
-import java.io.StringReader;
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.json.spi.JsonProvider;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
 import org.planspiel.controller.Game;
-import org.planspiel.model.Device; 
 
 @ApplicationScoped
 public class DeviceSessionHandler {
@@ -86,6 +71,21 @@ public class DeviceSessionHandler {
                 System.out.println(addMessage);
                 sendToSession(session, addMessage);
     }
+    
+    public void startGame(JsonObject jsonMessage, Session session){
+        //check if user.admin==true
+        //get needed values like BUDGET, FIXCOST, ROUNDS
+        gamesActive.get(hashItUp(jsonMessage.getString("game_id"))).startGame();
+        
+        JsonProvider provider = JsonProvider.provider();
+                JsonObject addMessage = provider.createObjectBuilder()
+                    .add("action", "start_game")
+                    .add("game_id", jsonMessage.getString("game_id")) //neededS so sendToAll doesnt trigger the wrong games
+                 .build();
+        sendToAllConnectedSessions(addMessage);
+    }
+    
+    //thats where we can add some MAGIC to SPICE up the HashCodes ;)
     private String hashItUp(int value){
         return Integer.toString(Integer.toString(value).hashCode());
     }
