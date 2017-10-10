@@ -37,9 +37,7 @@ function signin() {
     var Player = {
         name: name,
         game_id: game_id,
-        action: "login",
-        game_hash: "", //if game_hash empty, create new game
-        user_hash: "" //userhash
+        action: "login"
     };
     
     socket.send(JSON.stringify(Player));

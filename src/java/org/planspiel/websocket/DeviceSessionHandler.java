@@ -13,6 +13,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.planspiel.model.Device;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -40,40 +41,70 @@ public class DeviceSessionHandler {
         gamesActive.put(hashValue, addGame);
     }
     
-    public void login(JsonObject jsonMessage){
+    public void login(JsonObject jsonMessage, Session session){
            System.out.println(jsonMessage.getString("name") + " - " + jsonMessage.getString("game_id"));
-                boolean alreadyExists = false;
-                //if the game already exists, add a new player to it
-                
-               if(gamesActive.containsKey(jsonMessage.getString("game_hash"))){
-                        gamesActive.get(jsonMessage.getString("game_hash")).addPlayer(jsonMessage.getString("name"));
-                        System.out.println("Added " + jsonMessage.getString("name") + " to game " + jsonMessage.getString("game_id"));
+               
+           String name = jsonMessage.getString("name");
+           String game_id = jsonMessage.getString("game_id");
+           Boolean admin = false;
+           String players = "";  //TODO cant put array in json | useful at all?
+           String cookie = hashItUp(jsonMessage.getString("name")); //TODO not sure "hashwert der ersten session
+           
+           String user_hash = hashItUp(name);
+           String game_hash = hashItUp(game_id);
+           
+           String error = "";   //TODO errorhandling add errors here
+           
+               if(gamesActive.containsKey(game_hash)){
+                        String hashCodeGame = hashItUp(name);
+                        gamesActive.get(game_hash).addPlayer(name, hashCodeGame);
+                        //players = gamesActive.get(game_id).showPlayers().toString();
+                        
+                        System.out.println("Added " + name + " to game " + game_id);
                     }
                 //else create a new game, add a new player to it
                 else{
-                        //newGame.addPlayer(jsonMessage.getString("name"));
-                        String hash = jsonMessage.getString("game_id");
-                        gamesActive.put(hash, new Game(1,2, jsonMessage.getString("game_id"), jsonMessage.getString("name"))); //TODO .add not working properly 
-                        System.out.println("Created new Game and Added " + jsonMessage.getString("name") + " to game " + jsonMessage.getString("game_id"));
+                        gamesActive.put(game_hash, new Game(1,2, game_id, name, user_hash)); //TODO .add not working properly 
+                        admin = true;
+                        //players = gamesActive.get(game_hash).showPlayers().toString();
+                        
+                        System.out.println("Created new Game and Added " + name + " to game " + game_id);
                 }
-                
-                //send game_id to session
-                //sessionHandler.sendGameId(0, session);
- 
+               
+               //return information
+               JsonProvider provider = JsonProvider.provider();
+                JsonObject addMessage = provider.createObjectBuilder()
+                    .add("action", "login")
+                    .add("name", name)  
+                    .add("game_id", game_id)
+                    .add("admin", admin)
+                    .add("player", players)
+                    .add("cookie", cookie)
+                    .add("error", error)
+                 .build();
+               
+                System.out.println(addMessage);
+                sendToSession(session, addMessage);
     }
-
-    private JsonObject createAddMessage(Device device) {
-        JsonProvider provider = JsonProvider.provider();
-        JsonObject addMessage = provider.createObjectBuilder()
-                .add("action", "add")
-                .add("id", device.getId())
-                .add("name", device.getName())
-                .add("type", device.getType())
-                .add("status", device.getStatus())
-                .add("description", device.getDescription())
-                .build();
-        return addMessage;
+    private String hashItUp(int value){
+        return Integer.toString(Integer.toString(value).hashCode());
     }
+    private String hashItUp(String value){
+        return Integer.toString(value.hashCode());
+    }
+    
+//    private JsonObject createAddMessage(Device device) {
+//        JsonProvider provider = JsonProvider.provider();
+//        JsonObject addMessage = provider.createObjectBuilder()
+//                .add("action", "add")
+//                .add("id", device.getId())
+//                .add("name", device.getName())
+//                .add("type", device.getType())
+//                .add("status", device.getStatus())
+//                .add("description", device.getDescription())
+//                .build();
+//        return addMessage;
+//    }
 
     private void sendToAllConnectedSessions(JsonObject message) {
         for (Session session : sessions) {
@@ -95,20 +126,20 @@ public class DeviceSessionHandler {
         //sendToSession(session, Integer.toString(game_id));
     }
     
-//     public void addSession(Session session) {
-//        sessions.add(session);
+     public void addSession(Session session) {
+        sessions.add(session);
 //        for (Device device : devices) {
 //            JsonObject addMessage = createAddMessage(device);
 //            sendToSession(session, addMessage);
 //        }
-//    }
-//
-//    public void removeSession(Session session) {
-//        sessions.remove(session);
-//    }
+    }
+
+    public void removeSession(Session session) {
+        sessions.remove(session);
+    }
 //    public List<Device> getDevices() {
 //        return new ArrayList<>(devices);
-    }
+//    }
 
 //    public void addDevice(Device device) {
 //         device.setId(deviceId);
@@ -157,4 +188,4 @@ public class DeviceSessionHandler {
 //        }
 //        return null;
 //    }
-//}
+}

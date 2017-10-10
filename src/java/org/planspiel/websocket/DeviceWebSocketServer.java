@@ -44,7 +44,8 @@ public class DeviceWebSocketServer {
             System.out.println(message);
             
             if ("login".equals(jsonMessage.getString("action"))) {
-                sessionHandler.login(jsonMessage);
+                sessionHandler.login(jsonMessage, session);
+                //sessionHandler.sendGameId(0, session);
             }
 //            if ("add".equals(jsonMessage.getString("action"))) {
 //                Device device = new Device();

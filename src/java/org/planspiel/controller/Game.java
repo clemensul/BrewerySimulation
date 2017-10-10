@@ -6,9 +6,13 @@
 package org.planspiel.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import org.planspiel.model.User;
 
 public class Game {
-private ArrayList <org.planspiel.model.User> players = new ArrayList<org.planspiel.model.User>();
+//private ArrayList <org.planspiel.model.User> players = new ArrayList<org.planspiel.model.User>();
+private HashMap<String, User> players = new HashMap<>();
 
 private int currentPeriod = 0;
 private int currentPlayer = 0;
@@ -17,27 +21,44 @@ private float budget, fixCost;
 private int rounds; //important for the end of the game
 private String id;
 
-public Game(float budget, int rounds, String id, String playerName){
+public Game(float budget, int rounds, String id, String playerName, String hashCodeUser){
         this.id = id;
 	this.budget = budget;
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
-        addPlayer(playerName);
+        addPlayer(playerName, hashCodeUser);
+}
+
+public String[] showPlayers(){
+    String [] playersString = new String[players.size()];
+    Iterator it = players.entrySet().iterator();
+    int i = 0;
+        while(it.hasNext()){
+            User u = (User)it.next();
+            playersString[i] = u.getCompany().getName();
+                    i++;
+        }
+    return playersString;
 }
 
 public String getId(){
     return id;
 }
 //adding players before the game starts
-public void addPlayer(String name){
-	players.add(new org.planspiel.model.User(name, budget, fixCost));
+public void addPlayer(String name, String hashCode){
+	players.put(hashCode, new User(name, budget, fixCost));
 }
 
 //start button
 public void startGame(){
-	for(org.planspiel.model.User user : players){
-		user.getCompany().addPeriod(budget, fixCost);
-	}
+//	for(org.planspiel.model.User user : players){
+//		user.getCompany().addPeriod(budget, fixCost);
+//	}
+        Iterator it = players.entrySet().iterator();
+        while(it.hasNext()){
+            User u = (User)it.next();
+            u.getCompany().addPeriod(budget, fixCost);
+        }
 }
 
 //user submits all spendings by pressing a button
@@ -56,30 +77,36 @@ public void submitValues(float producedHectolitres, float pricePerHectolitre, fl
 	period.setBudget(period.getBudget() - period.getOptionMarketing1() - period.getOptionMarketing2()- period.getOptionMarketing3() - period.getDevelopment() 
 			- period.getProducedHectolitres() * period.getProductionPricePerHectolitre());
 	
-	nextPlayer();
+	//nextPlayer();
 
 }
 
-public void nextPlayer(){
-	currentPlayer++;
-	
-	//do player things
-	//submitValues(...);
-	if(currentPlayer > playerCount)
-		nextPeriod();
-	else{
-	nextPlayer();}
-}
+//public void nextPlayer(){
+//	currentPlayer++;
+//	
+//	//do player things
+//	//submitValues(...);
+//	if(currentPlayer > playerCount)
+//		nextPeriod();
+//	else{
+//	nextPlayer();}
+//}
 
 //TODO currently the market function only supports Periods between 1.5 - 10
 public void nextPeriod(){
 	currentPlayer = 0;
 	currentPeriod++;
 	
-	for(org.planspiel.model.User user : players){
-		//add a new period to every company and pass on the old method, so the secondary constructor of period can get the old values
-		user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
-	}
+//	for(org.planspiel.model.User user : players){
+//		//add a new period to every company and pass on the old method, so the secondary constructor of period can get the old values
+//		user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
+//	}
+        
+        Iterator it = players.entrySet().iterator();
+        while(it.hasNext()){
+            User user = (User)it.next();
+            user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
+        }
 }
 
 }
