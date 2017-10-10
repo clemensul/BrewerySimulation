@@ -12,10 +12,13 @@ function onMessage(event) {
 
     switch (reply.action) {
         case "login": {
-            switch (reply.status) {
-                case "ok": lobby(reply.game_id);
-                case "err": ;   
-            };
+            if (reply.error == undefined) {
+                
+                    lobby(reply.game_id);
+                    document.cookie = reply.cookie;
+            } else {
+
+            }
             break;
         }
     }

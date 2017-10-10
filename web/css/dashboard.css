@@ -1,0 +1,39 @@
+.widget {
+    background: #ffffff;
+    border-radius: 0.2em;
+    margin: 0.5em; 
+}
+
+.widget-content {
+    padding: 1.5em; 
+}
+
+.widget-row {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 0.5em;
+    margin-right: 0.5em; 
+}
+.counter {
+    padding: 10px;
+    font-size: 2em;
+
+}
+
+.counter-warning * {
+    color: #da0c0c;
+}
+
+.counter-info * {
+    color: #265dc5
+}
+
+.counter-good * {
+color: #059711
+}
+
+canvas {
+    margin: 0;
+    padding: 0;
+    border-radius: 0.2em;
+}

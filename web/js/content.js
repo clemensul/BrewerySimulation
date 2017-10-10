@@ -5,7 +5,10 @@ Array.prototype.forEach.call(cards, function(element) {
     element.style.display = "none";
 }, this);
 
+document.getElementById("bericht").style.display = "none";
+
 start();
+
 
 function start () {
     console.log("START");
