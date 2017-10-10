@@ -16,13 +16,16 @@ function start () {
     document.getElementById("nav_start").classList.add("active");
 }
 
-function lobby (game_id) {
+function lobby (game_id, player) {
     console.log("LOBBY");
     document.getElementById("start").style.display = "none";
     document.getElementById("nav_start").classList.remove("active");
     document.getElementById("nav_lobby").classList.add("active");
     document.getElementById("lobby").style.display = "";
-    document.getElementById("lobby_game_id").textContent = "Game-Id: " + game_id;
+
+    if (player !== "")
+    document.getElementById("lobby_player").textContent = "Spieler: " + JSON.stringify(player);
+
 }
 
 function game () {
