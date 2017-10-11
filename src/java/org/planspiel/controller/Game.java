@@ -6,6 +6,7 @@
 package org.planspiel.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.planspiel.model.User;
@@ -21,21 +22,21 @@ private float budget, fixCost;
 private int rounds; //important for the end of the game
 private String id;
 
-public Game(float budget, int rounds, String id, String playerName, String hashCodeUser){
+public Game(float budget, int rounds, String id, String playerName, String cookie){
         this.id = id;
 	this.budget = budget;
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
-        addPlayer(playerName, hashCodeUser);
+        addPlayer(playerName, cookie);
 }
 
-public String[] showPlayers(){
-    String [] playersString = new String[players.size()];
-    Iterator it = players.entrySet().iterator();
+public String showPlayers(){
+    String playersString = "";
+    Iterator<org.planspiel.model.User> it = players.values().iterator();
     int i = 0;
         while(it.hasNext()){
             User u = (User)it.next();
-            playersString[i] = u.getCompany().getName();
+            playersString = playersString + " - " + u.getCompany().getName();
                     i++;
         }
     return playersString;
@@ -45,12 +46,12 @@ public String getId(){
     return id;
 }
 //adding players before the game starts
-public void addPlayer(String name, String hashCode){
-	players.put(hashCode, new User(name, budget, fixCost));
+public void addPlayer(String name, String cookie){
+	players.put(cookie, new User(name, budget, fixCost, cookie));
 }
 
 //start button
-public void startGame(){
+public Collection<User> startGame(){
 //	for(org.planspiel.model.User user : players){
 //		user.getCompany().addPeriod(budget, fixCost);
 //	}
@@ -59,6 +60,8 @@ public void startGame(){
             User u = (User)it.next();
             u.getCompany().addPeriod(budget, fixCost);
         }
+        
+        return players.values();
 }
 
 //user submits all spendings by pressing a button

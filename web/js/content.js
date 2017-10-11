@@ -1,14 +1,9 @@
-
-//Build initial view
-var cards = document.getElementsByClassName("card");
-Array.prototype.forEach.call(cards, function(element) {
-    element.style.display = "none";
-}, this);
-
-document.getElementById("bericht").style.display = "none";
-
-start();
-
+//document.getElementById("start").style.display = "none";
+//document.getElementById("lobby").style.display = "none";
+//document.getElementById("marketing").style.display = "none";
+//document.getElementById("forschung").style.display = "none";
+//document.getElementById("produktion").style.display = "none";
+//document.getElementById("bericht").style.display = "none";
 
 function start () {
     console.log("START");

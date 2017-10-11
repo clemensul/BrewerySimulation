@@ -5,16 +5,23 @@
  */
 package org.planspiel.model;
 
-public class User{
-	private Company company;
-	
-	public User(String cname, float budget, float fixCost){
-		this.company = new Company(cname, budget, fixCost);
-	}
+import java.util.Set;
 
-	public Company getCompany() {
-		return company;
-	}
+public class User {
 
+    private Company company;
+    private String cookie;
 
+    public User(String cname, float budget, float fixCost, String cookie) {
+        this.cookie = cookie;
+        this.company = new Company(cname, budget, fixCost);
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+    
+    public String getCookie() {
+        return cookie;
+    }
 }

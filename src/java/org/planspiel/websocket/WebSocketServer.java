@@ -17,16 +17,17 @@ import javax.json.JsonReader;
     
 @ApplicationScoped
 @ServerEndpoint("/actions")
-public class DeviceWebSocketServer {
+public class WebSocketServer {
     //gamesActive is reseted every time a new message comes in --> seperate class to control and save game-units
     //private Set<org.planspiel.controller.Game> gamesActive = new HashSet<>();
     
  @Inject
-    private DeviceSessionHandler sessionHandler;
+    private SessionHandler sessionHandler;
  
     @OnOpen
-    public void open(Session session) {
-    sessionHandler.addSession(session);
+    public void open(Session session) 
+    { 
+        System.out.println ("NEW SESSION");
     }
     
     @OnMessage
@@ -66,11 +67,11 @@ public class DeviceWebSocketServer {
     
     @OnClose
     public void close(Session session) {
-//        sessionHandler.removeSession(session);
+        System.out.println("SESION EXIT");
     }
 
     @OnError
     public void onError(Throwable error) {
-        Logger.getLogger(DeviceWebSocketServer.class.getName()).log(Level.SEVERE, null, error);
+        Logger.getLogger(WebSocketServer.class.getName()).log(Level.SEVERE, null, error);
     }
 }  
