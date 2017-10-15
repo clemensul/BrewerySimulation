@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/form.css" />
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/navigation.css">
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Brauerei</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <!--#include virtual="partials/nav.shtml" -->
+
+    <div class="container-fluid">
+
+
+        <!--  ****  -->
+        <!-- Widget -->
+        <!--  ****  -->
+        <div id="bericht" class="row">
+            <div class="container-fluid justify-content-center">
+                <div class="row widget-row">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Umsatz</h3>
+                                        <p>Die Umsatzsteigerung der vergangenen Periode in Prozent.</p>
+                                        <div class="counter counter-warning">
+                                            <span>
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                            <span>9%</span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-1"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Umsatz</h3>
+                                        <p>Die Umsatzsteigerung der vergangenen Periode in Prozent.</p>
+                                        <div class="counter counter-info">
+                                            <span>
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                            <span>10%</span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Gewinn</h3>
+                                        <p>Die Gewinnsteigerung der vergangenen Periode in Prozent.</p>
+                                        <div class="counter counter-info">
+                                            <span>
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                            <span>9%</span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-3"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Absatzmenge</h3>
+                                        <p>Die Absatzsteigerung der vergangenen Periode in Prozent.</p>
+                                        <div class="counter counter-good">
+                                            <span>
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                            <span>20%</span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-4"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row widget-row">
+                    <div class="col-xl-6">
+                        <div class="widget">
+                            <div class="widget-content">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>Ausgaben</h3>
+                                        <p>Alle Ausgaben der vergangenen Perioden.</p>
+                                    </div>
+                                    <div class="col">
+                                        <div class="counter counter-warning">
+                                            <span>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </span>
+                                            <span>20.000€</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <canvas id="canvas-bericht-5"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="widget">
+                            <div class="widget-content">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>Einnahmen</h3>
+                                        <p>Alle Einnahmen der vergangenen Perioden.</p>
+                                    </div>
+                                    <div class="col">
+                                        <div class="counter counter-good">
+                                            <span>
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                            <span>32.000€</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <canvas id="canvas-bericht-6"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+        <script src="node_modules/chart.js/dist/Chart.js"></script>
+
+        <script src="js/charts.js"></script>
+        <script src="js/jquery-3.2.1.js"></script>
+        <script src="js/smooth-scroll.js"></script>
+
+        <script src="js/websocket.js"></script>
+
+        <script src="js/content.js"></script>
+
+        <script src="js/bericht.js"></script>
+
+</body>
+
+</html>

@@ -4,22 +4,20 @@
     --accent-dark:#E4BC53;
     --accent-light:#CECCB2;
 
-    --background:rgb(39, 57, 66);
+    --background2:#09203f;
+    --background1: #324a5c;
 }
 
 body {
     background: var(--background); /* For browsers that do not support gradients */
-    /*background: -webkit-linear-gradient(var(--background), var(--primary-dark)); /* For Safari 5.1 to 6.0 */
-    /*background: -o-linear-gradient(var(--background), var(--primary-dark)); /* For Opera 11.1 to 12.0 */
-    /*background: -moz-linear-gradient(var(--background), var(--primary-dark)); /* For Firefox 3.6 to 15 */
-    /*background: linear-gradient(var(--background), var(--primary-dark)); /* Standard syntax */
+    background: -webkit-linear-gradient(var(--background1), var(--background2)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(var(--background1), var(--background2)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(var(--background1), var(--background2)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(var(--background1), var(--background2)); /* Standard syntax */
+    background-attachment: fixed;
+    height: 100%;
 }
 
-.card {   
-    box-shadow: 0px 0px 20px black;
-    padding: 2%;
-    margin: 2%;
-}
 
 form + .card-title {
     margin-top: 3%;

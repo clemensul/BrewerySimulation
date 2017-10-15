@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/form.css" />
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/navigation.css">
+
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Brauerei</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <!--#include virtual="partials/nav.shtml" -->
+
+    <div class="container-fluid">
+        <!--  ****  -->
+        <!-- Widget -->
+        <!--  ****  -->
+        <div id="lobby" class="row">
+            <div class="container-fluid">
+                <div class="row widget-row">
+                    <div class="col">
+                        <div class="widget widget-content">
+                            <h3 class="card-title">Lobby</h3>
+                            <p class="card-text" id="lobby_game_id">Game-Id:</p>
+                            <p class="card-text" id="lobby_player">Spieler:</p>
+                            <div id="table_space"></div>
+                            <div class="row widget-row">
+                                <button class="btn" onclick="game();">Spiel starten</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+    <script src="js/jquery-3.2.1.js"></script>
+
+    <script src="js/websocket.js"></script>
+
+    <script src="js/content.js"></script>
+
+    <script src="js/lobby.js"></script>
+
+    <script src="js/knockout-3.4.1.js"></script>
+
+</body>
+
+</html>

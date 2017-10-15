@@ -1,0 +1,24 @@
+<web-app>
+
+ <!-- SSI - Server Side Include -->
+    <servlet>
+      <servlet-name>ssi</servlet-name>
+      <servlet-class>org.apache.catalina.ssi.SSIServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>ssi</servlet-name>
+      <url-pattern>*.shtml</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>ssi</servlet-name>
+      <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <mime-mapping>
+      <extension>shtml</extension>
+      <mime-type>text/html</mime-type>
+    </mime-mapping>
+
+</web-app>
