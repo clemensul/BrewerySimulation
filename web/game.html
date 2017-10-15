@@ -33,7 +33,7 @@
                 <div class="row widget-row">
                     <div class="col">
                         <div class="widget widget-content">
-                            <h4 class="card-title">Investitionsmöglichkeiten</h4>
+                            <h4 class="card-title">Investitionsmöglichkeiten Marketing</h4>
                             <p class="card-text">Verteile dein Budget in die verschiedenen Projekte unserer Marketing-Abteilung!</p>
 
                             <div class="row table_head">
@@ -50,7 +50,7 @@
                                     <div class="col-md-3">
                                         <div class="input-group">
                                             <span class="input-group-addon">€</span>
-                                            <input type="text" name="investment_plakate" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                            <input type="text" name="investment_plakate" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_pla">
                                             <span class="input-group-addon">,00</span>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                     <div class="col-md-3">
                                         <div class="input-group">
                                             <span class="input-group-addon">€</span>
-                                            <input type="text" name="investment_tv" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                            <input type="text" name="investment_tv" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_tvw">
                                             <span class="input-group-addon">,00</span>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                     <div class="col-md-3">
                                         <div class="input-group">
                                             <span class="input-group-addon">€</span>
-                                            <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                            <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_rad">
                                             <span class="input-group-addon">,00</span>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@
             <div class="row widget-row">
                 <div class="col">
                     <div class="widget widget-content">
-                        <h4 class="card-title">Investitionsmöglichkeiten</h4>
+                        <h4 class="card-title">Investitionsmöglichkeiten Forschung</h4>
                         <p class="card-text">Verteile dein Budget innerhalb der unserer Forschungsprojekte!</p>
 
                         <div class="row table_head">
@@ -133,7 +133,7 @@
                                 <div class="col-md-3">
                                     <div class="input-group">
                                         <span class="input-group-addon">€</span>
-                                        <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                        <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_bie">
                                         <span class="input-group-addon">,00</span>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                                 <div class="col-md-3">
                                     <div class="input-group">
                                         <span class="input-group-addon">€</span>
-                                        <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                        <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_che">
                                         <span class="input-group-addon">,00</span>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                 <div class="col-md-3    ">
                                     <div class="input-group">
                                         <span class="input-group-addon">€</span>
-                                        <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)">
+                                        <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_wei">
                                         <span class="input-group-addon">,00</span>
                                     </div>
                                 </div>
@@ -259,6 +259,13 @@
                         <div class="row">
                             <div class="col">
                                 <canvas id="canvas-4"></canvas>
+                            </div>
+                        </div>
+                        <div class="row widget-row">
+                            <button class="btn" onclick="finish();">Periode beenden</button>
+                            <div class="col tile">
+                                    <p>Kapital :</p>
+                                    <p id="kapital"> 10 </p>
                             </div>
                         </div>
                     </div>
