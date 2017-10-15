@@ -9,14 +9,14 @@ function start () {
     console.log("START");    
 }
 
-function lobby (game_id, player) {
+function lobby (game_id, player, socket) {
     console.log("LOBBY");
     
     window.location.href = "lobby.html";
+    document.getElementById("lobby_game_id").value = game_id;
     
     if (player !== "")
     document.getElementById("lobby_player").textContent = "Spieler: " + JSON.stringify(player);
-
 }
 
 function game () {

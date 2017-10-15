@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.websocket.Session;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.JsonArray;
@@ -37,7 +38,7 @@ public class SessionHandler {
 
         String user_hash = hashItUp(name);
         String game_hash = hashItUp(game_id.toLowerCase());
-        String cookie = user_hash + ";" + game_hash;
+        String cookie = user_hash + "." + game_hash;
 
         this.addSession(session, cookie);
 
@@ -72,8 +73,18 @@ public class SessionHandler {
                 .add("error", error)
                 .build();
 
-        System.out.println(addMessage);
+        //System.out.println(addMessage);
         sendToSession(session, addMessage);
+        
+        JsonObject lobbyMsg = provider.createObjectBuilder()
+                .add("action", "lobby")
+                .add("name", name)  //name of admin?
+                .add("game_id", game_id)
+                .add("player", players)
+                .add("error", error)
+                .build();
+        //System.out.println(lobbyMsg);
+        sendToAllConnectedSessions(lobbyMsg);
     }
 
     public void startGame(JsonObject jsonMessage, Session session) {
@@ -81,7 +92,7 @@ public class SessionHandler {
 
         //check if user.admin==true
         //get game-id from cookie
-        String[] hashes = jsonMessage.getString("cookie").split(";");
+        String[] hashes = jsonMessage.getString("cookie").split(".");
         if (hashes.length != 2) {
             error = "Cookie is not valid!";
         }
@@ -133,6 +144,26 @@ public class SessionHandler {
 
     public void addSession(Session session, String cookie) {
         sessions.put(cookie, session);
+    }
+    
+    public void renewSession(Session session, String cookie){
+        Iterator it = sessions.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry mp = (Map.Entry)it.next();
+            if(mp.getKey().equals(cookie)){
+                mp.setValue(session);
+                
+                JsonProvider provider = JsonProvider.provider();
+                JsonObject status = provider.createObjectBuilder()
+                .add("action", "status")
+                .add("status", "200") //neededS so sendToAll doesnt trigger the wrong games
+                .add("error", "")
+                .build();
+                sendToSession(session, status);
+                 System.out.println("renewed2");
+            }
+        }
+        System.out.println("renewed");
     }
 
     public void removeSession(Session session) {

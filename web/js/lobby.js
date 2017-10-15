@@ -1,6 +1,6 @@
 
 document.getElementById("table_space").appendChild(getUserTable(["UserA", "UserB"]));
-console.log("asdfg");
+console.log("Lobby entered");
 
 function getRow (user) {
     var userRow = document.createElement("tr");

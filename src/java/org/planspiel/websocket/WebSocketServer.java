@@ -39,10 +39,16 @@ public class WebSocketServer {
             
             if ("login".equals(jsonMessage.getString("action"))) {
                 sessionHandler.login(jsonMessage, session);
+                System.out.println("logged in");
                 //sessionHandler.sendGameId(0, session);
             }
              if ("start_game".equals(jsonMessage.getString("action"))) {
                 sessionHandler.startGame(jsonMessage, session);
+                System.out.println("started game");
+            }
+            if("newSession".equals(jsonMessage.getString("action"))){
+                sessionHandler.renewSession(session,jsonMessage.getString("cookie"));
+                System.out.println("renewed game");
             }
 //            if ("add".equals(jsonMessage.getString("action"))) {
 //                Device device = new Device();
@@ -67,7 +73,7 @@ public class WebSocketServer {
     
     @OnClose
     public void close(Session session) {
-        System.out.println("SESION EXIT");
+        System.out.println("SESSION EXIT");
     }
 
     @OnError

@@ -1,37 +1,68 @@
-var socket = new WebSocket("ws://localhost:8080/planspielWebWeb/actions");
+var socket = new WebSocket("ws://192.168.1.5:8080/planspielWebWeb/actions");
 socket.onmessage = onMessage;
 socket.onopen = onOpen;
 
 
 function onMessage(event) {
-
-    console.log(event);
-
     json = event.data;
     reply = JSON.parse(json);
-
+    
     switch (reply.action) {
+        
         case "login": {
             if (reply.error === "") {
-                    lobby(reply.game_id, reply.player);
                     document.cookie = reply.cookie;
+                    //console.log("Cookie: " + reply.cookie);
+                    lobby(reply.game_id, reply.player, socket);
+                    
             } else {
                 alert(reply.error);
             }
             break;
         }
+        case "lobby":{
+                if(reply.error ===""){
+                    //console.log("lobby data received");
+                }else {
+                alert(reply.error);
+            }
+            break;
+        }
+        case "status":{
+                if(reply.error ===""){
+                    console.log(reply.status + " status code");
+                }else {
+                alert(reply.error);
+            }
+            break;
+        }
+        
+        default: {
+       }
     }
 }
 
 function onOpen(event) {
-    console.log("Connection open.")
+    console.log("Connection open.");
+    
+    $('document').ready(
+            function () {
+                let cookieVal = document.cookie;
+                var Cookie = {
+                     cookie: cookieVal,
+                     action: "newSession"
+                 };
+                socket.send(JSON.stringify(Cookie));
+            }
+    )
+    
 }
 
 function signin() {
     var form = document.forms["anmeldung"];
 
-    console.log(form);
-    console.log(socket);
+    //console.log(form);
+    //console.log(socket);
 
     var name = form.elements["name"].value;
     var game_id = form.elements["game-id"].value;
