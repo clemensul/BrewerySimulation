@@ -62,31 +62,20 @@ var validparameter= function(){
     }else kapital = parseInt(kap.value);
     
     var ausgaben = mar_pl + mar_tv + mar_ra + for_bi + for_ch + for_we;
+
      
-     
-    console.log(mar_pl);
-    console.log(mar_tv);
-    console.log(mar_ra);
-    
-    console.log(for_bi);
-    console.log(for_ch);
-    console.log(for_we);
-    
-    
-     console.log(ausgaben);
-     console.log(kapital);
-     
-     if((kapital-ausgaben)<0){
-         alert("Zu viele Ausgaben");
-     }
+     if((kapital-ausgaben)<0){ 
+         return false;
+     }else return true;
 };
 
 
 
 function finish(){
    
-    validparameter();
+    var valid=validparameter();
+    // was machen wenn man direkt ohne irgendwas zu investiern auf weiter klickt ?
     
-    
-   // window.location.href = "report.html";
+    if(valid) window.location.href = "report.html";
+    else alert("Du hast zu viel ausgaben");
 }
