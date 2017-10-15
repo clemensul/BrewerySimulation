@@ -107,7 +107,6 @@ public class SessionHandler {
                 .build();
 
         sendToAllUsers(users, addMessage);
-
     }
 
     //thats where we can add some MAGIC to SPICE up the HashCodes ;)
