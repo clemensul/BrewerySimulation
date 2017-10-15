@@ -25,30 +25,54 @@ function game () {
 }
 
 var validparameter= function(){
-     // hier müssen nun alle input Felder überprüft werden und geschaut werden ob 
+    // hier müssen nun alle input Felder überprüft werden und geschaut werden ob 
     // alle eingaben valide sind
     
-     var mar_pl = 0;
-     if(parseInt($('#mar_pla').get(0).value)!==null){
-         mar_pl=parseInt($('#mar_pla').get(0).value);
-     };
-     var mar_tv = 0;
-     if(parseInt($('#mar_tvw').get(0).value)!==null){
-         mar_tv=parseInt($('#mar_tvw').get(0).value);
-     };
-     var mar_ra = parseInt($('#mar_rad').get(0).value);
+    var temp = document.getElementById("mar_pla");
+    if (temp !== null && temp.value === ""){
+      mar_pl=0;
+    }else mar_pl = parseInt(temp.value);
+    var temp = document.getElementById("mar_tvw");
+    if (temp !== null && temp.value === ""){
+      mar_tv=0;
+    }else mar_tv = parseInt(temp.value);
+    var temp = document.getElementById("mar_rad");
+    if (temp !== null && temp.value === ""){
+      mar_ra=0;
+    }else mar_ra = parseInt(temp.value);
      
-     var for_bi = parseInt($('#for_bie').get(0).value);
-     var for_ch = parseInt($('#for_che').get(0).value);
-     var for_we = parseInt($('#for_wei').get(0).value);
+    var temp = document.getElementById("for_bie");
+    if (temp !== null && temp.value === ""){
+      for_bi=0;
+    }else for_bi = parseInt(temp.value);
+    var temp= document.getElementById("for_che");
+    if (temp !== null && temp.value === ""){
+      for_ch=0;
+    }else for_ch = parseInt(temp.value);
+    var temp= document.getElementById("for_wei");
+    if (temp !== null && temp.value === ""){
+      for_we=0;
+    }else for_we = parseInt(temp.value);
+    
+    
+
+    var kap = document.getElementById("kapital");
+    if (kap !== null && kap.value === ""){
+      kapital=0;
+    }else kapital = parseInt(kap.value);
+    
+    var ausgaben = mar_pl + mar_tv + mar_ra + for_bi + for_ch + for_we;
      
-     var kapital = parseInt($('#kapital').get(0).value);
-     var ausgaben = mar_pl + mar_tv + mar_ra + for_bi + for_ch + for_we;
      
-     
-     
-     console.log(mar_pl);
-     console.log(mar_tv);
+    console.log(mar_pl);
+    console.log(mar_tv);
+    console.log(mar_ra);
+    
+    console.log(for_bi);
+    console.log(for_ch);
+    console.log(for_we);
+    
+    
      console.log(ausgaben);
      console.log(kapital);
      
