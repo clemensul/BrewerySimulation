@@ -160,10 +160,9 @@ public class SessionHandler {
                 .add("error", "")
                 .build();
                 sendToSession(session, status);
-                 System.out.println("renewed2");
             }
         }
-        System.out.println("renewed");
+        //System.out.println("renewed");
     }
 
     public void removeSession(Session session) {
