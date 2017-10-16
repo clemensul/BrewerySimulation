@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://192.168.1.5:8080/planspielWebWeb/actions");
+var socket = new WebSocket("ws://localhost:8080/planspielWebWeb/actions");
 socket.onmessage = onMessage;
 socket.onopen = onOpen;
 
@@ -6,13 +6,13 @@ socket.onopen = onOpen;
 function onMessage(event) {
     json = event.data;
     reply = JSON.parse(json);
-    
+    //console.log(reply.action);
     switch (reply.action) {
         
         case "login": {
             if (reply.error === "") {
                     document.cookie = reply.cookie;
-                    //console.log("Cookie: " + reply.cookie);
+                    console.log("Cookie created: " + reply.cookie);
                     lobby(reply.game_id, reply.player, socket);
                     
             } else {
@@ -22,7 +22,7 @@ function onMessage(event) {
         }
         case "lobby":{
                 if(reply.error ===""){
-                    //console.log("lobby data received");
+                    console.log("Lobby data received: " + reply.player);
                 }else {
                 alert(reply.error);
             }

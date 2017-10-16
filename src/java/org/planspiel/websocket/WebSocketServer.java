@@ -35,20 +35,21 @@ public class WebSocketServer {
 
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
-            System.out.println(message);
+            //System.out.println(message);
             
             if ("login".equals(jsonMessage.getString("action"))) {
+                System.out.println("logging in");
                 sessionHandler.login(jsonMessage, session);
                 System.out.println("logged in");
-                //sessionHandler.sendGameId(0, session);
+//                sessionHandler.sendGameId(0, session);
             }
              if ("start_game".equals(jsonMessage.getString("action"))) {
                 sessionHandler.startGame(jsonMessage, session);
-                System.out.println("started game");
+                //System.out.println("started game");
             }
             if("newSession".equals(jsonMessage.getString("action"))){
                 sessionHandler.renewSession(session,jsonMessage.getString("cookie"));
-                System.out.println("renewed game");
+                //System.out.println("renewed game");
             }
 //            if ("add".equals(jsonMessage.getString("action"))) {
 //                Device device = new Device();
