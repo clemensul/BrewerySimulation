@@ -35,8 +35,8 @@ public class SessionHandler {
         String name = jsonMessage.getString("name");
         String game_id = jsonMessage.getString("game_id");
         Boolean admin = false;
-        String players = "";  //TODO cant put array in json | useful at all?
-
+        //String players = "";  //TODO cant put array in json | useful at all?
+        JsonObject players;
         String user_hash = hashItUp(name);
         String game_hash = hashItUp(game_id.toLowerCase());
         String cookie = user_hash + "." + game_hash;
@@ -48,14 +48,14 @@ public class SessionHandler {
 
         if (gamesActive.containsKey(game_hash)) {
             Game game = gamesActive.get(game_hash); 
-            game.addPlayer(name, cookie);
+            game.addPlayer(name, cookie, false);
             players = gamesActive.get(game_hash).showPlayers();
 
             System.out.println("Added " + name + " to game " + game_id);
         } //else create a new game, add a new player to it
         else {
             Game game = new Game(1, 2, game_id, name, cookie);
-            game.addPlayer(name, cookie);
+            game.addPlayer(name, cookie, true);
             gamesActive.put(game_hash, game); //TODO .add not working properly 
             admin = true;
             players = game.showPlayers();
@@ -92,6 +92,9 @@ public class SessionHandler {
     public void startGame(JsonObject jsonMessage, Session session) {
         String error = "";
 
+        if(jsonMessage.getString("admin").equals("true")){
+            //do stuff
+        }
         //check if user.admin==true
         //get game-id from cookie
         String[] hashes = jsonMessage.getString("cookie").split(".");
