@@ -49,7 +49,6 @@ public JsonObject showPlayers(){
                   .add("name", u.getCompany().getName())
                   .add("admin", u.getAdmin())))
               .build();
-            
 //            playersString = playersString + " - " + u.getCompany().getName();
 //                    i++;
         }
@@ -60,23 +59,22 @@ public JsonObject showPlayers(){
 public String getId(){
     return id;
 }
+
+public int getCurrentPeriod(){
+    return currentPeriod;
+}
 //adding players before the game starts
 public void addPlayer(String name, String cookie, Boolean admin){
 	players.put(cookie, new User(name, budget, fixCost, cookie, admin));
 }
 
 //start button
-public Collection<User> startGame(){
-//	for(org.planspiel.model.User user : players){
-//		user.getCompany().addPeriod(budget, fixCost);
-//	}
+public void initialize(){
         Iterator it = players.entrySet().iterator();
         while(it.hasNext()){
             User u = (User)it.next();
             u.getCompany().addPeriod(budget, fixCost);
         }
-        
-        return players.values();
 }
 
 public ArrayList<User> getUsers(){

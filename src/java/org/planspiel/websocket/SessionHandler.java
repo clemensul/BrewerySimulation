@@ -16,6 +16,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.spi.JsonProvider;
 import org.planspiel.controller.Game;
+import org.planspiel.model.Period;
 import org.planspiel.model.User;
 
 @ApplicationScoped
@@ -91,27 +92,35 @@ public class SessionHandler {
 
     public void startGame(JsonObject jsonMessage, Session session) {
         String error = "";
-
-        if(jsonMessage.getString("admin").equals("true")){
-            //do stuff
-        }
-        //check if user.admin==true
-        //get game-id from cookie
+        
         String[] hashes = jsonMessage.getString("cookie").split(".");
-        if (hashes.length != 2) {
-            error = "Cookie is not valid!";
-        }
-
-        //get needed values like BUDGET, FIXCOST, ROUNDS
-        Collection<org.planspiel.model.User> users = gamesActive.get(hashes[1]).startGame();
-
-        JsonProvider provider = JsonProvider.provider();
-        JsonObject addMessage = provider.createObjectBuilder()
+            if (hashes.length != 2) {
+                error = "Cookie is not valid!";
+            } 
+            else{ 
+                if(jsonMessage.getBoolean("admin")){
+                    gamesActive.get(hashes[1]).initialize();
+                }
+                else{
+                    error = "No admin!";
+                }
+            }
+        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
+        for(User u : al){
+            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
+            JsonProvider provider = JsonProvider.provider();
+                JsonObject startMessage = provider.createObjectBuilder()
                 .add("action", "start_game")
-                .add("game_id", jsonMessage.getString("game_id")) //neededS so sendToAll doesnt trigger the wrong games
+                .add("cname", u.getCompany().getName())
+                .add("budget", p.getBudget())
+                .add("fixed_costs", p.getFixedCosts())
+                .add("error", error)
                 .build();
-
-        sendToGame(hashes[1], addMessage);
+                
+                sendToCookie(u.getCookie(), startMessage);
+        }
+         
+        //sendToGame(hashes[1], startMessage);
     }
 
     //thats where we can add some MAGIC to SPICE up the HashCodes ;)
