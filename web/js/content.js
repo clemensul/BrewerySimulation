@@ -27,11 +27,13 @@ function game () {
 var validparameter= function(){
     // hier müssen nun alle input Felder überprüft werden und geschaut werden ob 
     // alle eingaben valide sind
+    // man könnte auch alle Eingabefelder mit 0 vorinitalisieren
     
     var temp = document.getElementById("mar_pla");
     if (temp !== null && temp.value === ""){
       mar_pl=0;
     }else mar_pl = parseInt(temp.value);
+    
     var temp = document.getElementById("mar_tvw");
     if (temp !== null && temp.value === ""){
       mar_tv=0;
@@ -54,7 +56,7 @@ var validparameter= function(){
       for_we=0;
     }else for_we = parseInt(temp.value);
     
-    
+    // Kapital abrufen und testen. Testen wird aber unnötig, weil es nachher kein eingabe Feld mehr ist
 
     var kap = document.getElementById("kapital");
     if (kap !== null && kap.value === ""){
@@ -63,6 +65,9 @@ var validparameter= function(){
     
     var ausgaben = mar_pl + mar_tv + mar_ra + for_bi + for_ch + for_we;
 
+
+    // test ob ich zu viele Ausgaben hätte
+    // später vllt ummodeln mit Kredtvergabe oder so
      
      if((kapital-ausgaben)<0){ 
          return false;
@@ -76,6 +81,8 @@ function finish(){
     var valid=validparameter();
     // was machen wenn man direkt ohne irgendwas zu investiern auf weiter klickt ?
     
+   
     if(valid) window.location.href = "report.html";
-    else alert("Du hast zu viel ausgaben");
+    else alert("Du hast zu viel ausgaben"); // --> reicht der alert hier?
+                                            // auch visuel was ändern ?
 }
