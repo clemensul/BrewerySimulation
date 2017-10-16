@@ -283,6 +283,19 @@
                                 Hier steht mein Kapital
                                 Hier stehen meine Ausgaben(--> knockout.js)
                                 Hier ist eine Sidebar
+                                <table>
+                                    <thead>
+                                        
+                                    </thead>
+                                    <tbody data-bind="foreach:finances">
+                                        <tr>
+                                           <input data-bind="text:name"> 
+                                        </tr> 
+                                        <tr>
+                                           <input data-bind="number:expanse"> 
+                                        </tr>
+                                    </tbody>
+                                </table>        
                             </div>
                         </div>
                     </div>    

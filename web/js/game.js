@@ -79,6 +79,20 @@ var validparameter= function(){
 };    
 
 
+var finances = function(){
+    
+    this.finances=ko.observableArray([
+        { name:"Ausgaben1", expanse:"123123" },
+        { name:"Ausgaben2", expanse:"1231213" },
+        { name:"Ausgaben3", expanse:"12323" },
+    ]);
+    
+    
+    ko.applyBindings(new finances());
+    
+}
+
+
 var send_game_data= function(){
     var Input = {
             action: "submit",
