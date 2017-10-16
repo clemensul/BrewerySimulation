@@ -37,7 +37,7 @@ public class SessionHandler {
         String game_id = jsonMessage.getString("game_id");
         Boolean admin = false;
         //String players = "";  //TODO cant put array in json | useful at all?
-        JsonObject players;
+        JsonArray players;
         String user_hash = hashItUp(name);
         String game_hash = hashItUp(game_id.toLowerCase());
         String cookie = user_hash + "." + game_hash;

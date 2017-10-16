@@ -24,6 +24,32 @@ function game () {
    
 }
 
+var array_input=["mar_pla","mar_tvw","mar_rad","for_bie","for_che","for_wei"];
+$(document).ready(function() {
+    for(i=0; i<array_input.length-1;i++){
+        $("#"+array_input[i]).keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                 // Allow: Ctrl/cmd+A
+                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+C
+                (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+X
+                (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    }
+});
+
+
 var validparameter= function(){
     // hier müssen nun alle input Felder überprüft werden und geschaut werden ob 
     // alle eingaben valide sind
@@ -74,15 +100,18 @@ var validparameter= function(){
      }else return true;
 };
 
-
-
 function finish(){
    
     var valid=validparameter();
     // was machen wenn man direkt ohne irgendwas zu investiern auf weiter klickt ?
     
    
-    if(valid) window.location.href = "report.html";
-    else alert("Du hast zu viel ausgaben"); // --> reicht der alert hier?
-                                            // auch visuel was ändern ?
+    if(valid){
+        //window.location.href = "report.html";
+        console.log("hallo");
+    }
+    else{
+        alert("Du hast zu viel ausgaben");
+    } // --> reicht der alert hier?
+      // auch visuel was ändern ?
 }
