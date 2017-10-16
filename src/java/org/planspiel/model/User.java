@@ -11,10 +11,12 @@ public class User {
 
     private Company company;
     private String cookie;
+    private Boolean admin;
 
-    public User(String cname, float budget, float fixCost, String cookie) {
+    public User(String cname, float budget, float fixCost, String cookie, Boolean admin) {
         this.cookie = cookie;
         this.company = new Company(cname, budget, fixCost);
+        this.admin = admin;
     }
 
     public Company getCompany() {
@@ -23,5 +25,9 @@ public class User {
     
     public String getCookie() {
         return cookie;
+    }
+    
+    public Boolean getAdmin(){
+        return admin;
     }
 }

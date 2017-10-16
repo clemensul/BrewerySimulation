@@ -32,11 +32,32 @@
                     <div class="col">
                         <div class="widget widget-content">
                             <h3 class="card-title">Lobby</h3>
-                            <p class="card-text" id="lobby_game_id" >Game-Id:</p>
+                            <p class="card-text" id="lobby_game_id">Game-Id:
+                                <span data-bind="text: game_id"></span>
+                            </p>
                             <p class="card-text" id="lobby_player">Spieler:</p>
-                            <div id="table_space"></div>
+                            
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>Admin</td>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: players">
+                                    <tr>
+                                        <td>
+                                            <span data-bind="text: name"></span>
+                                        </td>
+                                        <td>
+                                            <span data-bind="text: admin"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
                             <div class="row widget-row">
-                                <button class="btn" onclick="game();">Spiel starten</button> <!--kann nur von dem Admin geklickt werden -->
+                                <button class="btn" onclick="game();">Spiel starten</button>
                             </div>
                         </div>
                     </div>
@@ -47,7 +68,6 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
@@ -55,13 +75,14 @@
 
     <script src="js/jquery-3.2.1.js"></script>
 
+    <script src="js/knockout-3.4.1.js"></script>
+    
     <script src="js/websocket.js"></script>
 
     <script src="js/content.js"></script>
 
     <script src="js/lobby.js"></script>
 
-    <script src="js/knockout-3.4.1.js"></script>
 
 </body>
 

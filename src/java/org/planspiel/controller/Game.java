@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import org.planspiel.model.User;
 
 public class Game {
@@ -28,27 +31,38 @@ public Game(float budget, int rounds, String id, String playerName, String cooki
 	this.budget = budget;
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
-        this.addPlayer(playerName, cookie);
+        //this.addPlayer(playerName, cookie, true);
 }
 
-public String showPlayers(){
-    String playersString = "";
+public JsonObject showPlayers(){
+    
+    JsonObject jo = null;
+    //String playersString = "";
     Iterator<org.planspiel.model.User> it = players.values().iterator();
     int i = 0;
         while(it.hasNext()){
             User u = (User)it.next();
-            playersString = playersString + " - " + u.getCompany().getName();
-                    i++;
+            
+            jo = Json.createObjectBuilder()
+              .add("players", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                  .add("name", u.getCompany().getName())
+                  .add("admin", u.getAdmin())))
+              .build();
+            
+//            playersString = playersString + " - " + u.getCompany().getName();
+//                    i++;
         }
-    return playersString;
+    //return playersString;
+    return jo;
 }
 
 public String getId(){
     return id;
 }
 //adding players before the game starts
-public void addPlayer(String name, String cookie){
-	players.put(cookie, new User(name, budget, fixCost, cookie));
+public void addPlayer(String name, String cookie, Boolean admin){
+	players.put(cookie, new User(name, budget, fixCost, cookie, admin));
 }
 
 //start button
