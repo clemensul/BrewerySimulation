@@ -103,6 +103,7 @@ function signin() {
         action: "login"
     };
     
+    
     socket.send(JSON.stringify(Player));
     console.log(JSON.stringify(Player));
 }
