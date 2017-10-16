@@ -81,16 +81,17 @@ var validparameter= function(){
 
 var send_game_data= function(){
     var Input = {
+            action: "submit",
+            cookie: document.cookie,
             marketing1 : parseInt(document.getElementById("mar_pla").value),
             marketing2 : parseInt(document.getElementById("mar_tvw").value),
             marketing3 : parseInt(document.getElementById("mar_rad").value),
             development1 : parseInt(document.getElementById("for_bie").value),
             development2 : parseInt(document.getElementById("for_che").value),
             development3 : parseInt(document.getElementById("for_wei").value), 
+        // Ausgaben
+        //  
         };
-    
-    console.log("Hallo vom senden");
-    console.log(Input);
     
     socket.send(JSON.stringify(Input));
     console.log(JSON.stringify(Input));
