@@ -1,6 +1,7 @@
 package org.planspiel.websocket;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
@@ -39,30 +40,31 @@ public class SessionHandler {
         String user_hash = hashItUp(name);
         String game_hash = hashItUp(game_id.toLowerCase());
         String cookie = user_hash + "." + game_hash;
-
+        String hashCodeGame = hashItUp(name);     
+        
         this.addSession(session, cookie);
 
         String error = "";   //TODO errorhandling add errors here
 
         if (gamesActive.containsKey(game_hash)) {
-            String hashCodeGame = hashItUp(name);
             Game game = gamesActive.get(game_hash); 
-            game.addPlayer(name, hashCodeGame);
+            game.addPlayer(name, cookie);
             players = gamesActive.get(game_hash).showPlayers();
 
             System.out.println("Added " + name + " to game " + game_id);
         } //else create a new game, add a new player to it
         else {
             Game game = new Game(1, 2, game_id, name, cookie);
+            game.addPlayer(name, cookie);
             gamesActive.put(game_hash, game); //TODO .add not working properly 
             admin = true;
             players = game.showPlayers();
 
             System.out.println("Created new Game and Added " + name + " to game " + game_id);
         }
+        JsonProvider provider = JsonProvider.provider();
         
         //return information
-        JsonProvider provider = JsonProvider.provider();
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "login")
                 .add("name", name)
@@ -72,7 +74,6 @@ public class SessionHandler {
                 .add("cookie", cookie)
                 .add("error", error)
                 .build();
-
         //System.out.println(addMessage);
         sendToSession(session, addMessage);
         
@@ -84,7 +85,8 @@ public class SessionHandler {
                 .add("error", error)
                 .build();
         //System.out.println(lobbyMsg);
-        sendToAllConnectedSessions(lobbyMsg);
+        //sendToAllConnectedSessions(lobbyMsg);
+        sendToGame(game_hash, lobbyMsg);
     }
 
     public void startGame(JsonObject jsonMessage, Session session) {
@@ -106,7 +108,7 @@ public class SessionHandler {
                 .add("game_id", jsonMessage.getString("game_id")) //neededS so sendToAll doesnt trigger the wrong games
                 .build();
 
-        sendToAllUsers(users, addMessage);
+        sendToGame(hashes[1], addMessage);
     }
 
     //thats where we can add some MAGIC to SPICE up the HashCodes ;)
@@ -123,6 +125,7 @@ public class SessionHandler {
     private void sendToAllConnectedSessions(JsonObject message) {
         for (Session session : sessions.values()) {
             sendToSession(session, message);
+            System.out.println("Sent to Session");
         }
     }
 
@@ -139,6 +142,7 @@ public class SessionHandler {
     //Sendet an einen Client mit spezifischem Cookie
     private void sendToCookie (String cookie, JsonObject message) {
         sendToSession(sessions.get(cookie), message);
+        System.out.println("Sent to Session with Cookie: " + cookie);
     }
 
     public void addSession(Session session, String cookie) {
@@ -168,9 +172,17 @@ public class SessionHandler {
         sessions.remove(session);
     }
 
-    private void sendToAllUsers(Collection<User> users, JsonObject addMessage) {
-        for (Iterator<User> it = users.iterator(); it.hasNext();) {
-            sendToCookie(it.next().getCookie(), addMessage);
-        }
+    private void sendToGame(String game_hash, JsonObject jsonMessage) {
+        Game g = gamesActive.get(game_hash);
+        ArrayList<User> gUser = g.getUsers();
+        if(gUser!=null){
+            for(Iterator it = gUser.iterator(); it.hasNext();){
+                try{
+                User u = (User) it.next();
+                sendToCookie(u.getCookie(), jsonMessage);}catch(Exception e){e.printStackTrace();};
+            }
+        }else{
+            System.out.print("Error, no Users exist!");
+            }
     }
 }

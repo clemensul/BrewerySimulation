@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import org.planspiel.model.User;
 
 public class Game {
@@ -27,7 +28,7 @@ public Game(float budget, int rounds, String id, String playerName, String cooki
 	this.budget = budget;
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
-        addPlayer(playerName, cookie);
+        this.addPlayer(playerName, cookie);
 }
 
 public String showPlayers(){
@@ -64,6 +65,30 @@ public Collection<User> startGame(){
         return players.values();
 }
 
+public ArrayList<User> getUsers(){
+    
+    ArrayList<User> users = new ArrayList<User>();
+    
+    for(String key: players.keySet()) {
+        User u = players.get(key);
+        System.out.print(u);
+        users.add(u);
+    }
+//    }
+//    Set<String> s = players.keySet();
+//    System.out.print(s);
+//    Iterator it = s.iterator();
+//    System.out.print("players:" + showPlayers());
+//        while(it.hasNext()){
+//            //System.out.println(players.get(it.next()));
+//            String key = (String)it.next();
+//            System.out.println(key);
+//            User u = players.get(key);
+//            users.add(u);
+//        }
+        
+        return users;
+}
 //user submits all spendings by pressing a button
 public void submitValues(float producedHectolitres, float pricePerHectolitre, float optionMarketing1, float optionMarketing2, float optionMarketing3, float development){
 	org.planspiel.model.Period period = players.get(currentPlayer).getCompany().getCurrentPeriod(currentPeriod);
