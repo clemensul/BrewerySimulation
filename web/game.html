@@ -26,9 +26,37 @@
 
         <div class="container-fluid">
             <!--  ****  -->
-            <!-- Widget -->
+            <!-- How much to produce -->
             <!--  ****  -->
             <div class="row">
+                <div class="col-10">
+                    <div id="beerproduce" class="col">
+                        <div class="container-fluid justify-content-center">
+                            <div class="row widget-row">
+                                <div class="col">
+                                    <div class="widget widget-content">
+                                        <h4 class="card-title">Wie viel soll in dieser Periode produziert werden</h4>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge</div>
+                                            <div class="col-md-5">Dein Bier ist das Hausbier der Partner-Gaststätte.</div>
+                                                <div class="col-md-3">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">€</span>
+                                                        <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_rad">
+                                                        <span class="input-group-addon">,00</span>
+                                                    </div>
+                                                </div>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+            <!--  ****  -->
+            <!-- Marketing -->
+            <!--  ****  -->          
                 <div class="col-10">
                     <div id="marketing" class="col">
                         <div class="container-fluid justify-content-center">
@@ -74,7 +102,8 @@
 
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge</div>
+                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge
+                                                </div>
                                                 <div class="col-md-5">Dein Bier ist das Hausbier der Partner-Gaststätte.</div>
                                                 <div class="col-md-3">
                                                     <div class="input-group">
@@ -108,10 +137,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--  ****  -->
-                    <!-- Widget -->
-                    <!--  ****  -->
+                </div>    
+            <!--  ****  -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <!-- Forschung -->
+            <!--  ****  -->
+                <div class="col-10">
                     <div id="forschung" class="col">
                         <div class="container-fluid justify-content-center">
                             <div class="row widget-row">
@@ -126,46 +157,46 @@
                                             <div class="col-md-3">Budget</div>
                                         </div>
                                         <form name="form_FuE">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Verbesserung der Biergährung</div>
-                                                <div class="col-md-5">Wie kann der Gährungsprozess schneller werden?.</div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_bie">
-                                                        <span class="input-group-addon">,00</span>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Verbesserung der Biergährung</div>
+                                                    <div class="col-md-5">Wie kann der Gährungsprozess schneller werden?.</div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">€</span>
+                                                            <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_bie">
+                                                            <span class="input-group-addon">,00</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
 
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Hopfenanbau optimieren</div>
-                                                <div class="col-md-5">Möglichst resistente Hopfenkulturen züchten.</div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_che">
-                                                        <span class="input-group-addon">,00</span>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Hopfenanbau optimieren</div>
+                                                    <div class="col-md-5">Möglichst resistente Hopfenkulturen züchten.</div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">€</span>
+                                                            <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_che">
+                                                            <span class="input-group-addon">,00</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Getreideanbau</div>
-                                                <div class="col-md-5">Ertragreichere Ernten durch die Verwendung von Biodünger.</div>
-                                                <div class="col-md-3    ">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_wei">
-                                                        <span class="input-group-addon">,00</span>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Getreideanbau</div>
+                                                    <div class="col-md-5">Ertragreichere Ernten durch die Verwendung von Biodünger.</div>
+                                                    <div class="col-md-3    ">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">€</span>
+                                                            <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_wei">
+                                                            <span class="input-group-addon">,00</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
 
                                         <h5 class="card-title">vorherige Perioden</h5>
                                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
@@ -189,11 +220,13 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--  ****  -->
-                    <!-- Widget -->
-                    <!--  ****  -->
-                    <div id="produktion" class="col">
+                </div>    
+            
+            <!--  ****  -->
+            <!-- Production -->
+            <!--  ****  -->
+                <div class="col-10">
+                <div id="produktion" class="col">
                         <div class="container-fluid justify-content-center">
                             <div class="row widget-row">
                                 <div class="col">
@@ -274,12 +307,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Sidebar -->
-                <div class=" col-2 ">
-                    <div class="container-fluid justify-content-center">
-                        <div class="row widget-row">
-                            <div class="widget widget-content">
+            </div>
+            <!-- Sidebar -->
+            <div class=" col-2 ">
+                <div class="container-fluid justify-content-center">
+                    <div class="row widget-row">
+                        <div class="widget widget-content">
                                 Hier steht mein Kapital
                                 Hier stehen meine Ausgaben(--> knockout.js)
                                 Hier ist eine Sidebar
@@ -300,12 +333,11 @@
                         </div>
                     </div>    
                  </div>
-            </div>    
-        </div>    
+             </div>    
+            
 
 
         <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
