@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import org.planspiel.model.User;
 
@@ -34,26 +35,18 @@ public Game(float budget, int rounds, String id, String playerName, String cooki
         //this.addPlayer(playerName, cookie, true);
 }
 
-public JsonObject showPlayers(){
+public JsonArray showPlayers(){
     
-    JsonObject jo = null;
-    //String playersString = "";
-    Iterator<org.planspiel.model.User> it = players.values().iterator();
-    int i = 0;
-        while(it.hasNext()){
-            User u = (User)it.next();
-            
-            jo = Json.createObjectBuilder()
-              .add("players", Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
-                  .add("name", u.getCompany().getName())
-                  .add("admin", u.getAdmin())))
-              .build();
-//            playersString = playersString + " - " + u.getCompany().getName();
-//                    i++;
-        }
-    //return playersString;
-    return jo;
+    JsonArrayBuilder builder = Json.createArrayBuilder();
+    
+    for (User user: players.values())
+    {
+        builder.add(Json.createObjectBuilder()
+                .add("name", user.getCompany().getName())
+                .add("admin", user.getAdmin()));
+    }
+    
+    return builder.build();
 }
 
 public String getId(){
