@@ -1,22 +1,25 @@
 .widget {
     background: #ffffff;
-    border-radius: 0.2em;
-    margin: 0.5em; 
+    border-radius: 0.2rem;
 }
 
 .widget-content {
-    padding: 1.5em; 
+    padding: 1.5rem; 
 }
 
 .widget-row {
-    margin-top: 2%;
-    margin-bottom: 2%;
-    margin-left: 0.5em;
-    margin-right: 0.5em; 
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0; 
+}
+
+.widget-content > h3 {
+    margin-bottom: 3rem;
 }
 .counter {
     padding: 10px;
-    font-size: 2em;
+    font-size: 2rem;
 
 }
 
@@ -35,5 +38,5 @@ color: #059711
 canvas {
     margin: 0;
     padding: 0;
-    border-radius: 0.2em;
+    border-radius: 0.2rem;
 }

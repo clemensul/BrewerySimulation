@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://localhost:8080/planspielWebWeb/actions");
+socket = new WebSocket("ws://localhost:8080/planspielWebWeb/actions");
 socket.onmessage = onMessage;
 socket.onopen = onOpen;
 

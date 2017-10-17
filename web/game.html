@@ -2,360 +2,354 @@
 
 <html lang="de">
 
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/general.css" />
-        <link rel="stylesheet" href="css/form.css" />
-        <link rel="stylesheet" href="css/charts.css">
-        <link rel="stylesheet" href="css/navigation.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/form.css" />
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/navigation.css">
 
-        <link rel="stylesheet" href="css/dashboard.css">
-        <title>Brauerei</title>
-    </head>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Brauerei</title>
+</head>
 
-    <body>
-        <!-- Navbar -->
-        <!--#include virtual="partials/nav.shtml" -->
+<body>
+    <!-- Navbar -->
+    <!--#include virtual="partials/nav.html" -->
 
 
-        <div class="container-fluid">
-            <!--  ****  -->
-            <!-- How much to produce -->
-            <!--  ****  -->
-            <div class="row">
-                <div class="col-10">
-                    <div id="beerproduce" class="col">
-                        <div class="container-fluid justify-content-center">
-                            <div class="row widget-row">
-                                <div class="col">
-                                    <div class="widget widget-content">
-                                        <h4 class="card-title">Wie viel soll in dieser Periode produziert werden</h4>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge</div>
-                                            <div class="col-md-5">Dein Bier ist das Hausbier der Partner-Gaststätte.</div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_rad">
-                                                        <span class="input-group-addon">,00</span>
-                                                    </div>
-                                                </div>    
-                                            </div>
-                                        </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xl-9">
+                <!--  ****  -->
+                <!-- Marketing -->
+                <!--  ****  -->
+                <div class="row widget-row" id="marketing">
+                    <div class="widget widget-content">
+                        <h3 class="card-title">Investitionsmöglichkeiten Marketing</h3>
+                        <p class="card-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung!</p>
+
+                        <div class="row table_head">
+                            <div class="col-md-4">Projekt</div>
+                            <div class="col-md-5">Beschreibung</div>
+                            <div class="col-md-3">Budget</div>
+                        </div>
+                        <form name="form_marketing">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Sponsoring eines Fußballteams
+                                </div>
+                                <div class="col-md-5">Das Team erhält neue Trikots mit dem Firmenlogo.
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" name="investment_plakate" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                            id="mar_pla">
+                                        <span class="input-group-addon">,00</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>    
-            <!--  ****  -->
-            <!-- Marketing -->
-            <!--  ****  -->          
-                <div class="col-10">
-                    <div id="marketing" class="col">
-                        <div class="container-fluid justify-content-center">
-                            <div class="row widget-row">
-                                <div class="col">
-                                    <div class="widget widget-content">
-                                        <h4 class="card-title">Investitionsmöglichkeiten Marketing</h4>
-                                        <p class="card-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung!</p>
 
-                                        <div class="row table_head">
-                                            <div class="col-md-4">Projekt</div>
-                                            <div class="col-md-5">Beschreibung</div>
-                                            <div class="col-md-3">Budget</div>
-                                        </div>
-                                        <form name="form_marketing">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Sponsoring eines Fußballteams
-                                                </div>
-                                                <div class="col-md-5">Das Team erhält neue Trikots mit dem Firmenlogo.</div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_plakate" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_pla">
-                                                        <span class="input-group-addon">,00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Bierpilze
+                                </div>
+                                <div class="col-md-5">Bierstände auf Volksfesten und anderen öffentlichen Veranstaltungen.
 
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Bierpilze
-                                                </div>
-                                                <div class="col-md-5">Bierstände auf Volksfesten und anderen öffentlichen Veranstaltungen.</div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_tv" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_tvw">
-                                                        <span class="input-group-addon">,00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge
-                                                </div>
-                                                <div class="col-md-5">Dein Bier ist das Hausbier der Partner-Gaststätte.</div>
-                                                <div class="col-md-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">€</span>
-                                                        <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="mar_rad">
-                                                        <span class="input-group-addon">,00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <h5 class="card-title">vorherige Perioden</h5>
-                                        <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <canvas id="marketing-plakat"></canvas>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <canvas id="marketing-tv"></canvas>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <canvas id="marketing-radio"></canvas>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <canvas id="marketing-vergleich"></canvas>
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" name="investment_tv" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                            id="mar_tvw">
+                                        <span class="input-group-addon">,00</span>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge
+                                </div>
+                                <div class="col-md-5">Dein Bier ist das Hausbier der Partner-Gaststätte.</div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                            id="mar_rad">
+                                        <span class="input-group-addon">,00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <h5 class="card-title">vorherige Perioden</h5>
+                        <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <canvas id="marketing-plakat"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="marketing-tv"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="marketing-radio"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="marketing-vergleich"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ********* -->
+                <!-- Forschung -->
+                <!-- ********* -->
+                <div class="row widget-row" id="forschung">
+                    <div class="widget widget-content">
+                        <h3 class="card-title">Investitionsmöglichkeiten Forschung</h3>
+                        <p class="card-text">Verteile dein Budget innerhalb der deiner Forschungsprojekte!</p>
+
+                        <div class="row table_head">
+                            <div class="col-md-4">Projekte</div>
+                            <div class="col-md-5">Beschreibung</div>
+                            <div class="col-md-3">Budget</div>
+                        </div>
+                        <form name="form_FuE">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Verbesserung der Biergährung</div>
+                                <div class="col-md-5">Wie kann der Gährungsprozess schneller werden?.</div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                            id="dev_bie">
+                                        <span class="input-group-addon">,00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Hopfenanbau optimieren</div>
+                                <div class="col-md-5">Möglichst resistente Hopfenkulturen züchten.</div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                            id="dev_hop">
+                                        <span class="input-group-addon">,00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Getreideanbau</div>
+                                <div class="col-md-5">Ertragreichere Ernten durch die Verwendung von Biodünger.</div>
+                                <div class="col-md-3    ">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                            id="dev_get">
+                                        <span class="input-group-addon">,00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <h5 class="card-title">vorherige Perioden</h5>
+                        <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <canvas id="FuE-geschmack"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="FuE-chemie"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="FuE-hopfen"></canvas>
+                            </div>
+                            <div class="col-sm-6">
+                                <canvas id="FuE-vergleich"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  ****  -->
+                <!-- Production -->
+                <!--  ****  -->
+                <div class="row widget-row" id="produktion">
+                    <div class="widget widget-content">
+                        <h3 class="card-title">Investitionsmöglichkeiten</h3>
+                        <p class="card-text">Verteile dein Budget innerhalb der Produktionsabteilung!</p>
+
+                        <form name="form_produktion">
+
+                            <div class="row">
+                                <div class="col tile checked" name="investment_pumpe" class="col tile">
+                                    <div onclick="checkInvestment('investment_pumpe')">Alkoholfreies Bier ins Sortiment aufnehmen</div>
+                                    <span> Der Fitness-Hype in Deutschland motiviert die Konsumenten, weniger alkohlische Getränke
+                                        zu sich zu nehmen - es wird Zeit, diese Zielgruppe ebenfalls anzusprechen!
+                                    </span>
+                                    <div>Preis: 100.000€</div>
+                                </div>
+                                <div class="col tile">
+                                    <div>Elektro LKWs</div>
+                                    <span>Umweltfreundliche LKWs bieten den großen Vorteil einer langjährigen Nutzungsdauer und
+                                        geringfügigen "Kraftstoffkosten".</span>
+                                    <div>Preis: 100.000€</div>
+                                </div>
+                                <div class="col tile">
+                                    <div>Mischgetränke in das Sortiment aufnehmen</div>
+                                    <span>Schließe dich Veltins, Desperados und co. an und entwerfe dein eigenes Mischgetränk.
+                                    </span>
+                                    <div>Preis: 1.000.000€</div>
+                                </div>
+                                <div class="col tile">
+                                    <div>Neue Biersorten einführen</div>
+                                    <span>Aufnahme von Weizen und Pils.</span>
+                                    <div>Preis: 100.000€</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col tile">
+                                    <p>effizintere Pumpen</p>
+                                </div>
+                                <div class="col tile">
+                                    <p>Erdgas LKWs</p>
+                                </div>
+                                <div class="col tile">
+                                    <p>effizintere Pumpen</p>
+                                </div>
+                                <div class="col tile">
+                                    <p>effizintere Pumpen</p>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <h5 class="card-title">vorherige Perioden</h5>
+                        <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <canvas id="canvas-1"></canvas>
+                            </div>
+                            <div class="col-4">
+                                <canvas id="canvas-2"></canvas>
+                            </div>
+                            <div class="col-4">
+                                <canvas id="canvas-3"></canvas>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <canvas id="canvas-4"></canvas>
+                            </div>
+                        </div>
+                        <div class="row widget-row">
+                            <button class="btn" onclick="finish();">Periode beenden</button>
+                            <div class="input-group">
+                                <span class="input-group-addon">€</span>
+                                <input type="text" name="kapital" class="form-control form-money" aria-label="Amount (to the nearest dollar)" id="kapital">
+                                <span class="input-group-addon">,00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  ****  -->
+                <!-- How much to produce -->
+                <!--  ****  -->
+                <div class="row widget-row" id="beerproduce">
+                    <div class="widget widget-content">
+                        <h3 class="card-title">Wie viel soll in dieser Periode produziert werden</h3>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i> Gaststättenveträge
+                            </div>
+                            <div class="col-md-5">Dein Bier ist das Hausbier der Partner-Gaststätte.</div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="text" name="investment_radio" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                        id="mar_rad">
+                                    <span class="input-group-addon">,00</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>    
-            <!--  ****  -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-            <!-- Forschung -->
-            <!--  ****  -->
-                <div class="col-10">
-                    <div id="forschung" class="col">
-                        <div class="container-fluid justify-content-center">
-                            <div class="row widget-row">
-                                <div class="col">
-                                    <div class="widget widget-content">
-                                        <h4 class="card-title">Investitionsmöglichkeiten Forschung</h4>
-                                        <p class="card-text">Verteile dein Budget innerhalb der deiner Forschungsprojekte!</p>
-
-                                        <div class="row table_head">
-                                            <div class="col-md-4">Projekte</div>
-                                            <div class="col-md-5">Beschreibung</div>
-                                            <div class="col-md-3">Budget</div>
-                                        </div>
-                                        <form name="form_FuE">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Verbesserung der Biergährung</div>
-                                                    <div class="col-md-5">Wie kann der Gährungsprozess schneller werden?.</div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">€</span>
-                                                            <input type="text" name="investment_geschmack" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_bie">
-                                                            <span class="input-group-addon">,00</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Hopfenanbau optimieren</div>
-                                                    <div class="col-md-5">Möglichst resistente Hopfenkulturen züchten.</div>
-                                                    <div class="col-md-3">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">€</span>
-                                                            <input type="text" name="investment_chemie" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_che">
-                                                            <span class="input-group-addon">,00</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <i class="fa fa-info-circle" aria-hidden="true"></i> Getreideanbau</div>
-                                                    <div class="col-md-5">Ertragreichere Ernten durch die Verwendung von Biodünger.</div>
-                                                    <div class="col-md-3    ">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">€</span>
-                                                            <input type="text" name="investment_hopfen" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)" id="for_wei">
-                                                            <span class="input-group-addon">,00</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-
-                                        <h5 class="card-title">vorherige Perioden</h5>
-                                        <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
-
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <canvas id="FuE-geschmack"></canvas>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <canvas id="FuE-chemie"></canvas>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <canvas id="FuE-hopfen"></canvas>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <canvas id="FuE-vergleich"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-            
-            <!--  ****  -->
-            <!-- Production -->
-            <!--  ****  -->
-                <div class="col-10">
-                <div id="produktion" class="col">
-                        <div class="container-fluid justify-content-center">
-                            <div class="row widget-row">
-                                <div class="col">
-                                    <div class="widget widget-content">
-                                        <h4 class="card-title">Investitionsmöglichkeiten</h4>
-                                        <p class="card-text">Verteile dein Budget innerhalb der Produktionsabteilung!</p>
-
-                                        <form name="form_produktion">
-
-                                            <div class="row">
-                                                <div class="col tile checked" name="investment_pumpe" class="col tile">
-                                                    <div onclick="checkInvestment('investment_pumpe')">Alkoholfreies Bier ins Sortiment aufnehmen</div>
-                                                    <span> Der Fitness-Hype in Deutschland motiviert die Konsumenten, weniger alkohlische Getränke zu sich zu nehmen - es wird Zeit, diese Zielgruppe ebenfalls anzusprechen!</span>
-                                                    <div>Preis: 100.000€</div>
-                                                </div>
-                                                <div class="col tile">
-                                                    <div>Elektro LKWs</div>
-                                                    <span>Umweltfreundliche LKWs bieten den großen Vorteil einer langjährigen Nutzungsdauer und geringfügigen "Kraftstoffkosten".</span>
-                                                    <div>Preis: 100.000€</div>
-                                                </div>
-                                                <div class="col tile">
-                                                    <div>Mischgetränke in das Sortiment aufnehmen</div>
-                                                    <span>Schließe dich Veltins, Desperados und co. an und entwerfe dein eigenes Mischgetränk.</span>
-                                                    <div>Preis: 1.000.000€</div>
-                                                </div>
-                                                <div class="col tile">
-                                                    <div>Neue Biersorten einführen</div>
-                                                    <span>Aufnahme von Weizen und Pils.</span>
-                                                    <div>Preis: 100.000€</div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col tile">
-                                                    <p>effizintere Pumpen</p>
-                                                </div>
-                                                <div class="col tile">
-                                                    <p>Erdgas LKWs</p>
-                                                </div>
-                                                <div class="col tile">
-                                                    <p>effizintere Pumpen</p>
-                                                </div>
-                                                <div class="col tile">
-                                                    <p>effizintere Pumpen</p>
-                                                </div>
-                                            </div>
-
-                                        </form>
-
-                                        <h5 class="card-title">vorherige Perioden</h5>
-                                        <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
-
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <canvas id="canvas-1"></canvas>
-                                            </div>
-                                            <div class="col-4">
-                                                <canvas id="canvas-2"></canvas>
-                                            </div>
-                                            <div class="col-4">
-                                                <canvas id="canvas-3"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <canvas id="canvas-4"></canvas>
-                                            </div>
-                                        </div>
-                                        <div class="row widget-row">
-                                            <button class="btn" onclick="finish();">Periode beenden</button>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">€</span>
-                                                <input type="text" name="kapital"class="form-control form-money" aria-label="Amount (to the nearest dollar)" id="kapital">
-                                                <span class="input-group-addon">,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
             </div>
+
+
             <!-- Sidebar -->
-            <div class=" col-2 ">
-                <div class="container-fluid justify-content-center">
-                    <div class="row widget-row">
-                        <div class="widget widget-content">
-                                Hier steht mein Kapital
-                                Hier stehen meine Ausgaben(--> knockout.js)
-                                Hier ist eine Sidebar
-                                <table>
-                                    <thead>
-                                        
-                                    </thead>
-                                    <tbody data-bind="foreach:finances">
-                                        <tr>
-                                           <input data-bind="text:name"> 
-                                        </tr> 
-                                        <tr>
-                                           <input data-bind="number:expanse"> 
-                                        </tr>
-                                    </tbody>
-                                </table>        
-                            </div>
-                        </div>
-                    </div>    
-                 </div>
-             </div>    
-            
+            <div class="col-xl-3 ">
+                <div class="row widget-row" id="sidebar">
+                    <div class="widget widget-content">
+                        <h3>Übersicht:</h3>
+                        <p>Hier steht mein Kapital Hier stehen meine Ausgaben(--> knockout.js) Hier ist eine Sidebar</p>
+                        <table>
+                            <thead>
+
+                            </thead>
+                            <tbody data-bind="foreach: expenses">
+                                <tr>
+                                    <td>
+                                        <span data-bind="text: name"></span>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: expense"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <button class="btn" onclick="send_game_data();">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-        <!-- Optional JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 
-        <script src="node_modules/chart.js/dist/Chart.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
 
-        <script src="js/charts.js"></script>
-        <script src="js/jquery-3.2.1.js"></script>
-        <script src="js/smooth-scroll.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/smooth-scroll.js"></script>
 
-        <script src="js/websocket.js"></script>
+    <script src="js/websocket.js"></script>
 
-        <script src="js/content.js"></script>
+    <script src="js/content.js"></script>
 
-        <script src="js/game.js"></script>
+    <script src="js/knockout-3.4.1.js"></script>
+
+    <script src="js/model/game.js"></script>
+    <script src="js/game.js"></script>
 
 
-    </body>
+</body>
 
 </html>
