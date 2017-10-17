@@ -51,6 +51,9 @@ public class WebSocketServer {
                 sessionHandler.renewSession(session,jsonMessage.getString("cookie"));
                 //System.out.println("renewed game");
             }
+            if("submit".equals(jsonMessage.getString("action"))){
+                sessionHandler.submit(jsonMessage, session);
+            }
 //            if ("add".equals(jsonMessage.getString("action"))) {
 //                Device device = new Device();
 //                device.setName(jsonMessage.getString("name"));

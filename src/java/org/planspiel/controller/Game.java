@@ -22,16 +22,18 @@ private HashMap<String, User> players = new HashMap<>();
 
 private int currentPeriod = 0;
 private int currentPlayer = 0;
-private int playerCount = 0;
 private float budget, fixCost;
 private int rounds; //important for the end of the game
 private String id;
+
+private Market market;
 
 public Game(float budget, int rounds, String id, String playerName, String cookie){
         this.id = id;
 	this.budget = budget;
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
+        market = new Market();
         //this.addPlayer(playerName, cookie, true);
 }
 
@@ -94,6 +96,15 @@ public ArrayList<User> getUsers(){
         
         return users;
 }
+public Boolean checkClosed(){
+    Boolean closed = true;
+    for(Iterator it = players.keySet().iterator(); it.hasNext();){
+        if(!players.get(it).getCompany().getCurrentPeriod(currentPeriod).getClosed()){
+            closed = false;
+        }
+    }
+    return closed;
+}
 //user submits all spendings by pressing a button
 public void submitValues(float producedHectolitres, float pricePerHectolitre, float optionMarketing1, float optionMarketing2, float optionMarketing3, float development){
 	org.planspiel.model.Period period = players.get(currentPlayer).getCompany().getCurrentPeriod(currentPeriod);
@@ -127,19 +138,22 @@ public void submitValues(float producedHectolitres, float pricePerHectolitre, fl
 
 //TODO currently the market function only supports Periods between 1.5 - 10
 public void nextPeriod(){
-	currentPlayer = 0;
-	currentPeriod++;
+	
 	
 //	for(org.planspiel.model.User user : players){
 //		//add a new period to every company and pass on the old method, so the secondary constructor of period can get the old values
 //		user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
 //	}
-        
         Iterator it = players.entrySet().iterator();
         while(it.hasNext()){
             User user = (User)it.next();
             user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
         }
+        
+        ArrayList<User> users = new ArrayList(players.values());
+        market.makeSimulation(users, currentPeriod);
+        
+        currentPeriod++;
 }
 
 }
