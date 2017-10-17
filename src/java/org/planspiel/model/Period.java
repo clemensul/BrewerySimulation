@@ -34,6 +34,8 @@ public class Period {
 
     private float totalCosts;	//calc
 
+    private Boolean closed = false;
+    
     public Period(float budget, float fixCost) {
         this.budget = budget;
         this.otherFixedCosts = fixCost;
@@ -199,4 +201,11 @@ public class Period {
         this.otherFixedCosts = otherFixedCosts;
     }
 
+    public Boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
+    }
 }

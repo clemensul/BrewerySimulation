@@ -28,6 +28,10 @@ public class Market {
 	public Market(){
 		
 	}
+        public Market(int min, int max){
+            this.min = min;
+            this.max = max;
+        }
 	
 	public void makeSimulation(ArrayList<org.planspiel.model.User> players, int currentPeriod){
 		marketVolume = getMarketVolume(currentPeriod);

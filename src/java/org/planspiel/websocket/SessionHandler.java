@@ -131,7 +131,53 @@ public class SessionHandler {
     private String hashItUp(String value) {
         return Integer.toString(value.hashCode());
     }
-    
+    public void submit(JsonObject jsonMessage, Session session){
+        //next period erstellen!
+        
+        //development1,2,3 marketing1,2,3 cookie
+        
+        //search correct user in the current game
+        String [] hashes = jsonMessage.getString("cookie").split(".");
+        Game g = gamesActive.get(hashes[1]);
+        ArrayList<User> users = g.getUsers();
+        
+        for(Iterator it = users.iterator(); it.hasNext();){
+            User us = (User)it.next();
+            if(us.getCookie().equals(jsonMessage.getString("cookie"))){
+                String error = "";
+                //werte auf json auslesen und in
+                //user us nextPeriod eintragen / an Game weitergeben
+                
+                //TODO if the last submit was called the game initiates a new period
+                //and sends a "start_newPeriod" to all Sessions of a game
+                //TODO Game always checks (maybe in getCurrentPeriod?) if every User/CurrentPeriod is "closed" 
+                us.getCompany().getCurrentPeriod(g.getCurrentPeriod()).setClosed(true);
+                
+                JsonProvider provider = JsonProvider.provider();
+                JsonObject startMessage = provider.createObjectBuilder()
+                .add("action", "submit")
+                .add("error", error)
+                .build();
+                
+                sendToCookie(us.getCookie(), startMessage);
+                
+                if(g.checkClosed()){
+                    g.nextPeriod();
+                    //send all need information
+                        //user information
+                        //market/enemy information
+                    JsonObject nextPeriod = provider.createObjectBuilder()
+                    .add("action", "nextPeriod")
+                    .add("error", error)
+                    .build();
+                }
+                
+                
+                break;
+            }
+           
+        }
+    }
     //Sendet an alle Sessions
     //unabhängig in welchem Spiel sie sind!
     private void sendToAllConnectedSessions(JsonObject message) {
