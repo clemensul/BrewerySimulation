@@ -57,7 +57,7 @@
                             </table>
                             
                             <div class="row widget-row">
-                                <button class="btn" onclick="game();">Spiel starten</button>
+                                <button class="btn" data-bind="enable: admin" onclick="game();">Spiel starten</button>
                             </div>
                         </div>
                     </div>
@@ -81,8 +81,8 @@
 
     <script src="js/content.js"></script>
 
+    <script src="js/model/lobby.js"></script>
     <script src="js/lobby.js"></script>
-
 
 </body>
 

@@ -12,8 +12,10 @@ function onMessage(event) {
         case "login": {
             if (reply.error === "") {
                     document.cookie = reply.cookie;
-                    console.log("Cookie created: " + reply.cookie);
-                    lobby(reply.game_id, reply.player, socket);
+                    console.log(reply);
+
+                    //Give data to Lobby Screen
+                    ChangeToLobby(reply.game_id, reply.player, reply.admin);                    
                     
             } else {
                 alert(reply.error);
@@ -21,9 +23,12 @@ function onMessage(event) {
             break;
         }
         case "lobby":{
-                if(reply.error ===""){
-                    var x = reply.player;
-                    console.log("Lobby data received: " + JSON.parse(reply.player));
+                if(reply.error === ""){
+                    
+                    //Give data to Lobby Screen
+                    if (lobbyObj !== undefined)
+                        lobbyObj.changePlayerArray(reply.player);
+
                 }else {
                 alert(reply.error);
             }
@@ -102,7 +107,6 @@ function signin() {
         game_id: game_id,
         action: "login"
     };
-    
     
     socket.send(JSON.stringify(Player));
     console.log(JSON.stringify(Player));
