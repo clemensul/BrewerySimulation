@@ -24,6 +24,11 @@ class Report {
 
 class Period {
     constructor (umsatz, gewinn, ausgaben, absatz) {
+
+        this.marketing = ko.observableArray();
+        this.development = ko.observableArray();
+        
+
         this.umsatz = ko.observable(umsatz);
         this.gewinn = ko.observable(gewinn);
         this.ausgaben = ko.observable(ausgaben);
