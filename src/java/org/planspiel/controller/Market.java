@@ -16,11 +16,8 @@ import java.util.ArrayList;
 //TODO information field where credits have to be redeemed, events occur, ...
 
 public class Market {
-	private int min; 
-	private int max; 
-	private double marketVolume; //how many hectolitres the market buys
 	
-	private final int pricePerHectolitreAvg = 50;  //TODO useful?
+	private double marketVolume; //how many hectolitres the market buys
 	
 	//TODO add risk variable?
 	private int risk; // between 0 and 1 --> maybe we need this later
@@ -28,10 +25,7 @@ public class Market {
 	public Market(){
 		
 	}
-        public Market(int min, int max){
-            this.min = min;
-            this.max = max;
-        }
+       
 	
 	public void makeSimulation(ArrayList<org.planspiel.model.User> players, int currentPeriod){
 		marketVolume = getMarketVolume(currentPeriod);
@@ -127,19 +121,27 @@ public class Market {
 	}
 	
 	
-	private float developmentEdge = 10000;
+	private float developmentEdge1 = 10000;
+        private float developmentEdge2 = 12000;
+        private float developmentEdge3 = 14000;
 	
 	private void disDevelopment(org.planspiel.model.Period p){
 		
-		float dev = p.getDevelopment() / developmentEdge;
-		double sumDev = 0;
+		int dev3 =  (int) (p.getOptionDevelopment3() / developmentEdge3);
+                int dev2 =  (int) (p.getOptionDevelopment2() / developmentEdge2+(dev3/2));
+                int dev1 =  (int) (p.getOptionDevelopment1() / developmentEdge1+(dev3/2));
+		double sumDev2 = 0;
+                double sumDev1 = 0;
 		
-		for(int i = 0; i < dev; i++){
-			sumDev += (double)Math.random() * (0.002 - 0.001) + 0.001;
+		for(int i = 0; i < dev2; i++){
+			sumDev2 += (double)Math.random() * (0.002 - 0.001) + 0.001;
+		}
+                for(int i = 0; i < dev1; i++){
+			sumDev1 += (double)Math.random() * (0.002 - 0.001) + 0.001;
 		}
 		
-		p.setPricePerHectolitre((float)(p.getPricePerHectolitre() * sumDev));
-		p.setOtherFixedCosts((float)(p.getOtherFixedCosts() * sumDev));		
+		p.setPricePerHectolitre((float)(p.getPricePerHectolitre() * sumDev2));
+		p.setOtherFixedCosts((float)(p.getOtherFixedCosts() * sumDev1));		
 	}
 	
 	private double getMarketVolume(int currentPeriod){
