@@ -41,9 +41,14 @@ body {
     height: 100%;
 }
 
+#sidebar {
+    position: fixed;
+}
+
 .widget {
     background: var(--dark2);
     border-radius: 0.2rem;
+    width: 100%;
 }
 
 .widget-content {
