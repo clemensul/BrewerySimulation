@@ -1,10 +1,3 @@
-socket.send (
-    {
-        action: "start_game",
-        cookie: document.cookie,
-    }
-);
-
 
 var array_input = [
     {

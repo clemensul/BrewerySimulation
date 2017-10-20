@@ -83,9 +83,13 @@ function onOpen(event) {
     $('document').ready(
             function () {
                 let cookieVal = document.cookie;
+                var path = window.location.pathname;
+                var page = path.split("/").pop();
+
                 var Cookie = {
                      cookie: cookieVal,
-                     action: "newSession"
+                     action: "newSession",
+                     site: page   
                  };
                 socket.send(JSON.stringify(Cookie));
             }
