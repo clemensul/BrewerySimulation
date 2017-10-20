@@ -28,6 +28,9 @@ public class Period {
     private float producedHectolitres;	//input
     private float soldHectolitres;	//input
     private float pricePerHectolitre;	//input start + value from calc
+    private float SoldHectolitresM1;
+    private float SoldHectolitresM2;
+    private float SoldHectolitresM3;
     private float productionPricePerHectolitre;	//start
 
     private double marketShare;	//calc
@@ -208,4 +211,29 @@ public class Period {
     public void setClosed(Boolean closed) {
         this.closed = closed;
     }
+
+    public float getSoldHectolitresM1() {
+        return SoldHectolitresM1;
+    }
+
+    public void setSoldHectolitresM1(float SoldHectolitresM1) {
+        this.SoldHectolitresM1 = SoldHectolitresM1;
+    }
+
+    public float getSoldHectolitresM2() {
+        return SoldHectolitresM2;
+    }
+
+    public void setSoldHectolitresM2(float SoldHectolitresM2) {
+        this.SoldHectolitresM2 = SoldHectolitresM2;
+    }
+
+    public float getSoldHectolitresM3() {
+        return SoldHectolitresM3;
+    }
+
+    public void setSoldHectolitresM3(float SoldHectolitresM3) {
+        this.SoldHectolitresM3 = SoldHectolitresM3;
+    }
+    
 }

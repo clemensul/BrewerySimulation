@@ -101,6 +101,9 @@ public class Market {
 									+ disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1) 
 									+ disMarketing(user, currentPeriod, sumMarketingOption2, marketingOptionShare2, 2) 
 									+ disMarketing(user, currentPeriod, sumMarketingOption3, marketingOptionShare3, 3));
+                        user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM1(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1));
+                        user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM2(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare2, 2));
+                        user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM3(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare3, 3));
 			user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitres(soldHectolitres);
 		
 	}
@@ -112,7 +115,7 @@ public class Market {
 		if(i == 1) {
 			marketingShare = u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing1() / sumMarketingOption;
 		}
-		if(i == 2) {
+                else if(i == 2) {
 			marketingShare = u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing2() / sumMarketingOption;
 		}
 		else { //i ==3
