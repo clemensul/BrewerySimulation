@@ -96,7 +96,6 @@ public class SessionHandler {
         
         ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
         for(User u : al){
-            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
             JsonProvider provider = JsonProvider.provider();
                 JsonObject startMessage = provider.createObjectBuilder()
                 .add("action", "start_game")
