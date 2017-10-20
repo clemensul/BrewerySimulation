@@ -47,10 +47,9 @@ public class Period {
     public Period(Period lastPeriod) {
         //TODO get all the attributes needed from the old period
 
-        this.setOptionMarketing1(lastPeriod.getOptionMarketing1());
-        this.setOptionMarketing2(lastPeriod.getOptionMarketing2());
-        this.setOptionMarketing3(lastPeriod.getOptionMarketing3());
-        this.setDevelopment(lastPeriod.getDevelopment());
+        this.setOptionDevelopment1(lastPeriod.getOptionDevelopment1());
+        this.setOptionDevelopment2(lastPeriod.getOptionDevelopment2());
+        this.setOptionDevelopment3(lastPeriod.getOptionDevelopment3());
 
         this.setOtherFixedCosts(lastPeriod.getOtherFixedCosts());
 

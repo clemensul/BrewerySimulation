@@ -40,7 +40,7 @@ public class SessionHandler {
         JsonArray players;
         String user_hash = hashItUp(name);
         String game_hash = hashItUp(game_id.toLowerCase());
-        String cookie = user_hash + "." + game_hash;
+        String cookie = user_hash + "x" + game_hash;
         String hashCodeGame = hashItUp(name);     
         
         this.addSession(session, cookie);
@@ -55,7 +55,7 @@ public class SessionHandler {
             System.out.println("Added " + name + " to game " + game_id);
         } //else create a new game, add a new player to it
         else {
-            Game game = new Game(1, 2, game_id, name, cookie);
+            Game game = new Game(1000000, 2, game_id, name, cookie);
             game.addPlayer(name, cookie, true);
             gamesActive.put(game_hash, game); //TODO .add not working properly 
             admin = true;
@@ -92,19 +92,22 @@ public class SessionHandler {
 
     private void startGame(JsonObject jsonMessage, Session session) {
         String error = "";
+        String[] hashes2 = "Hallo-du-da".split("-");
+        String hash = jsonMessage.getString("cookie");
+        String[] hashes = hash.split("x");
         
-        String[] hashes = jsonMessage.getString("cookie").split(".");
-            if (hashes.length != 2) {
+        if (hashes.length != 2) {
                 error = "Cookie is not valid!";
             } 
             else{ 
-                if(jsonMessage.getBoolean("admin")){
+                //if("true".equals(jsonMessage.getString("admin"))){
                     gamesActive.get(hashes[1]).initialize();
-                }
-                else{
-                    error = "No admin!";
-                }
+                //}
+                //else{
+                    //error = "No admin!";
+                //}
             }
+            
         ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
         for(User u : al){
             Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
@@ -139,7 +142,7 @@ public class SessionHandler {
     //Dev 1,2,3
     public void submit(JsonObject jsonMessage, Session session){
         //search correct user in the current game
-        String [] hashes = jsonMessage.getString("cookie").split(".");
+        String [] hashes = jsonMessage.getString("cookie").split("x");
         Game g = gamesActive.get(hashes[1]);
         ArrayList<User> users = g.getUsers();
         
@@ -147,17 +150,18 @@ public class SessionHandler {
             User u = (User)it.next();
             if(u.getCookie().equals(jsonMessage.getString("cookie"))){
                 String error = "";
+                JsonObject jsonObj = jsonMessage.getJsonObject("data");
                 
-                Float producedLitres = Float.parseFloat(jsonMessage.getString("produced_litres"));
-                Float priceLitre = Float.parseFloat(jsonMessage.getString("price_litre"));
-                Float marketing1 = Float.parseFloat(jsonMessage.getString("cost_m1"));
-                Float marketing2 = Float.parseFloat(jsonMessage.getString("cost_m2"));
-                Float marketing3 = Float.parseFloat(jsonMessage.getString("cost_m3"));
-                Float development1 = Float.parseFloat(jsonMessage.getString("cost_d1"));
-                Float development2 = Float.parseFloat(jsonMessage.getString("cost_d2"));
-                Float development3 = Float.parseFloat(jsonMessage.getString("cost_d3"));
+                Float producedLitres = Float.parseFloat(jsonObj.getString("produced_litres"));
+                Float priceLitre = Float.parseFloat(jsonObj.getString("price_litre"));
+                Float marketing1 = Float.parseFloat(jsonObj.getString("cost_m1"));
+                Float marketing2 = Float.parseFloat(jsonObj.getString("cost_m2"));
+                Float marketing3 = Float.parseFloat(jsonObj.getString("cost_m3"));
+                Float development1 = Float.parseFloat(jsonObj.getString("cost_d1"));
+                Float development2 = Float.parseFloat(jsonObj.getString("cost_d2"));
+                Float development3 = Float.parseFloat(jsonObj.getString("cost_d3"));
                 
-                Boolean finish = g.submitValues(hashes[0], producedLitres, priceLitre, 
+                Boolean finish = g.submitValues(jsonMessage.getString("cookie"), producedLitres, priceLitre, 
                                                 marketing1, marketing2, marketing3, 
                                                 development1, development2, development3);
                 

@@ -66,11 +66,15 @@ public void addPlayer(String name, String cookie, Boolean admin){
 
 //start button
 public void initialize(){
-        Iterator it = players.entrySet().iterator();
-        while(it.hasNext()){
-            User u = (User)it.next();
+        Collection<User> al = players.values();
+        for(User u : al){
             u.getCompany().addPeriod(budget, fixCost);
         }
+//    Iterator it = players.entrySet().iterator();
+//        while(it.hasNext()){
+//            User u = (User)it.next();
+//            u.getCompany().addPeriod(budget, fixCost);
+//        }
 }
 
 public ArrayList<User> getUsers(){
@@ -100,18 +104,18 @@ public ArrayList<User> getUsers(){
 public Boolean checkClosed(){
     Boolean closed = true;
     for(Iterator it = players.keySet().iterator(); it.hasNext();){
-        if(!players.get(it).getCompany().getCurrentPeriod(currentPeriod).getClosed()){
+        if(!players.get(it.next()).getCompany().getCurrentPeriod(currentPeriod).getClosed()){
             closed = false;
         }
     }
     return closed;
 }
 
-public Boolean submitValues(String playerCookie, float producedHectolitres, float pricePerHectolitre, 
+public Boolean submitValues(String cookie, float producedHectolitres, float pricePerHectolitre, 
                         float optionMarketing1, float optionMarketing2, float optionMarketing3, 
                         float optionDevelopment1, float optionDevelopment2, float optionDevelopment3){
-    
-	Period period = players.get(playerCookie).getCompany().getCurrentPeriod(currentPeriod);
+                      
+	Period period = players.get(cookie).getCompany().getCurrentPeriod(currentPeriod);
         
 	period.setPricePerHectolitre(pricePerHectolitre);
 	period.setProducedHectolitres(producedHectolitres);
@@ -151,11 +155,17 @@ public void nextPeriod(){
 //		//add a new period to every company and pass on the old method, so the secondary constructor of period can get the old values
 //		user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
 //	}
-        Iterator it = players.entrySet().iterator();
-        while(it.hasNext()){
-            User user = (User)it.next();
-            user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
+//        Iterator it = players.entrySet().iterator();
+//        while(it.hasNext()){
+//            User user = (User)it.next();
+//            user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
+//        }
+        
+        Collection<User> al = players.values();
+        for(User user : al){
+            user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod));
         }
+
         
         ArrayList<User> users = new ArrayList(players.values());
         market.makeSimulation(users, currentPeriod);
