@@ -11,10 +11,12 @@
     </init-param>
   </servlet>
 
-  <servlet-mapping>
+  <!-- <servlet-mapping>
     <servlet-name>ssi</servlet-name>
     <url-pattern>*.html</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
+
+
 
   <!-- <servlet-mapping>
     <servlet-name>ssi</servlet-name>

@@ -2,10 +2,6 @@
     text-align: right;
 }
 
-.input-group > span {
-    color: #777;
-}
-
 .input-group {
     min-width: 100px;
 }
@@ -22,6 +18,9 @@
 .table_head {
     padding-bottom: 1em;
 }
+
+
+
 
 .tile {
     padding: 20px;

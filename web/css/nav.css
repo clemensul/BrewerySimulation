@@ -1,0 +1,11 @@
+
+li > a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 1.2rem;
+}
+
+.nav-item {
+    margin: 20px !important;
+    padding: 10px !important;
+}

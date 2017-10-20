@@ -51,10 +51,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <span class="input-group-addon">€</span>
-                                        <input type="text" name="investment_plakate" class="form-control form-money" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                        <span class="input-group-addon background-dark2">€</span>
+                                        <input type="text" name="investment_plakate" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="mar_pla">
-                                        <span class="input-group-addon">,00</span>
+                                        <span class="input-group-addon background-dark2">,00</span>
                                     </div>
                                 </div>
                             </div>
@@ -308,7 +308,7 @@
                             <thead>
 
                             </thead>
-                            <tbody data-bind="foreach: expenses">
+                            <tbody data-bind="foreach: currentExpenses">
                                 <tr>
                                     <td>
                                         <span data-bind="text: name"></span>
@@ -333,10 +333,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-
+    <script src="js/model/colors.js"></script>
     <script src="node_modules/chart.js/dist/Chart.js"></script>
 
-    <script src="js/charts.js"></script>
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/smooth-scroll.js"></script>
 

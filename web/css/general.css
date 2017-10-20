@@ -1,23 +1,65 @@
 :root {
-    --primary-dark:#13171E;
-    --primary-light:#EAEAEA;
-    --accent-dark:#E4BC53;
-    --accent-light:#CECCB2;
+    --dark1:#17202B;
+    --dark2:#23303E;
+    --dark3:#49515A;
 
-    --background2:#09203f;
-    --background1: #324a5c;
+    --light1:#ffffff;
+    --light2:#EAEAEA;
+    --light3:#d3d3d3;
+    --light4:#bdbdbd;
+
+}
+
+.background-dark1 {
+    background: var(--dark1);
+    color: var(--light1);
+}
+.background-dark2 {
+    background: var(--dark2);
+    color: var(--light2);
+}
+.background-dark3 {
+    background: var(--dark3);
+    color: var(--light3);
+}
+.background-light1 {
+    background: var(--light1);
+    color: var(--dark1);
+}
+.background-light2 {
+    background: var(--light2);
+    color: var(--dark2);
+}
+.background-light3 {
+    background: var(--light3);
+    color: var(--dark3);
 }
 
 body {
-    background: var(--background); /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(var(--background1), var(--background2)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(var(--background1), var(--background2)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(var(--background1), var(--background2)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(var(--background1), var(--background2)); /* Standard syntax */
-    background-attachment: fixed;
+    background: var(--dark1);
+    color: var(--light1);
     height: 100%;
 }
 
+.widget {
+    background: var(--dark2);
+    border-radius: 0.2rem;
+}
+
+.widget-content {
+    padding: 1.5rem; 
+}
+
+.widget-row {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0; 
+}
+
+.widget-content > h3 {
+    margin-bottom: 1rem;
+}
 
 form + .card-title {
     margin-top: 3%;

@@ -1,8 +1,43 @@
-var red = "#da0c0c";
-var blue = "#265dc5";
-var green = "#059711";
+// get Corporate Colors
+var colors = new Colors();
 
-function getLineChart(color) {
+// Chart Color and Font Size
+Chart.defaults.global.defaultFontColor = colors.white[3];
+Chart.defaults.global.defaultFontSize = Chart.defaults.global.defaultFontSize * 1.5;
+
+
+var report = new Report(
+    [
+        new Period (
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+        ),
+        new Period (
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+        ),
+        new Period (
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+        ),
+        new Period (
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+            randomscalingfactor(),
+        )
+    ]
+);
+ko.applyBindings(report);
+
+
+function getLineChart(color, data) {
     return config_2 = {
         type: 'line',
         data: {
@@ -11,14 +46,7 @@ function getLineChart(color) {
                 label: false,
                 borderColor: color,
                 backgroundColor: color,
-                data: [
-                    randomscalingfactor(),
-                    randomscalingfactor(),
-                    randomscalingfactor(),
-                    randomscalingfactor(),
-                    randomscalingfactor(),
-                    randomscalingfactor(),
-                ],
+                data: data,
                 pointRadius: 0.1,
                 pointHitRadius: 10
             }]
@@ -48,46 +76,40 @@ function getLineChart(color) {
 }
 
 function getBarChartData() {
+
     return barChartData = {
         labels: ["January", "February", "March", "April", "May", "June"],
         datasets: [
-            getDataset("Personal", red),
-            getDataset("Rohstoffe", blue),
-            getDataset("Sonstige", green)
+            getDataset("Personal", colors.red[0], report.ausgaben()[0]),
+            getDataset("Rohstoffe", colors.blue[0], report.ausgaben()[1]),
+            getDataset("Sonstige", colors.green[0], report.ausgaben()[2])
         ]
 
     };
 
-    function getDataset(name, color) { 
+    function getDataset(name, color, data) {
         return {
             label: name,
             backgroundColor: color,
             borderColor: color,
             borderWidth: 1,
-            data: [
-                randomscalingfactor(),
-                randomscalingfactor(),
-                randomscalingfactor(),
-                randomscalingfactor(),
-                randomscalingfactor(),
-                randomscalingfactor()
-            ]
+            data: data
         }
     }
 }
 
 window.onload = function () {
     var ctx = document.getElementById("canvas-bericht-1").getContext("2d");
-    window.myLine_1 = new Chart(ctx, getLineChart(red));
+    window.myLine_1 = new Chart(ctx, getLineChart(colors.red[0], report.umsatz()));
 
     var ctx = document.getElementById("canvas-bericht-2").getContext("2d");
-    window.myLine_2 = new Chart(ctx, getLineChart(blue));
+    window.myLine_2 = new Chart(ctx, getLineChart(colors.blue[0], report.gewinn()));
 
     var ctx = document.getElementById("canvas-bericht-3").getContext("2d");
-    window.myLine_3 = new Chart(ctx, getLineChart(blue));
+    window.myLine_3 = new Chart(ctx, getLineChart(colors.blue[0], report.absatz()));
 
     var ctx = document.getElementById("canvas-bericht-4").getContext("2d");
-    window.myLine_4 = new Chart(ctx, getLineChart(green));
+    window.myLine_4 = new Chart(ctx, getLineChart(colors.green[0], report.absatz()));
 
     var ctx = document.getElementById("canvas-bericht-5").getContext("2d");
     window.myBar_1 = new Chart(ctx, {
@@ -99,7 +121,7 @@ window.onload = function () {
                 position: 'top',
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Ausgaben nach Kategorie'
             }
         }
@@ -115,7 +137,7 @@ window.onload = function () {
                 position: 'top',
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Einnahmen nach Kategorie'
             }
         }
