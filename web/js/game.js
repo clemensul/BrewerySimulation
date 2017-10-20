@@ -1,23 +1,30 @@
 var array_input = [
     {
         id: "mar_pla",
-        name: "Marketing1"
+        name: "cost_m1"
     }, {
         id: "mar_tvw",
-        name: "Marketing2"
+        name: "cost_m2"
     }, {
         id: "mar_rad",
-        name: "Marketing3"
+        name: "cost_m3"
     }, {
         id: "dev_bie",
-        name: "Development1"
+        name: "cost_d1"
     }, {
         id: "dev_hop",
-        name: "Development2"
+        name: "cost_d2"
     }, {
         id: "dev_get",
-        name: "Development3"
-    }];
+        name: "cost_d3"
+    }, {
+        id: "pro_amount",
+        name: "produced_litres"
+    }, {
+        id: "pro_price",
+        name: "price_litre"
+    }
+];
 
 onload = function () {
     array_input.forEach(function (element) {
@@ -59,16 +66,23 @@ var validate_value = function (value) {
 
 var get_game_data = function () {
 
-    var result = {
-        cost_m1: validate_value(document.getElementById(array_input[0].id).value),
-        cost_m2: validate_value(document.getElementById(array_input[1].id).value),
-        cost_m3: validate_value(document.getElementById(array_input[2].id).value),
-        cost_d1: validate_value(document.getElementById(array_input[3].id).value),
-        cost_d2: validate_value(document.getElementById(array_input[4].id).value),
-        cost_d3: validate_value(document.getElementById(array_input[5].id).value),
-    }
+    var result = "{";
 
-    return result;
+    array_input.forEach (function (element) {
+        result +=   "\""
+                    + element.name 
+                    + "\""
+                    + ": " 
+                    + validate_value(document.getElementById(element.id).value)
+                    + ",";
+    });
+    result = result.substring(0, result.length - 1);
+    result += "}";
+
+    console.log(result);
+    console.log(JSON.parse(result));
+
+    return JSON.parse(result);
 }
 
 var send_game_data = function() {
@@ -81,6 +95,7 @@ var send_game_data = function() {
     console.log(content);
     socket.send(JSON.stringify(content));
 }
+
 
 /******/
 //CHARTS
