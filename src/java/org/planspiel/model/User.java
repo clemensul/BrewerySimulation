@@ -15,7 +15,7 @@ public class User {
 
     public User(String cname, float budget, float fixCost, String cookie, Boolean admin) {
         this.cookie = cookie;
-        this.company = new Company(cname, budget, fixCost);
+        this.company = new Company(cname/*, budget, fixCost*/);
         this.admin = admin;
     }
 

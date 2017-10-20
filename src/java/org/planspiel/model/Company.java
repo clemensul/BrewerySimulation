@@ -12,11 +12,12 @@ public class Company {
 	private String name;
 	private ArrayList <Period> periods = new ArrayList<Period>();
 		
-	public Company(String name, float budget, float fixCost){
+	public Company(String name//, float budget, float fixCost
+        ){
 		this.name = name;
 		
 		//first Period with fixed Budget
-		addPeriod(budget, fixCost);
+		//addPeriod(budget, fixCost);
 	}
 	
 	//Returns the name of the company

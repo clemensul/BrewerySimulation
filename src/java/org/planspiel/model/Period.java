@@ -31,7 +31,6 @@ public class Period {
     private float SoldHectolitresM1;
     private float SoldHectolitresM2;
     private float SoldHectolitresM3;
-    private float productionPricePerHectolitre;	//start
 
     private double marketShare;	//calc
 
@@ -52,9 +51,9 @@ public class Period {
         this.setOptionDevelopment3(lastPeriod.getOptionDevelopment3());
 
         this.setOtherFixedCosts(lastPeriod.getOtherFixedCosts());
-
-        this.setPricePerHectolitre(lastPeriod.getPricePerHectolitre());
-        this.setProductionPricePerHectolitre(lastPeriod.getProductionPricePerHectolitre());
+        
+        this.setCostPerHectolitre(lastPeriod.getCostPerHectolitre());
+        
     }
 
     public float getBudget() {
@@ -93,13 +92,6 @@ public class Period {
         this.pricePerHectolitre = pricePerHectolitre;
     }
 
-    public float getProductionPricePerHectolitre() {
-        return productionPricePerHectolitre;
-    }
-
-    public void setProductionPricePerHectolitre(float productionPricePerHectolitre) {
-        this.productionPricePerHectolitre = pricePerHectolitre;
-    }
     //enters the productionCost based on the produced hectolitres
     //TODO remove Ressources-class and this method?
 //		public void setProductionPricePerHectolitre(float productionPricePerHectolitre) {

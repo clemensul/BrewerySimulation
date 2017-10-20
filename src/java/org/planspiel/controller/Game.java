@@ -123,8 +123,8 @@ public Boolean submitValues(String cookie, float producedHectolitres, float pric
 	period.setOptionMarketing2(optionMarketing2);
 	period.setOptionMarketing3(optionMarketing3);
         period.setOptionDevelopment1(optionDevelopment1);
-        period.setOptionDevelopment1(optionDevelopment2);
-        period.setOptionDevelopment1(optionDevelopment3);
+        period.setOptionDevelopment2(optionDevelopment2);
+        period.setOptionDevelopment3(optionDevelopment3);
 	
 	
 	period.setBudgetLeft(period.getBudget()

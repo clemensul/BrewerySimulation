@@ -42,7 +42,7 @@ public class Market {
 	}
 	
 	private void calcCost(org.planspiel.model.Period period){
-		period.setTotalCosts(period.getProductionPricePerHectolitre() * period.getProducedHectolitres() + period.getFixedCosts());
+		period.setTotalCosts(period.getCostPerHectolitre()* period.getProducedHectolitres() + period.getFixedCosts());
 	}
 	
 	private void calcBudget(org.planspiel.model.Period period){

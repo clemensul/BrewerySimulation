@@ -89,10 +89,25 @@ public class SessionHandler {
         //sendToAllConnectedSessions(lobbyMsg);
         sendToGame(game_hash, lobbyMsg);
     }
-
-    private void startGame(JsonObject jsonMessage, Session session) {
+    public void startGame(JsonObject jsonMessage){
         String error = "";
-        String[] hashes2 = "Hallo-du-da".split("-");
+        String hash = jsonMessage.getString("cookie");
+        String[] hashes = hash.split("x");
+        
+        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
+        for(User u : al){
+            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
+            JsonProvider provider = JsonProvider.provider();
+                JsonObject startMessage = provider.createObjectBuilder()
+                .add("action", "start_game")
+                .add("error", error)
+                .build();
+                
+                sendToCookie(u.getCookie(), startMessage);
+        }
+    }
+    private void initiateGame(JsonObject jsonMessage, Session session) {
+        String error = "";
         String hash = jsonMessage.getString("cookie");
         String[] hashes = hash.split("x");
         
@@ -113,7 +128,7 @@ public class SessionHandler {
             Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
             JsonProvider provider = JsonProvider.provider();
                 JsonObject startMessage = provider.createObjectBuilder()
-                .add("action", "start_game")
+                .add("action", "initiate_game")
                 .add("budget", p.getBudget())
                 .add("fixed_cost", p.getFixedCosts())
                 .add("variable_cost", p.getCostPerHectolitre())
@@ -177,14 +192,14 @@ public class SessionHandler {
     
     private void report(JsonObject jsonMessage, Session session){
         String error ="";
-        String[] hashes = jsonMessage.getString("cookie").split(".");
+        String[] hashes = jsonMessage.getString("cookie").split("x");
         
         ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
         for(User u : al){
             Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
             JsonProvider provider = JsonProvider.provider();
                 JsonObject reportMessage = provider.createObjectBuilder()
-                .add("action", "start_game")
+                .add("action", "report")
                 .add("budget", p.getBudget())
                 .add("produced_litres", p.getProducedHectolitres())
                 .add("sold_litres", p.getSoldHectolitres())
@@ -254,7 +269,7 @@ public class SessionHandler {
         }
         
         if("game.html".equals(jsonMessage.getString("site"))){
-            startGame(jsonMessage, session);
+            initiateGame(jsonMessage, session);
         }
         else if("report.html".equals(jsonMessage.getString("site"))){
             report(jsonMessage, session);
