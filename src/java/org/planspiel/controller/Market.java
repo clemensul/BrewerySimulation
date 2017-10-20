@@ -46,7 +46,7 @@ public class Market {
 	}
 	
 	private void calcBudget(org.planspiel.model.Period period){
-		period.setBudget(period.getBudget() + period.getProfit());
+		period.setBudget(period.getBudgetLeft()+ period.getProfit());
 	}
 	
 	private void calcRevenue(org.planspiel.model.Period period){
@@ -76,6 +76,7 @@ public class Market {
 		
 		//setMarketShare with the players share of the market and the marketing
 		for(org.planspiel.model.User u: players){
+                    //TODO renew Method
 			u.getCompany().getCurrentPeriod(currentPeriod).setMarketShare(
 					u.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres() / (sum * (1- marketingShareMarket))
 					);
@@ -95,6 +96,7 @@ public class Market {
 									+ disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1) 
 									+ disMarketing(user, currentPeriod, sumMarketingOption2, marketingOptionShare2, 2) 
 									+ disMarketing(user, currentPeriod, sumMarketingOption3, marketingOptionShare3, 3));
+                        
                         user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM1(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1));
                         user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM2(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare2, 2));
                         user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM3(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare3, 3));

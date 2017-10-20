@@ -21,13 +21,13 @@ public class Period {
     private float optionDevelopment1;
     private float optionDevelopment2;
     private float optionDevelopment3;
-    //TODO 3rd option of maipulating cost, revenue, etc
     private float otherFixedCosts;	//calc
 
     //TODO how many litres the player wants to sell -->leftovers + produced -> maybe show in view that ... litres are left
     private float producedHectolitres;	//input
     private float soldHectolitres;	//input
     private float pricePerHectolitre;	//input start + value from calc
+    private float costPerHectolitre;
     private float SoldHectolitresM1;
     private float SoldHectolitresM2;
     private float SoldHectolitresM3;
@@ -45,9 +45,7 @@ public class Period {
     }
 
     public Period(Period lastPeriod) {
-        budget = lastPeriod.getBudget();
         //TODO get all the attributes needed from the old period
-        this.setBudget(lastPeriod.getBudgetLeft() + lastPeriod.getProfit());
 
         this.setOptionMarketing1(lastPeriod.getOptionMarketing1());
         this.setOptionMarketing2(lastPeriod.getOptionMarketing2());
@@ -77,7 +75,7 @@ public class Period {
     }
 
     public float getFixedCosts() {
-        return this.getMarketing() + this.getDevelopment() + otherFixedCosts;
+        return this.getMarketing() + this.getDevelopment() + this.getOtherFixedCosts();
     }
 
     public float getProducedHectolitres() {
@@ -258,6 +256,14 @@ public class Period {
 
     public void setSoldHectolitresM3(float SoldHectolitresM3) {
         this.SoldHectolitresM3 = SoldHectolitresM3;
+    }
+
+    public float getCostPerHectolitre() {
+        return costPerHectolitre;
+    }
+
+    public void setCostPerHectolitre(float costPerHectolitre) {
+        this.costPerHectolitre = costPerHectolitre;
     }
     
 }

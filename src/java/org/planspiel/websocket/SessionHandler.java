@@ -90,7 +90,7 @@ public class SessionHandler {
         sendToGame(game_hash, lobbyMsg);
     }
 
-    public void startGame(JsonObject jsonMessage, Session session) {
+    private void startGame(JsonObject jsonMessage, Session session) {
         String error = "";
         
         String[] hashes = jsonMessage.getString("cookie").split(".");
@@ -111,9 +111,9 @@ public class SessionHandler {
             JsonProvider provider = JsonProvider.provider();
                 JsonObject startMessage = provider.createObjectBuilder()
                 .add("action", "start_game")
-                .add("cname", u.getCompany().getName())
                 .add("budget", p.getBudget())
-                .add("fixed_costs", p.getFixedCosts())
+                .add("fixed_cost", p.getFixedCosts())
+                .add("variable_cost", p.getCostPerHectolitre())
                 .add("error", error)
                 .build();
                 
@@ -131,51 +131,76 @@ public class SessionHandler {
     private String hashItUp(String value) {
         return Integer.toString(value.hashCode());
     }
+    
+    
+    //prod. Menge
+    //preis p. Hectolitre
+    //Marketing 1,2,3
+    //Dev 1,2,3
     public void submit(JsonObject jsonMessage, Session session){
-        //next period erstellen!
-        
-        //development1,2,3 marketing1,2,3 cookie
-        
         //search correct user in the current game
         String [] hashes = jsonMessage.getString("cookie").split(".");
         Game g = gamesActive.get(hashes[1]);
         ArrayList<User> users = g.getUsers();
         
         for(Iterator it = users.iterator(); it.hasNext();){
-            User us = (User)it.next();
-            if(us.getCookie().equals(jsonMessage.getString("cookie"))){
+            User u = (User)it.next();
+            if(u.getCookie().equals(jsonMessage.getString("cookie"))){
                 String error = "";
-                //werte auf json auslesen und in
-                //user us nextPeriod eintragen / an Game weitergeben
                 
-                //TODO if the last submit was called the game initiates a new period
-                //and sends a "start_newPeriod" to all Sessions of a game
-                //TODO Game always checks (maybe in getCurrentPeriod?) if every User/CurrentPeriod is "closed" 
-                us.getCompany().getCurrentPeriod(g.getCurrentPeriod()).setClosed(true);
+                Float producedLitres = Float.parseFloat(jsonMessage.getString("produced_litres"));
+                Float priceLitre = Float.parseFloat(jsonMessage.getString("price_litre"));
+                Float marketing1 = Float.parseFloat(jsonMessage.getString("cost_m1"));
+                Float marketing2 = Float.parseFloat(jsonMessage.getString("cost_m2"));
+                Float marketing3 = Float.parseFloat(jsonMessage.getString("cost_m3"));
+                Float development1 = Float.parseFloat(jsonMessage.getString("cost_d1"));
+                Float development2 = Float.parseFloat(jsonMessage.getString("cost_d2"));
+                Float development3 = Float.parseFloat(jsonMessage.getString("cost_d3"));
                 
-                JsonProvider provider = JsonProvider.provider();
-                JsonObject startMessage = provider.createObjectBuilder()
-                .add("action", "submit")
-                .add("error", error)
-                .build();
+                Boolean finish = g.submitValues(hashes[0], producedLitres, priceLitre, 
+                                                marketing1, marketing2, marketing3, 
+                                                development1, development2, development3);
                 
-                sendToCookie(us.getCookie(), startMessage);
-                
-                if(g.checkClosed()){
+                if(finish){
                     g.nextPeriod();
-                    //send all need information
-                        //user information
-                        //market/enemy information
-                    JsonObject nextPeriod = provider.createObjectBuilder()
-                    .add("action", "nextPeriod")
-                    .add("error", error)
-                    .build();
                 }
-                
-                
+               
                 break;
             }
            
+        }
+    }
+    
+    private void report(JsonObject jsonMessage, Session session){
+        String error ="";
+        String[] hashes = jsonMessage.getString("cookie").split(".");
+        
+        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
+        for(User u : al){
+            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
+            JsonProvider provider = JsonProvider.provider();
+                JsonObject reportMessage = provider.createObjectBuilder()
+                .add("action", "start_game")
+                .add("budget", p.getBudget())
+                .add("produced_litres", p.getProducedHectolitres())
+                .add("sold_litres", p.getSoldHectolitres())
+                .add("price_litre", p.getPricePerHectolitre())
+                .add("left_litre", p.getHectolitresLeft())    
+                .add("fixed_cost", p.getFixedCosts())
+                .add("variable_cost", p.getCostPerHectolitre())
+                .add("cost_m1", p.getOptionMarketing1())
+                .add("impact_m1", p.getSoldHectolitresM1())
+                .add("cost_m2", p.getOptionMarketing2())
+                .add("impact_m2", p.getSoldHectolitresM2())
+                .add("cost_m3", p.getOptionMarketing3())
+                .add("impact_m3", p.getSoldHectolitresM3())
+                .add("cost_d1", p.getOptionDevelopment1())
+                .add("cost_d2", p.getOptionDevelopment2())
+                .add("cost_d3", p.getOptionDevelopment3())
+                .add("error", error)
+                .build();
+                
+                sendToCookie(u.getCookie(), reportMessage);
         }
     }
     //Sendet an alle Sessions
@@ -207,11 +232,11 @@ public class SessionHandler {
         sessions.put(cookie, session);
     }
     
-    public void renewSession(Session session, String cookie){
+    public void renewSession(Session session, JsonObject jsonMessage){
         Iterator it = sessions.entrySet().iterator();
         while(it.hasNext()){
             Map.Entry mp = (Map.Entry)it.next();
-            if(mp.getKey().equals(cookie)){
+            if(mp.getKey().equals(jsonMessage.getString("cookie"))){
                 mp.setValue(session);
                 
                 JsonProvider provider = JsonProvider.provider();
@@ -223,8 +248,16 @@ public class SessionHandler {
                 sendToSession(session, status);
             }
         }
-        //System.out.println("renewed");
+        
+        if("game.html".equals(jsonMessage.getString("site"))){
+            startGame(jsonMessage, session);
+        }
+        else if("report.html".equals(jsonMessage.getString("site"))){
+            report(jsonMessage, session);
+        }
     }
+        //System.out.println("renewed");
+    
 
     public void removeSession(Session session) {
         sessions.remove(session);

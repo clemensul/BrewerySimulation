@@ -14,6 +14,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import org.planspiel.model.Period;
 import org.planspiel.model.User;
 
 public class Game {
@@ -105,24 +106,30 @@ public Boolean checkClosed(){
     }
     return closed;
 }
-//user submits all spendings by pressing a button
-public void submitValues(float producedHectolitres, float pricePerHectolitre, float optionMarketing1, float optionMarketing2, float optionMarketing3, float development){
-	org.planspiel.model.Period period = players.get(currentPlayer).getCompany().getCurrentPeriod(currentPeriod);
-	
+
+public Boolean submitValues(String playerCookie, float producedHectolitres, float pricePerHectolitre, 
+                        float optionMarketing1, float optionMarketing2, float optionMarketing3, 
+                        float optionDevelopment1, float optionDevelopment2, float optionDevelopment3){
+    
+	Period period = players.get(playerCookie).getCompany().getCurrentPeriod(currentPeriod);
+        
 	period.setPricePerHectolitre(pricePerHectolitre);
 	period.setProducedHectolitres(producedHectolitres);
 	period.setOptionMarketing1(optionMarketing1);
 	period.setOptionMarketing2(optionMarketing2);
 	period.setOptionMarketing3(optionMarketing3);
-	period.setDevelopment(development);
+        period.setOptionDevelopment1(optionDevelopment1);
+        period.setOptionDevelopment1(optionDevelopment2);
+        period.setOptionDevelopment1(optionDevelopment3);
 	
-	//TODO produced litres and production price needs to be calculated 
-	//TODO seperate BudgetCalc-Method
-	period.setBudget(period.getBudget() - period.getOptionMarketing1() - period.getOptionMarketing2()- period.getOptionMarketing3() - period.getDevelopment() 
-			- period.getProducedHectolitres() * period.getProductionPricePerHectolitre());
 	
-	//nextPlayer();
-
+	period.setBudgetLeft(period.getBudget()
+                        - optionMarketing1 - optionMarketing2 - optionMarketing3
+                        - optionDevelopment1 - optionDevelopment2 - optionDevelopment3
+			- producedHectolitres * period.getCostPerHectolitre());
+        
+        period.setClosed(true);
+	return checkClosed();
 }
 
 //public void nextPlayer(){

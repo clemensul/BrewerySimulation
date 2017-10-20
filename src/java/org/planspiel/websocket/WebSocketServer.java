@@ -43,12 +43,12 @@ public class WebSocketServer {
                 System.out.println("logged in");
 //                sessionHandler.sendGameId(0, session);
             }
-             if ("start_game".equals(jsonMessage.getString("action"))) {
-                sessionHandler.startGame(jsonMessage, session);
-                //System.out.println("started game");
-            }
+//             if ("start_game".equals(jsonMessage.getString("action"))) {
+//                sessionHandler.startGame(jsonMessage, session);
+//                //System.out.println("started game");
+//            }
             if("newSession".equals(jsonMessage.getString("action"))){
-                sessionHandler.renewSession(session,jsonMessage.getString("cookie"));
+                sessionHandler.renewSession(session,jsonMessage);
                 //System.out.println("renewed game");
             }
             if("submit".equals(jsonMessage.getString("action"))){
