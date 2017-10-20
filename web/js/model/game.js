@@ -1,61 +1,92 @@
 class Game {
-    constructor (budget, expenses) {
-        this.currentPeriod = ko.observable(0);
-        this.periods = ko.observableArray();
-        this.periods.push (new Period("Periode " + (this.currentPeriod()), budget, 
-        [
-            {"name":"Marketing1","expense":100},
-            {"name":"Marketing2","expense":200},
-            {"name":"Marketing3","expense":300},
-            {"name":"Development1","expense":100},
-            {"name":"Development2","expense":200},
-            {"name":"Development3","expense":300}
-        ]));
-        
+    constructor() {
+        this.periodCount = ko.observable(0);
 
-        this.currentExpenses = ko.computed(function () { 
-            return this.periods()[this.currentPeriod()].expenses();
-        }, this);
+        this.budget = ko.observableArray();
 
-        this.currentBudget = ko.computed(function () {
-            return this.periods()[this.currentPeriod()].budget;
-        }, this);
+        this.marketing1 = ko.observableArray();
+        this.marketing2 = ko.observableArray();
+        this.marketing3 = ko.observableArray();
+        this.development1 = ko.observableArray();
+        this.development2 = ko.observableArray();
+        this.development3 = ko.observableArray();
+
+        this.fixcost = ko.observableArray();
+        this.variablecost = ko.observableArray();
+
+    //     this.periods = ko.computed(function() {
+    //         var result = [];
+    //         for (var i = 0; i < this.budget.length; i++)
+    //         {
+    //             result.push (
+    //                 new Period (
+    //                     budget[i],
+    //                     marketing1[i],
+    //                     marketing2[i],
+    //                     marketing3[i],
+    //                     development1[i],
+    //                     development2[i],
+    //                     development3[i],
+    //                     fixcost[i],
+    //                     variablecost[i]
+    //                 )
+    //             )
+    //         }
+    //         return result;
+    //     })
+
+    //     this.currentExpenses = ko.computed(function() {
+    //         return this.periods()[this.periods().length];
+    //     })
     }
 
-    changeExpensesArray (newExpenses) {
-        this.periods()[this.currentPeriod()].expenses.removeAll();
-        newExpenses.forEach(function(element) {
-            this.periods()[this.currentPeriod()].expenses.push(element)
-        }, this);
-    }
-
-    addPeriod (budget, expenses) {
-        this.periods().push (new Period("Periode " + (this.currentPeriod()), 100, expenses));
-        this.currentPeriod(this.currentPeriod()+1);
-    }
-
-    getExpenseData () {
-        var result = [];
-
-        for (var i = 0; i < this.periods().length; i++) {
-            var array = this.periods()[i].expenses();
-            for (var z = 0; z < array.length; z++)
-            {
-                if (i == 0)
-                    result[z] = [];
-
-                result[z][i] = array[z].expense;
-            }
-        };
-
-        return result;
+    addPeriod(
+        budget,
+        marketing1,
+        marketing2,
+        marketing3,
+        development1,
+        development2,
+        development3,
+        fixcost,
+        variablecost
+    ) {
+        this.periodCount(this.periodCount() + 1);
+        this.budget.push(budget);
+        this.marketing1.push(marketing1);
+        this.marketing2.push(marketing2);
+        this.marketing3.push(marketing3);
+        this.development1.push(development1);
+        this.development2.push(development2);
+        this.development3.push(development3);
+        this.fixcost.push(fixcost);
+        this.variablecost.push(variablecost);
     }
 }
 
 class Period {
-    constructor (periodName, budget, expenses) {
-        this.name = periodName;
-        this.budget = ko.observable(budget);
-        this.expenses = ko.observableArray(expenses);
+    constructor(
+        budget,
+        marketing1,
+        marketing2,
+        marketing3,
+        development1,
+        development2,
+        development3,
+        fixcost,
+        variablecost
+    ) {
+        this.budget = ko.observable();
+
+        this.marketing1 = ko.observable();
+        this.marketing2 = ko.observable();
+        this.marketing3 = ko.observable();
+        this.development1 = ko.observable();
+        this.development2 = ko.observable();
+        this.development3 = ko.observable();
+
+        this.fixcost = ko.observableArray();
+        this.variablecost = ko.observableArray();
+
     }
 }
