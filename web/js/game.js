@@ -1,28 +1,36 @@
 var array_input = [
     {
         id: "mar_pla",
-        name: "cost_m1"
+        name: "cost_m1",
+        value: undefined
     }, {
         id: "mar_tvw",
-        name: "cost_m2"
+        name: "cost_m2",
+        value: undefined
     }, {
         id: "mar_rad",
-        name: "cost_m3"
+        name: "cost_m3",
+        value: undefined
     }, {
         id: "dev_bie",
-        name: "cost_d1"
+        name: "cost_d1",
+        value: undefined
     }, {
         id: "dev_hop",
-        name: "cost_d2"
+        name: "cost_d2",
+        value: undefined
     }, {
         id: "dev_get",
-        name: "cost_d3"
+        name: "cost_d3",
+        value: undefined
     }, {
         id: "pro_amount",
-        name: "produced_litres"
+        name: "produced_litres",
+        value: undefined
     }, {
         id: "pro_price",
-        name: "price_litre"
+        name: "price_litre",
+        value: undefined
     }
 ];
 
@@ -72,9 +80,9 @@ var get_game_data = function () {
         result +=   "\""
                     + element.name 
                     + "\""
-                    + ": " 
+                    + ": \"" 
                     + validate_value(document.getElementById(element.id).value)
-                    + ",";
+                    + "\",";
     });
     result = result.substring(0, result.length - 1);
     result += "}";
