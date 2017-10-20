@@ -198,7 +198,7 @@
                                 <div class="col-md-3">
                                     <div class="input-group">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                            id="pro_amount">
+                                            id="pro_amount" data-bind="value: productionAmount">
                                         <span class="input-group-addon background-dark1">Hektoliter</span>
                                     </div>
                                 </div>
@@ -216,11 +216,11 @@
                                 </div>
                             </div>
                         </form>
-
+<!--
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
-                        <!-- <div class="row">
+                            <div class="row">
                                 <div class="col-sm-6">
                                     <canvas id="FuE-geschmack"></canvas>
                                 </div>

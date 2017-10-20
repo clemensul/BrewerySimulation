@@ -5,24 +5,27 @@
 //document.getElementById("produktion").style.display = "none";
 //document.getElementById("bericht").style.display = "none";
 
-function start () {
-    console.log("START");    
+function start() {
+  console.log("START");
 }
 
-function ChangeToLobby (game_id, player, admin) {
-    console.log("Content: LOBBY");
-    
-    localStorage.setItem("game_id", game_id);
-    localStorage.setItem("player", JSON.stringify(player));
-    localStorage.setItem("admin", admin);
+function ChangeToLobby(game_id, player, admin) {
+  console.log("Content: LOBBY");
 
-    window.location.href = "lobby.html";
+  localStorage.setItem("game_id", game_id);
+  localStorage.setItem("player", JSON.stringify(player));
+  localStorage.setItem("admin", admin);
+
+  window.location.href = "lobby.html";
 }
 
-function ChangeToReport(){
+function ChangeToReport() {
   window.location.href = "report.html";
 }
 
-function ChangeToGame () { 
-    window.location.href = "game.html";
+function ChangeToGame() {
+
+  start_game();
+  
+  window.location.href = "game.html";
 }
