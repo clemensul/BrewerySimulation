@@ -26,8 +26,8 @@ public class Company {
 	}
 
 	//First Period of the company with predefined Budget
-	public void addPeriod(float budget, float fixCost){
-		periods.add(new Period(budget, fixCost));
+	public void addPeriod(float budget, float fixCost, float costPerHectolitre){
+		periods.add(new Period(budget, fixCost, costPerHectolitre));
 	}
 	//Following Period on the stats of the previous Period
 	public void addPeriod(Period previousPeriod){

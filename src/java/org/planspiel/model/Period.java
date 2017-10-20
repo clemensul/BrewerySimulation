@@ -38,9 +38,10 @@ public class Period {
 
     private Boolean closed = false;
     
-    public Period(float budget, float fixCost) {
+    public Period(float budget, float fixCost, float costPerHectolitre) {
         this.budget = budget;
         this.otherFixedCosts = fixCost;
+        this.costPerHectolitre = costPerHectolitre;
     }
 
     public Period(Period lastPeriod) {
