@@ -89,7 +89,7 @@ public class SessionHandler {
         //sendToAllConnectedSessions(lobbyMsg);
         sendToGame(game_hash, lobbyMsg);
     }
-    public void startGame(JsonObject jsonMessage){
+    public void startGame(JsonObject jsonMessage, Session session){
         String error = "";
         String hash = jsonMessage.getString("cookie");
         String[] hashes = hash.split("x");
@@ -135,7 +135,8 @@ public class SessionHandler {
                 .add("error", error)
                 .build();
                 
-                sendToCookie(u.getCookie(), startMessage);
+                sendToSession(session, startMessage);
+               break;
         }
          
         //sendToGame(hashes[1], startMessage);

@@ -44,7 +44,7 @@ public class WebSocketServer {
 //                sessionHandler.sendGameId(0, session);
             }
              if ("start_game".equals(jsonMessage.getString("action"))) {
-                sessionHandler.startGame(jsonMessage);
+                sessionHandler.startGame(jsonMessage, session);
                 //System.out.println("started game");
             }
             if("newSession".equals(jsonMessage.getString("action"))){

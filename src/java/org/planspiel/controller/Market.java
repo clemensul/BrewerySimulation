@@ -6,6 +6,7 @@
 package org.planspiel.controller;
 
 import java.util.ArrayList;
+import org.planspiel.model.Period;
 //quote: "Wenn ihr mir nen Button gebt, läuft der Scheiß"
 //#1 noone understands the market
 
@@ -31,7 +32,7 @@ public class Market {
 		marketVolume = getMarketVolume(currentPeriod);
 		calcMarketShare(players, currentPeriod);
 		for(org.planspiel.model.User u: players){
-			org.planspiel.model.Period p = u.getCompany().getCurrentPeriod(currentPeriod);
+			Period p = u.getCompany().getCurrentPeriod(currentPeriod);
 			disDevelopment(p);
 			calcCost(p);
 			calcRevenue(p);
@@ -41,23 +42,23 @@ public class Market {
 		}
 	}
 	
-	private void calcCost(org.planspiel.model.Period period){
+	private void calcCost(Period period){
 		period.setTotalCosts(period.getCostPerHectolitre()* period.getProducedHectolitres() + period.getFixedCosts());
 	}
 	
-	private void calcBudget(org.planspiel.model.Period period){
+	private void calcBudget(Period period){
 		period.setBudget(period.getBudgetLeft()+ period.getProfit());
 	}
 	
-	private void calcRevenue(org.planspiel.model.Period period){
+	private void calcRevenue(Period period){
 		period.setRevenue(period.getPricePerHectolitre() * period.getSoldHectolitres());
 	}
 	
-	private void calcProfit(org.planspiel.model.Period period){
+	private void calcProfit(Period period){
 		period.setProfit(period.getRevenue() - period.getTotalCosts());
 	}
 	
-	private void calcLeftLitres(org.planspiel.model.Period period){
+	private void calcLeftLitres(Period period){
 		period.setHectolitresLeft(period.getProducedHectolitres() - period.getSoldHectolitres());
 	}
 	
@@ -127,7 +128,7 @@ public class Market {
         private float developmentEdge2 = 12000;
         private float developmentEdge3 = 14000;
 	
-	private void disDevelopment(org.planspiel.model.Period p){
+	private void disDevelopment(Period p){
 		
 		int dev3 =  (int) (p.getOptionDevelopment3() / developmentEdge3);
                 int dev2 =  (int) (p.getOptionDevelopment2() / developmentEdge2+(dev3/2));

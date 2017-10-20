@@ -168,9 +168,11 @@ public void nextPeriod(){
 
         
         ArrayList<User> users = new ArrayList(players.values());
-        market.makeSimulation(users, currentPeriod);
         
         currentPeriod++;
+        market.makeSimulation(users, currentPeriod);
+        
+        
 }
 
 }
