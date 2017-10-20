@@ -2,37 +2,53 @@ var array_input = [
     {
         id: "mar_pla",
         name: "cost_m1",
-        value: undefined
+        display: "Marketing1",
+        value: ko.observable(0)
     }, {
         id: "mar_tvw",
         name: "cost_m2",
-        value: undefined
+        display: "Marketing2",
+        value: ko.observable(0)
     }, {
         id: "mar_rad",
         name: "cost_m3",
-        value: undefined
+        display: "Marketing3",
+        value: ko.observable(0)
     }, {
         id: "dev_bie",
         name: "cost_d1",
-        value: undefined
+        display: "Development1",
+        value: ko.observable(0)
     }, {
         id: "dev_hop",
         name: "cost_d2",
-        value: undefined
+        display: "Development2",
+        value: ko.observable(0)
     }, {
         id: "dev_get",
         name: "cost_d3",
-        value: undefined
+        display: "Development3",
+        value: ko.observable(0)
     }, {
         id: "pro_amount",
         name: "produced_litres",
-        value: undefined
+        display: "Produziert",
+        value: ko.observable(0)
     }, {
         id: "pro_price",
         name: "price_litre",
-        value: undefined
+        display: "Preis",
+        value: ko.observable(0)
     }
 ];
+
+ko.bindingHandlers.currencyText = {
+    update: function (elem, valueAccessor) {
+        var amount = valueAccessor();
+        var formattedAmount = amount() + " €";
+        $(elem).text(formattedAmount);
+    }
+};
 
 array_input.forEach(function (element) {
     var elem = document.getElementById(element.id);
@@ -60,20 +76,25 @@ array_input.forEach(function (element) {
     elem.onkeyup = function (e) {
         for (var i = 0; i < array_input.length; i++) {
             if (array_input[i].id == e.target.id) {
-                array_input[i].value = validate_value(e.target.value);
+                array_input[i].value(validate_value(e.target.value));
                 break;
             }
         }
     }
 });
 
-class Cost {
+class KNOCKOUT {
     constructor() {
+        this.investment = ko.observableArray(array_input)
 
         this.buget = ko.observable(0);
         this.fixedcost = ko.observable(0);
         this.variablecost = ko.observable(0);
         this.productionAmount = ko.observable(0);
+
+        this.totalVariableCost = ko.computed(function () {
+            return this.productionAmount() * this.variablecost();
+        }, this);
 
         this.cost = ko.computed(function () {
             return this.productionAmount() * this.variablecost() + this.fixedcost();
@@ -81,14 +102,15 @@ class Cost {
     }
 }
 
-var cost = new Cost();
+var knockout = new KNOCKOUT();
+ko.applyBindings(knockout);
+
 
 function init(budget, fixedcost, variablecost) {
     console.log("init");
-    cost.buget(budget);
-    cost.fixedcost(fixedcost);
-    cost.variablecost(variablecost);
-    ko.applyBindings(cost);
+    knockout.buget(budget);
+    knockout.fixedcost(fixedcost);
+    knockout.variablecost(variablecost);
 }
 
 

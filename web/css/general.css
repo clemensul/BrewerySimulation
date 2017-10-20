@@ -52,7 +52,8 @@ body {
 }
 
 .widget-content {
-    padding: 1.5rem; 
+    padding: 1.5rem;
+    width: 100%; 
 }
 
 .widget-row {
@@ -62,7 +63,7 @@ body {
     margin-right: 0; 
 }
 
-.widget-content > h3 {
+.widget-content > h2 {
     margin-bottom: 1rem;
 }
 

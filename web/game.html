@@ -32,7 +32,7 @@
                 <!--  ****  -->
                 <div class="row widget-row" id="marketing">
                     <div class="widget widget-content">
-                        <h3 class="card-title">Investitionsmöglichkeiten Marketing</h3>
+                        <h2 class="card-title">Investitionsmöglichkeiten Marketing</h2>
                         <p class="card-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung!</p>
 
                         <div class="row table_head">
@@ -52,7 +52,7 @@
                                     <div class="input-group">
                                         <input type="text" name="investment_plakate" class="form-control form-money background-dark3 " placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="mar_pla">
-                                            <span class="input-group-addon background-dark1">€</span>
+                                        <span class="input-group-addon background-dark1">€</span>
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                                     <div class="input-group">
                                         <input type="text" name="investment_tv" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="mar_tvw">
-                                            <span class="input-group-addon background-dark1">€</span>
+                                        <span class="input-group-addon background-dark1">€</span>
                                     </div>
                                 </div>
                             </div>
@@ -82,16 +82,16 @@
                                     <div class="input-group">
                                         <input type="text" name="investment_radio" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="mar_rad">
-                                            <span class="input-group-addon background-dark1">€</span>
+                                        <span class="input-group-addon background-dark1">€</span>
                                     </div>
                                 </div>
                             </div>
                         </form>
-
+<!--
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-sm-6">
                                 <canvas id="marketing-plakat"></canvas>
                             </div>
@@ -113,7 +113,7 @@
                 <!-- ********* -->
                 <div class="row widget-row" id="forschung">
                     <div class="widget widget-content">
-                        <h3 class="card-title">Investitionsmöglichkeiten Forschung</h3>
+                        <h2 class="card-title">Investitionsmöglichkeiten Forschung</h2>
                         <p class="card-text">Verteile dein Budget innerhalb der deiner Forschungsprojekte!</p>
 
                         <div class="row table_head">
@@ -162,11 +162,11 @@
                                 </div>
                             </div>
                         </form>
-
+<!--
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-sm-6">
                                 <canvas id="FuE-geschmack"></canvas>
                             </div>
@@ -188,7 +188,7 @@
                 <!-- *********  -->
                 <div class="row widget-row" id="forschung">
                     <div class="widget widget-content">
-                        <h3 class="card-title">Produktion</h3>
+                        <h2 class="card-title">Produktion</h2>
                         <p class="card-text">Wie viel Bier willst du produzieren?</p>
 
                         <form name="form_pro">
@@ -198,7 +198,7 @@
                                 <div class="col-md-3">
                                     <div class="input-group">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                            id="pro_amount" data-bind="value: productionAmount">
+                                            id="pro_amount" data-bind="value: productionAmount, valueUpdate: 'afterkeydown'">
                                         <span class="input-group-addon background-dark1">Hektoliter</span>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="pro_price">
-                                            <span class="input-group-addon background-dark1">€</span>
+                                        <span class="input-group-addon background-dark1">€</span>
                                     </div>
                                 </div>
                             </div>
@@ -240,9 +240,9 @@
                 <!--    ****     -->
                 <!-- Development -->
                 <!--    ****     -->
-                <div class="row widget-row" id="produktion">
+        <!--    <div class="row widget-row" id="produktion">
                     <div class="widget widget-content">
-                        <h3 class="card-title">Investitionsmöglichkeiten</h3>
+                        <h2 class="card-title">Investitionsmöglichkeiten</h2>
                         <p class="card-text">Verteile dein Budget innerhalb der Produktionsabteilung!</p>
 
                         <form name="form_produktion">
@@ -293,7 +293,7 @@
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-4">
                                 <canvas id="canvas-1"></canvas>
                             </div>
@@ -308,7 +308,7 @@
                             <div class="col">
                                 <canvas id="canvas-4"></canvas>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="row widget-row">
                             <button class="btn" onclick="finish();">Periode beenden</button>
                             <div class="input-group">
@@ -318,7 +318,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
             </div>
@@ -328,19 +328,74 @@
             <div class="col-xl-3 ">
                 <div class="row widget-row" id="sidebar">
                     <div class="widget widget-content">
-                        <h3>Übersicht:</h3>
-                        <p>Hier steht mein Kapital Hier stehen meine Ausgaben(--> knockout.js) Hier ist eine Sidebar</p>
+                        <h2>Investments:</h2>
                         <table>
                             <thead>
 
                             </thead>
-                            <tbody data-bind="foreach: currentExpenses">
+                            <tbody data-bind="foreach: investment">
                                 <tr>
                                     <td>
-                                        <span data-bind="text: name"></span>
+                                        <span data-bind="text: display"></span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span data-bind="currencyText: value"></span>
+                                    </td> 
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h2>Absatzrechnung:</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>
+                                        <span>Beschreibung</span>
                                     </td>
                                     <td>
-                                        <span data-bind="text: expense"></span>
+                                        <span>Value</span>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span>Produzierte Menge:</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span data-bind="text: productionAmount"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <span>Fixkosten:</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span data-bind="currencyText: fixedcost"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Variable Kosten:</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span data-bind="currencyText: variablecost"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>gesamte variable Kosten:</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span data-bind="currencyText: totalVariableCost"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Gesamte Kosten</span>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span data-bind="currencyText: cost"></span>
                                     </td>
                                 </tr>
                             </tbody>
