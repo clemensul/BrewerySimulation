@@ -23,7 +23,7 @@ private HashMap<String, User> players = new HashMap<>();
 
 private int currentPeriod = 0;
 private int currentPlayer = 0;
-private float budget, fixCost;
+private float budget, fixCost, costPerHectolitre;
 private int rounds; //important for the end of the game
 private String id;
 
@@ -34,6 +34,7 @@ public Game(float budget, int rounds, String id, String playerName, String cooki
 	this.budget = budget;
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
+        this.costPerHectolitre = 500; //TODO manipulate value 
         market = new Market();
         //this.addPlayer(playerName, cookie, true);
 }
@@ -68,7 +69,7 @@ public void addPlayer(String name, String cookie, Boolean admin){
 public void initialize(){
         Collection<User> al = players.values();
         for(User u : al){
-            u.getCompany().addPeriod(budget, fixCost);
+            u.getCompany().addPeriod(budget, fixCost, costPerHectolitre);
         }
 //    Iterator it = players.entrySet().iterator();
 //        while(it.hasNext()){
@@ -171,7 +172,10 @@ public void nextPeriod(){
         
         currentPeriod++;
         market.makeSimulation(users, currentPeriod);
-        
+        //breakpoint biatch!
+        int i = 0;
+        i = 4*3;
+        int x = i+2;
         
 }
 
