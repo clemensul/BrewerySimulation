@@ -36,8 +36,7 @@ function onMessage(event) {
         }
         case "game_start":{
                 if(reply.error ===""){
-                    //game got started by the admin
-                    //game-screens are visible
+                    ChangeToGame();
                 }else {
                 alert(reply.error);
             }

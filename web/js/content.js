@@ -19,7 +19,11 @@ function ChangeToLobby (game_id, player, admin) {
     window.location.href = "lobby.html";
 }
 
-function game () { 
+function ChangeToReport(){
+  window.location.href = "report.html";
+}
+
+function ChangeToGame () { 
     window.location.href = "game.html";
    
 }
@@ -73,16 +77,3 @@ var validparameter= function(){
          return false;
      }else return true;
 };
-
-
-
-function finish(){
-   
-    var valid=validparameter();
-    // was machen wenn man direkt ohne irgendwas zu investiern auf weiter klickt ?
-    
-   
-    if(valid) window.location.href = "report.html";
-    else alert("Du hast zu viel ausgaben"); // --> reicht der alert hier?
-                                            // auch visuel was ändern ?
-}

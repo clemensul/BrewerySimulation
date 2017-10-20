@@ -102,6 +102,8 @@ var send_game_data = function() {
     };
     console.log(content);
     socket.send(JSON.stringify(content));
+
+    
 }
 
 
