@@ -41,14 +41,9 @@ body {
     height: 100%;
 }
 
-#sidebar {
-    position: fixed;
-}
-
-.widget {
+.widget-row {
     background: var(--dark2);
     border-radius: 0.2rem;
-    width: 100%;
 }
 
 .widget-content {
@@ -63,10 +58,12 @@ body {
     margin-right: 0; 
 }
 
-.widget-content > h2 {
-    margin-bottom: 1rem;
-}
-
 form + .card-title {
     margin-top: 3%;
+}
+
+.action-button {
+    width: 100%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }

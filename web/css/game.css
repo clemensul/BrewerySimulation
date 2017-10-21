@@ -1,0 +1,25 @@
+
+#sidebar {
+    position: fixed;
+    width: calc(25% - 15px);
+    right:15px;
+}
+
+.widget-content > h2 {
+    margin-bottom: 1rem;
+}
+
+td + td {
+    text-align: right;
+}
+
+.panel-heading > a {
+    text-decoration: none;
+    color: white;
+}
+
+.panel-heading > a > div {
+    padding: 1rem;
+    border: 0px, solid, black;
+    border-radius: 0.2rem; 
+}

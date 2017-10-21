@@ -1,4 +1,4 @@
-var array_input = [
+var investment = [
     {
         id: "mar_pla",
         name: "cost_m1",
@@ -29,7 +29,11 @@ var array_input = [
         name: "cost_d3",
         display: "Development3",
         value: ko.observable(0)
-    }, {
+    }
+];
+
+var production = [
+    {
         id: "pro_amount",
         name: "produced_litres",
         display: "Produziert",
@@ -45,59 +49,87 @@ var array_input = [
 ko.bindingHandlers.currencyText = {
     update: function (elem, valueAccessor) {
         var amount = valueAccessor();
-        var formattedAmount = amount() + " €";
+        var formattedAmount = numberWithCommas(amount()) + " €";
         $(elem).text(formattedAmount);
+
+        function numberWithCommas(x) {
+            x = x.toString();
+            var pattern = /(-?\d+)(\d{3})/;
+            while (pattern.test(x))
+                x = x.replace(pattern, "$1.$2");
+            return x;
+        }
     }
 };
 
-array_input.forEach(function (element) {
-    var elem = document.getElementById(element.id);
-    elem.onkeydown = function (e) {
-        // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-            // Allow: Ctrl/cmd+A
-            (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: Ctrl/cmd+C
-            (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: Ctrl/cmd+X
-            (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-            // Allow: home, end, left, right
-            (e.keyCode >= 35 && e.keyCode <= 39)) {
-            // let it happen, don't do anything
-            return;
-        }
+setListeners(investment);
+setListeners(production);
 
-        // Ensure that it is a number and stop the keypress
-        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-            e.preventDefault();
-        }
-    };
+function setListeners(array) {
+    array.forEach(function (element) {
+        var elem = document.getElementById(element.id);
+        elem.onkeydown = function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl/cmd+A
+                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: Ctrl/cmd+C
+                (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: Ctrl/cmd+X
+                (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
 
-    elem.onkeyup = function (e) {
-        for (var i = 0; i < array_input.length; i++) {
-            if (array_input[i].id == e.target.id) {
-                array_input[i].value(validate_value(e.target.value));
-                break;
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        };
+
+        elem.onkeyup = function (e) {
+            for (var i = 0; i < investment.length; i++) {
+                if (investment[i].id == e.target.id) {
+                    investment[i].value(validate_value(e.target.value));
+                    break;
+                }
             }
         }
-    }
-});
+    });
+}
 
 class KNOCKOUT {
     constructor() {
-        this.investment = ko.observableArray(array_input)
-
-        this.buget = ko.observable(0);
+        this.investment = ko.observableArray(investment);
+        this.productionAmount = ko.observable(production[0]);
+        this.price = ko.observable(production[1]);
+        
+        this.budget = ko.observable(0);
         this.fixedcost = ko.observable(0);
         this.variablecost = ko.observable(0);
-        this.productionAmount = ko.observable(0);
 
         this.totalVariableCost = ko.computed(function () {
-            return this.productionAmount() * this.variablecost();
+            return this.productionAmount().value() * this.variablecost();
         }, this);
 
-        this.cost = ko.computed(function () {
-            return this.productionAmount() * this.variablecost() + this.fixedcost();
+        this.productionCost = ko.computed(function () {
+            return this.totalVariableCost() + this.fixedcost();
+        }, this);
+
+        this.cost = ko.computed (function() {
+            var result = 0;
+            this.investment().forEach (function (element) {
+                result += element.value();
+            }, this);
+            result += this.productionCost();
+
+            return result;
+        }, this);
+
+        this.budgetLeft = ko.computed(function () {
+            return this.budget() - this.cost();
         }, this);
     }
 }
@@ -126,7 +158,7 @@ var get_game_data = function () {
 
     var result = "{";
 
-    array_input.forEach(function (element) {
+    investment.forEach(function (element) {
         result += "\""
             + element.name
             + "\""

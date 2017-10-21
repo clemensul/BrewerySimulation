@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/form.css" />
     <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/game.css">
 
     <link rel="stylesheet" href="css/dashboard.css">
     <title>Brauerei</title>
@@ -87,7 +88,7 @@
                                 </div>
                             </div>
                         </form>
-<!--
+                        <!--
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
@@ -162,7 +163,7 @@
                                 </div>
                             </div>
                         </form>
-<!--
+                        <!--
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
@@ -196,9 +197,9 @@
                                 <div class="col-md-9">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i> Menge</div>
                                 <div class="col-md-3">
-                                    <div class="input-group">
+                                    <div class="input-group" data-bind="with: productionAmount">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                            id="pro_amount" data-bind="value: productionAmount, valueUpdate: 'afterkeydown'">
+                                            id="pro_amount" data-bind="value: value, valueUpdate: 'afterkeydown'">
                                         <span class="input-group-addon background-dark1">Hektoliter</span>
                                     </div>
                                 </div>
@@ -208,15 +209,14 @@
                                 <div class="col-md-9">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i> Preis</div>
                                 <div class="col-md-3">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                            id="pro_price">
+                                    <div class="input-group" data-bind="with: price">
+                                        <input type="text" class="form-control form-money background-dark3" placeholder="00" id="pro_price" data-bind="value: value, valueUpdate: 'afterkeydown'">
                                         <span class="input-group-addon background-dark1">€</span>
                                     </div>
                                 </div>
                             </div>
                         </form>
-<!--
+                        <!--
                         <h5 class="card-title">vorherige Perioden</h5>
                         <p class="card-text">So sehen deine Pläne im Vergleich zu vorherigen Perioden aus.</p>
 
@@ -240,7 +240,7 @@
                 <!--    ****     -->
                 <!-- Development -->
                 <!--    ****     -->
-        <!--    <div class="row widget-row" id="produktion">
+                <!--    <div class="row widget-row" id="produktion">
                     <div class="widget widget-content">
                         <h2 class="card-title">Investitionsmöglichkeiten</h2>
                         <p class="card-text">Verteile dein Budget innerhalb der Produktionsabteilung!</p>
@@ -325,109 +325,209 @@
 
 
             <!-- Sidebar -->
-            <div class="col-xl-3 ">
-                <div class="row widget-row" id="sidebar">
-                    <div class="widget widget-content">
-                        <h2>Investments:</h2>
-                        <table>
-                            <thead>
+            <div class="col-xl-3">
+                <div class="widget-row" id="sidebar">
+                    <div class="widget">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a data-toggle="collapse" href="#sidebar_budget">
+                                        <div>
+                                            <h2>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                Budget:
+                                            </h2>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="sidebar_budget" class="panel-collapse collapse">
+                                    <table>
+                                        <thead>
 
-                            </thead>
-                            <tbody data-bind="foreach: investment">
-                                <tr>
-                                    <td>
-                                        <span data-bind="text: display"></span>
-                                    </td>
-                                    <td style="text-align:right">
-                                        <span data-bind="currencyText: value"></span>
-                                    </td> 
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <i>gesamtes Budget</i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: budget"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i>nicht verwendetes Budget:</i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: budgetLeft"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a data-toggle="collapse" href="#sidebar_produktion">
+                                        <div>
+                                            <h2>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                Produktion:
+                                            </h2>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="sidebar_produktion" class="panel-collapse collapse">
+                                    <table>
+                                        <thead>
 
-                        <h2>Absatzrechnung:</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>
-                                        <span>Beschreibung</span>
-                                    </td>
-                                    <td>
-                                        <span>Value</span>
-                                    </td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span>Produzierte Menge:</span>
-                                    </td>
-                                    <td style="text-align:right">
-                                        <span data-bind="text: productionAmount"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td >
-                                        <span>Fixkosten:</span>
-                                    </td>
-                                    <td style="text-align:right">
-                                        <span data-bind="currencyText: fixedcost"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>Variable Kosten:</span>
-                                    </td>
-                                    <td style="text-align:right">
-                                        <span data-bind="currencyText: variablecost"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>gesamte variable Kosten:</span>
-                                    </td>
-                                    <td style="text-align:right">
-                                        <span data-bind="currencyText: totalVariableCost"></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>Gesamte Kosten</span>
-                                    </td>
-                                    <td style="text-align:right">
-                                        <span data-bind="currencyText: cost"></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-bind="with: productionAmount">
+                                                <td>
+                                                    <i data-bind="text: display"></i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="text: value"></span>
+                                                </td>
+                                            </tr>
+                                            <tr data-bind="with: price">
+                                                <td>
+                                                    <i data-bind="text: display"></i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: value"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a data-toggle="collapse" href="#sidebar_investments">
+                                        <div>
+                                            <h2>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                Investments:
+                                            </h2>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="sidebar_investments" class="panel-collapse collapse">
+                                    <table>
+                                        <thead>
 
-                        <button class="btn" onclick="send_game_data();">Submit</button>
+                                        </thead>
+                                        <tbody data-bind="foreach: investment">
+                                            <tr>
+                                                <td>
+                                                    <i data-bind="text: display"></i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: value"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a data-toggle="collapse" href="#sidebar_absatzrechnung">
+                                        <div>
+                                            <h2>
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                Absatzrechnung:
+                                            </h2>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="sidebar_absatzrechnung" class="panel-collapse collapse">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    <span>Beschreibung</span>
+                                                </td>
+                                                <td>
+                                                    <span>Value</span>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <i>Produzierte Menge:</i>
+                                                </td>
+                                                <td data-bind="with: productionAmount">
+                                                    <span data-bind="text: value"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i>Fixkosten (exkl. Investments):</i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: fixedcost"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i>Variable Kosten:</i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: variablecost"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i>gesamte variable Kosten:</i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: totalVariableCost"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <i>Produktionskosten</i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: productionCost"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn action-button" onclick="send_game_data();">
+                            <h2>Submit</h2>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <!-- Optional JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <!-- Optional JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-    <script src="js/model/colors.js"></script>
-    <script src="node_modules/chart.js/dist/Chart.js"></script>
+        <script src="js/model/colors.js"></script>
+        <script src="node_modules/chart.js/dist/Chart.js"></script>
 
-    <script src="js/jquery-3.2.1.js"></script>
-    <script src="js/smooth-scroll.js"></script>
+        <script src="js/jquery-3.2.1.js"></script>
 
-    <script src="js/websocket.js"></script>
+        <script src="js/websocket.js"></script>
 
-    <script src="js/content.js"></script>
+        <script src="js/content.js"></script>
 
-    <script src="js/knockout-3.4.1.js"></script>
+        <script src="js/knockout-3.4.1.js"></script>
 
-    <script src="js/model/game.js"></script>
-    <script src="js/game.js"></script>
+        <script src="js/model/game.js"></script>
+        <script src="js/game.js"></script>
 
 
 </body>
