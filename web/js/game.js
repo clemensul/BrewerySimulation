@@ -46,19 +46,30 @@ var production = [
     }
 ];
 
+function cleanFromCommas(nStr) {
+    nStr += '';
+    var comma = ".";
+    var x = nStr.replace(comma, '');
+
+    return x;
+}
+function numberWithCommas(nStr) {
+    nStr += '';
+    var comma = ".";
+    var x = nStr.replace(comma, '');
+
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x)) {
+        x = x.replace(rgx, '$1' + '.' + '$2');
+    }
+    return x
+}
+
 ko.bindingHandlers.currencyText = {
     update: function (elem, valueAccessor) {
         var amount = valueAccessor();
         var formattedAmount = numberWithCommas(amount()) + " €";
         $(elem).text(formattedAmount);
-
-        function numberWithCommas(x) {
-            x = x.toString();
-            var pattern = /(-?\d+)(\d{3})/;
-            while (pattern.test(x))
-                x = x.replace(pattern, "$1.$2");
-            return x;
-        }
     }
 };
 
@@ -89,15 +100,34 @@ function setListeners(array) {
             }
         };
 
+        elem.oninput = function (e) {
+            var value = cleanFromCommas(e.target.value);
+            e.target.value = numberWithCommas(value);
+        }
+
         elem.onkeyup = function (e) {
+
+            var value = cleanFromCommas(e.target.value);
             for (var i = 0; i < investment.length; i++) {
                 if (investment[i].id == e.target.id) {
-                    investment[i].value(validate_value(e.target.value));
+                    investment[i].value(validate_value(value));
                     break;
                 }
             }
         }
     });
+
+    function addCommas(nStr) {
+        nStr += '';
+        var comma = /,/g;
+        var x = nStr.replace(comma, '');
+
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x)) {
+            x = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x
+    }
 }
 
 class KNOCKOUT {
@@ -105,7 +135,7 @@ class KNOCKOUT {
         this.investment = ko.observableArray(investment);
         this.productionAmount = ko.observable(production[0]);
         this.price = ko.observable(production[1]);
-        
+
         this.budget = ko.observable(0);
         this.fixedcost = ko.observable(0);
         this.variablecost = ko.observable(0);
@@ -118,9 +148,9 @@ class KNOCKOUT {
             return this.totalVariableCost() + this.fixedcost();
         }, this);
 
-        this.cost = ko.computed (function() {
+        this.cost = ko.computed(function () {
             var result = 0;
-            this.investment().forEach (function (element) {
+            this.investment().forEach(function (element) {
                 result += element.value();
             }, this);
             result += this.productionCost();
@@ -131,6 +161,8 @@ class KNOCKOUT {
         this.budgetLeft = ko.computed(function () {
             return this.budget() - this.cost();
         }, this);
+
+        this.error = ko.observable("");
     }
 }
 
@@ -140,7 +172,7 @@ ko.applyBindings(knockout);
 
 function init(budget, fixedcost, variablecost) {
     console.log("init");
-    knockout.buget(budget);
+    knockout.budget(budget);
     knockout.fixedcost(fixedcost);
     knockout.variablecost(variablecost);
 }

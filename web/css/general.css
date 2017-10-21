@@ -58,6 +58,10 @@ body {
     margin-right: 0; 
 }
 
+.widget-text {
+    font-size: 1.2rem;
+}
+
 form + .card-title {
     margin-top: 3%;
 }

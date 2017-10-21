@@ -1,6 +1,7 @@
 body {
     font-size: 1.2rem;
 }
+
 h3 {
     font-size: 3rem;
 }
@@ -12,6 +13,7 @@ h3 + p {
 .counter {
     padding: 10px;
 }
+
 .counter > span {
     font-size: 4rem;
     font-weight: bold;
@@ -31,28 +33,6 @@ h3 + p {
 
 .counter-good * {
 color: #2BD8A4
-}
-
-table {
-    margin: 0;
-    width: 100%;
-}
-thead {
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-tbody tr {
-    border-bottom: 1px solid gray;
-    border-top: 1px solid gray;
-}
-
-td {
-    padding: 15px;
-}
-
-table {
-    border-spacing: 5px;
 }
 
 canvas {

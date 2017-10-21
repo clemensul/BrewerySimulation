@@ -1,0 +1,18 @@
+table {
+    margin: 0;
+    width: 100%;
+    border-spacing: 5px;
+}
+thead {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+tbody tr {
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
+}
+
+td {
+    padding: 15px;
+}
