@@ -5,8 +5,6 @@
  */
 package org.planspiel.model;
 
-import java.util.Set;
-
 public class User {
 
     private Company company;
