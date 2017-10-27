@@ -47,7 +47,10 @@ public class Market {
         }
         
         if(notUsedMarketVolume > 0){
-            compensateMarketVolume(players, currentPeriod, notUsedMarketVolume, notUsedMarketPercent, sum);
+            if(compensateMarketVolume(players, currentPeriod, notUsedMarketVolume, notUsedMarketPercent, sum)){
+                //calc new market shares here
+                //sum and sold for everyone (sold/sum) = new marketshare
+            }
         }
     }
 
@@ -55,7 +58,7 @@ public class Market {
     //players are all these companys
     //marketVolume is the marketshare left
   
-    public void compensateMarketVolume(ArrayList<org.planspiel.model.User> players, int currentPeriod, float marketVolume, float marketPercent, float oldSum) {
+    public boolean compensateMarketVolume(ArrayList<org.planspiel.model.User> players, int currentPeriod, float marketVolume, float marketPercent, float oldSum) {
         this.marketVolume = marketVolume;
         double marketShareNew = 0;
         calcLeftMarketShare(players, currentPeriod);
@@ -75,12 +78,17 @@ public class Market {
             calcBudget(p);
             calcLeftLitres(p);
         }
+        //threshold of 100 is needed, because it'll probably never reach 0
         if(notUsedMarketVolume > 100){
-            compensateMarketVolume(players, currentPeriod, notUsedMarketVolume, notUsedMarketPercent, oldSum);
+            return compensateMarketVolume(players, currentPeriod, notUsedMarketVolume, notUsedMarketPercent, oldSum);
         }
-
+        else{
+            //if the marketshare is shared to the leftover players, a true can be returned 
+            //and the market share calculation can be triggered
+            return true;
+        }
     }
-
+    
     private void calcLeftMarketShare(ArrayList<User> players, int currentPeriod){
       sum = 0;
         for (User u : players) {
@@ -224,9 +232,11 @@ public class Market {
     }
 
     private double getMarketVolume(int currentPeriod) {
-        if (currentPeriod == 6) {
+        int currentPeriodCalc = (currentPeriod%8)+1;
+        //only values between 1-8
+        if ((currentPeriodCalc%2) == 0) {
             //WM or EM (every 2 years one of them), chance that Germany wins a lot of games and more beer is sold
-            return marketFunction(currentPeriod + 1) * (double) Math.random() * (1.1 - 1) + 1;
+            return marketFunction(currentPeriod + 1) * (double) Math.random() * (1.2 - 1.1) + 1.1;
         } else {
             //no WM, some random variable
             return marketFunction(currentPeriod + 1) * (double) Math.random() * (1 - 0.9) + 0.9;

@@ -26,6 +26,7 @@ private int currentPlayer = 0;
 private float budget, fixCost, costPerHectolitre;
 private int rounds; //important for the end of the game
 private String id;
+private int maxPeriods;
 
 private Market market;
 
@@ -35,6 +36,7 @@ public Game(float budget, int rounds, String id, String playerName, String cooki
 	this.rounds = rounds;
 	this.fixCost = (float) (budget * 0.234);
         this.costPerHectolitre = 500; //TODO manipulate value 
+        this.maxPeriods = 8;
         market = new Market();
         //this.addPlayer(playerName, cookie, true);
 }
@@ -60,6 +62,7 @@ public String getId(){
 public int getCurrentPeriod(){
     return currentPeriod;
 }
+
 //adding players before the game starts
 public void addPlayer(String name, String cookie, Boolean admin){
 	players.put(cookie, new User(name, budget, fixCost, cookie, admin));
@@ -71,11 +74,6 @@ public void initialize(){
         for(User u : al){
             u.getCompany().addPeriod(budget, fixCost, costPerHectolitre);
         }
-//    Iterator it = players.entrySet().iterator();
-//        while(it.hasNext()){
-//            User u = (User)it.next();
-//            u.getCompany().addPeriod(budget, fixCost);
-//        }
 }
 
 public ArrayList<User> getUsers(){
@@ -87,21 +85,10 @@ public ArrayList<User> getUsers(){
         System.out.print(u);
         users.add(u);
     }
-//    }
-//    Set<String> s = players.keySet();
-//    System.out.print(s);
-//    Iterator it = s.iterator();
-//    System.out.print("players:" + showPlayers());
-//        while(it.hasNext()){
-//            //System.out.println(players.get(it.next()));
-//            String key = (String)it.next();
-//            System.out.println(key);
-//            User u = players.get(key);
-//            users.add(u);
-//        }
-        
-        return users;
+    
+    return users;
 }
+
 public Boolean checkClosed(){
     Boolean closed = true;
     for(Iterator it = players.keySet().iterator(); it.hasNext();){
@@ -116,67 +103,53 @@ public Boolean submitValues(String cookie, float producedHectolitres, float pric
                         float optionMarketing1, float optionMarketing2, float optionMarketing3, 
                         float optionDevelopment1, float optionDevelopment2, float optionDevelopment3){
                       
-	Period period = players.get(cookie).getCompany().getCurrentPeriod(currentPeriod);
+	Period p = players.get(cookie).getCompany().getCurrentPeriod(currentPeriod);
         
-	period.setPricePerHectolitre(pricePerHectolitre);
-	period.setProducedHectolitres(producedHectolitres);
-	period.setOptionMarketing1(optionMarketing1);
-	period.setOptionMarketing2(optionMarketing2);
-	period.setOptionMarketing3(optionMarketing3);
-        period.setOptionDevelopment1(optionDevelopment1);
-        period.setOptionDevelopment2(optionDevelopment2);
-        period.setOptionDevelopment3(optionDevelopment3);
-	
-	
-	period.setBudgetLeft(period.getBudget()
+	p.setPricePerHectolitre(pricePerHectolitre);
+	p.setProducedHectolitres(producedHectolitres);
+	p.setOptionMarketing1(optionMarketing1);
+	p.setOptionMarketing2(optionMarketing2);
+	p.setOptionMarketing3(optionMarketing3);
+        p.setOptionDevelopment1(optionDevelopment1);
+        p.setOptionDevelopment2(optionDevelopment2);
+        p.setOptionDevelopment3(optionDevelopment3);
+
+	p.setBudgetLeft(p.getBudget()
                         - optionMarketing1 - optionMarketing2 - optionMarketing3
                         - optionDevelopment1 - optionDevelopment2 - optionDevelopment3
-			- producedHectolitres * period.getCostPerHectolitre());
+			- producedHectolitres * p.getCostPerHectolitre());
         
-        period.setClosed(true);
+        p.setClosed(true);
 	return checkClosed();
 }
 
-//public void nextPlayer(){
-//	currentPlayer++;
-//	
-//	//do player things
-//	//submitValues(...);
-//	if(currentPlayer > playerCount)
-//		nextPeriod();
-//	else{
-//	nextPlayer();}
-//}
-
-//TODO currently the market function only supports Periods between 1.5 - 10
 public void nextPeriod(){
 	
-	
-//	for(org.planspiel.model.User user : players){
-//		//add a new period to every company and pass on the old method, so the secondary constructor of period can get the old values
-//		user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
-//	}
-//        Iterator it = players.entrySet().iterator();
-//        while(it.hasNext()){
-//            User user = (User)it.next();
-//            user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod - 1));
-//        }
-        
-        Collection<User> al = players.values();
-        for(User user : al){
-            user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod));
+	if(currentPeriod == maxPeriods){
+            endGame();
         }
+        else{
+            Collection<User> al = players.values();
+            for(User user : al){
+                user.getCompany().addPeriod(user.getCompany().getCurrentPeriod(currentPeriod));
+            }
 
-        
-        ArrayList<User> users = new ArrayList(players.values());
-        
-        currentPeriod++;
-        market.makeSimulation(users, currentPeriod);
+            ArrayList<User> users = new ArrayList(players.values());
+
+            currentPeriod++;
+            market.makeSimulation(users, currentPeriod);
         //breakpoint biatch!
-        int i = 0;
-        i = 4*3;
-        int x = i+2;
-        
+//        int i = 0;
+//        i = 4*3;
+//        int x = i+2;
+        }
+}
+
+private void endGame(){
+    //do end game stuff
+    //send to all players/sessions
+    //send report data
+    //crown a winner
 }
 
 }
