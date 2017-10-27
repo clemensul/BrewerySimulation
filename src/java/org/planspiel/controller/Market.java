@@ -7,6 +7,7 @@ package org.planspiel.controller;
 
 import java.util.ArrayList;
 import org.planspiel.model.Period;
+import org.planspiel.model.User;
 //quote: "Wenn ihr mir nen Button gebt, läuft der Scheiß"
 //#1 noone understands the market
 
@@ -19,21 +20,23 @@ public class Market {
 
     private float marketVolume; //how many hectolitres the market buys
     private float notUsedMarketVolume;
-    private float sum; //marketShare
+    private float sum; //sold by everyone sum
     //TODO add risk variable?
     private int risk; // between 0 and 1 --> maybe we need this later
-
+    private float notUsedMarketPercent;
+    private ArrayList<User> players;
     public Market() {
 
     }
 
-    public void makeSimulation(ArrayList<org.planspiel.model.User> players, int currentPeriod) {
+    public void makeSimulation(ArrayList<User> players, int currentPeriod) {
 
         marketVolume = (float) getMarketVolume(currentPeriod);
         notUsedMarketVolume = marketVolume;
+        this.players = players;
         calcMarketShare(players, currentPeriod);
-
-        for (org.planspiel.model.User u : players) {
+        
+        for (User u : players) {
             Period p = u.getCompany().getCurrentPeriod(currentPeriod);
             disDevelopment(p);
             calcCost(p);
@@ -41,6 +44,10 @@ public class Market {
             calcProfit(p);
             calcBudget(p);
             calcLeftLitres(p);
+        }
+        
+        if(notUsedMarketVolume > 0){
+            compensateMarketVolume(players, currentPeriod, notUsedMarketVolume, notUsedMarketPercent, sum);
         }
     }
 
@@ -48,16 +55,18 @@ public class Market {
     //players are all these companys
     //marketVolume is the marketshare left
   
-    public void compensateMarketVolume(ArrayList<org.planspiel.model.User> players, int currentPeriod, float marketVolume) {
+    public void compensateMarketVolume(ArrayList<org.planspiel.model.User> players, int currentPeriod, float marketVolume, float marketPercent, float oldSum) {
         this.marketVolume = marketVolume;
-        double marketShareNew = 0.0;
+        double marketShareNew = 0;
+        calcLeftMarketShare(players, currentPeriod);
+        
         for (org.planspiel.model.User u : players) {
             marketShareNew += u.getCompany().getCurrentPeriod(currentPeriod).getMarketShare();
         }
+        
         for (org.planspiel.model.User u : players) {
 
             Period p = u.getCompany().getCurrentPeriod(currentPeriod);
-            
             
             disDevelopment(p);
             calcCost(p);
@@ -66,9 +75,28 @@ public class Market {
             calcBudget(p);
             calcLeftLitres(p);
         }
+        if(notUsedMarketVolume > 100){
+            compensateMarketVolume(players, currentPeriod, notUsedMarketVolume, notUsedMarketPercent, oldSum);
+        }
 
     }
 
+    private void calcLeftMarketShare(ArrayList<User> players, int currentPeriod){
+      sum = 0;
+        for (User u : players) {
+            sum += u.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres();
+        }
+    
+        //setMarketShare with the players share of the market and the marketing
+        for (User u : players) {
+            //TODO renew Method
+            Period p = u.getCompany().getCurrentPeriod(currentPeriod);
+            p.setMarketShare(
+                    (sum * (1 - marketingShareMarket) / p.getProducedHectolitres())
+            );
+            calcHectolitresSold(u, currentPeriod, 0, 0, 0, marketVolume);
+        }
+    }
     private void calcCost(Period period) {
         period.setTotalCosts(period.getCostPerHectolitre() * period.getProducedHectolitres() + period.getFixedCosts());
     }
@@ -90,26 +118,31 @@ public class Market {
     }
 
     //percentage of market/revenue the company gets from the cake
-    private void calcMarketShare(ArrayList<org.planspiel.model.User> players, int currentPeriod) {
-        float sum = 0;
-        float sumMarketingOption1 = 0;
+    private void calcMarketShare(ArrayList<User> players, int currentPeriod) {
+        sum = 0;  //all produced hectolitres of everyone
+        float sumMarketingOption1 = 0;  //marketing spent by everyone
         float sumMarketingOption2 = 0;
         float sumMarketingOption3 = 0;
-        for (org.planspiel.model.User u : players) {
-            sum += u.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres();
-            sumMarketingOption1 += u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing1();
-            sumMarketingOption2 += u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing2();
-            sumMarketingOption3 += u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing3();
+        
+        for (User u : players) {
+            Period p = u.getCompany().getCurrentPeriod(currentPeriod);
+            
+            sum += p.getProducedHectolitres();
+            sumMarketingOption1 += p.getOptionMarketing1();
+            sumMarketingOption2 += p.getOptionMarketing2();
+            sumMarketingOption3 += p.getOptionMarketing3();
         }
 
         //setMarketShare with the players share of the market and the marketing
-        for (org.planspiel.model.User u : players) {
+        for (User u : players) {
             //TODO renew Method
-            u.getCompany().getCurrentPeriod(currentPeriod).setMarketShare(
-                    (sum * (1 - marketingShareMarket) / u.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres())
+            Period p = u.getCompany().getCurrentPeriod(currentPeriod);
+            p.setMarketShare(
+                    (sum * (1 - marketingShareMarket) / p.getProducedHectolitres())
             );
             calcHectolitresSold(u, currentPeriod, sumMarketingOption1, sumMarketingOption2, sumMarketingOption3, marketVolume);
         }
+        notUsedMarketPercent = notUsedMarketVolume / sum;
     }
 
     //share of the market each marketing option can influence
@@ -118,43 +151,55 @@ public class Market {
     private double marketingOptionShare3 = 0.15;
     private double marketingShareMarket = marketingOptionShare1 + marketingOptionShare2 + marketingOptionShare3;
 
-    private void calcHectolitresSold(org.planspiel.model.User user, int currentPeriod, float sumMarketingOption1, float sumMarketingOption2, float sumMarketingOption3, float marketVolume) {
-        float soldHectolitres
-                = (float) (user.getCompany().getCurrentPeriod(currentPeriod).getMarketShare() * marketVolume * (1 - marketingShareMarket)//market not influenced by marketing
-                + disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1)
+    private void calcHectolitresSold(User user, int currentPeriod, float sumMarketingOption1, float sumMarketingOption2, float sumMarketingOption3, float marketVolume) {
+        Period p = user.getCompany().getCurrentPeriod(currentPeriod);
+        
+        float grantedHecolitresMarket = (float) (p.getMarketShare() * marketVolume * (1 - marketingShareMarket));//market not influenced by marketing
+        float grantedHectolitresMarketing =    
+                disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1)
                 + disMarketing(user, currentPeriod, sumMarketingOption2, marketingOptionShare2, 2)
-                + disMarketing(user, currentPeriod, sumMarketingOption3, marketingOptionShare3, 3));
+                + disMarketing(user, currentPeriod, sumMarketingOption3, marketingOptionShare3, 3); 
         
-        user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM1(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1));
-        user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM2(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare2, 2));
-        user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitresM3(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare3, 3));
+        float grantedHectolitresTotal = grantedHecolitresMarket + grantedHectolitresMarketing;
         
-        if (user.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres() <= soldHectolitres ) {
-            user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitres(user.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres());
-            notUsedMarketVolume -= user.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres();
+        p.setSoldHectolitresM1(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare1, 1));
+        p.setSoldHectolitresM2(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare2, 2));
+        p.setSoldHectolitresM3(disMarketing(user, currentPeriod, sumMarketingOption1, marketingOptionShare3, 3));
+        
+        float producedHectolitres = user.getCompany().getCurrentPeriod(currentPeriod).getProducedHectolitres();
+        if (producedHectolitres <= grantedHectolitresTotal ) {
+            //user sells all his produced litres
+            p.setSoldHectolitres(p.getProducedHectolitres());
+            //the rest is free for the others
+            notUsedMarketVolume -= p.getProducedHectolitres();
+            //the user loses market share
+           p.setMarketShare(p.getMarketShare()-(grantedHectolitresTotal-producedHectolitres)/sum);
+            //the player is removed from the compensateMarket-User-List
+            players.remove(user);
         }
         else{
-            user.getCompany().getCurrentPeriod(currentPeriod).setSoldHectolitres(soldHectolitres);
+            //added add up
+            p.setSoldHectolitres(grantedHectolitresTotal + p.getSoldHectolitres());
         }
 
     }
 
     //calculates the litres User u gets with his investment in OptionX
-    private float disMarketing(org.planspiel.model.User u, int currentPeriod, float sumMarketingOption, double marketingOptionShare, int i) {
-
+    private float disMarketing(User user, int currentPeriod, float sumMarketingOption, double marketingOptionShare, int i) {
+        Period p = user.getCompany().getCurrentPeriod(currentPeriod);
         float marketingShare = 0;
         if (i == 1) {
-            marketingShare = u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing1() / sumMarketingOption;
+            marketingShare = p.getOptionMarketing1() / sumMarketingOption;
         } else if (i == 2) {
-            marketingShare = u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing2() / sumMarketingOption;
+            marketingShare = p.getOptionMarketing2() / sumMarketingOption;
         } else { //i ==3
-            marketingShare = u.getCompany().getCurrentPeriod(currentPeriod).getOptionMarketing3() / sumMarketingOption;
+            marketingShare = p.getOptionMarketing3() / sumMarketingOption;
         }
 
         return (float) (marketingShare * marketingOptionShare * marketVolume);
 
     }
-
+    //threshhold to pass for a free lottery spin
     private float developmentEdge1 = 10000;
     private float developmentEdge2 = 12000;
     private float developmentEdge3 = 14000;

@@ -167,14 +167,14 @@ public class SessionHandler {
                 String error = "";
                 JsonObject jsonObj = jsonMessage.getJsonObject("data");
                 
-                Float producedLitres = Float.parseFloat(jsonObj.getString("produced_litres"));
-                Float priceLitre = Float.parseFloat(jsonObj.getString("price_litre"));
-                Float marketing1 = Float.parseFloat(jsonObj.getString("cost_m1"));
-                Float marketing2 = Float.parseFloat(jsonObj.getString("cost_m2"));
-                Float marketing3 = Float.parseFloat(jsonObj.getString("cost_m3"));
-                Float development1 = Float.parseFloat(jsonObj.getString("cost_d1"));
-                Float development2 = Float.parseFloat(jsonObj.getString("cost_d2"));
-                Float development3 = Float.parseFloat(jsonObj.getString("cost_d3"));
+                float producedLitres = Float.parseFloat(jsonObj.getString("produced_litres"));
+                float priceLitre = Float.parseFloat(jsonObj.getString("price_litre"));
+                float marketing1 = Float.parseFloat(jsonObj.getString("cost_m1"));
+                float marketing2 = Float.parseFloat(jsonObj.getString("cost_m2"));
+                float marketing3 = Float.parseFloat(jsonObj.getString("cost_m3"));
+                float development1 = Float.parseFloat(jsonObj.getString("cost_d1"));
+                float development2 = Float.parseFloat(jsonObj.getString("cost_d2"));
+                float development3 = Float.parseFloat(jsonObj.getString("cost_d3"));
                 
                 Boolean finish = g.submitValues(jsonMessage.getString("cookie"), producedLitres, priceLitre, 
                                                 marketing1, marketing2, marketing3, 

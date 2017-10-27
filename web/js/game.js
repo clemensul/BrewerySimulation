@@ -203,7 +203,7 @@ var get_game_data = function () {
 
     console.log(result);
     console.log(JSON.parse(result));
-
+    
     return JSON.parse(result);
 }
 
