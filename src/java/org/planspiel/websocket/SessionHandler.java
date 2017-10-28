@@ -123,9 +123,10 @@ public class SessionHandler {
                 //}
             }
             
-        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
-        for(User u : al){
-            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
+        Iterator<User> al = gamesActive.get(hashes[1]).getUsers().iterator();
+        System.out.println();
+        while(al.hasNext()){
+            Period p = al.next().getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
             JsonProvider provider = JsonProvider.provider();
                 JsonObject startMessage = provider.createObjectBuilder()
                 .add("action", "initiate_game")
@@ -245,7 +246,7 @@ public class SessionHandler {
     //Sendet an einen Client mit spezifischem Cookie
     private void sendToCookie (String cookie, JsonObject message) {
         sendToSession(sessions.get(cookie), message);
-        System.out.println("Sent to Session with Cookie: " + cookie);
+        System.out.println("Sent \"action: " + message.getString(("action")) + "\" to Session with Cookie: " + cookie);
     }
 
     public void addSession(Session session, String cookie) {

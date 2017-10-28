@@ -23,9 +23,6 @@ function ChangeToReport() {
   window.location.href = "report.html";
 }
 
-function ChangeToGame() {
-
-  start_game();
-  
+function ChangeToGame() {  
   window.location.href = "game.html";
 }
