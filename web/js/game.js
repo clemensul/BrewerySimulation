@@ -47,22 +47,11 @@ var production = [
 ];
 
 function cleanFromCommas(nStr) {
-    nStr += '';
-    var comma = ".";
-    var x = nStr.replace(comma, '');
-
-    return x;
+    return nStr.split(".").join("");
 }
-function numberWithCommas(nStr) {
-    nStr += '';
-    var comma = ".";
-    var x = nStr.replace(comma, '');
 
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x)) {
-        x = x.replace(rgx, '$1' + '.' + '$2');
-    }
-    return x
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 ko.bindingHandlers.currencyText = {
@@ -103,11 +92,7 @@ function setListeners(array) {
         elem.oninput = function (e) {
             var value = cleanFromCommas(e.target.value);
             e.target.value = numberWithCommas(value);
-        }
 
-        elem.onkeyup = function (e) {
-
-            var value = cleanFromCommas(e.target.value);
             for (var i = 0; i < investment.length; i++) {
                 if (investment[i].id == e.target.id) {
                     investment[i].value(validate_value(value));
@@ -116,18 +101,6 @@ function setListeners(array) {
             }
         }
     });
-
-    function addCommas(nStr) {
-        nStr += '';
-        var comma = /,/g;
-        var x = nStr.replace(comma, '');
-
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x)) {
-            x = x1.replace(rgx, '$1' + '.' + '$2');
-        }
-        return x
-    }
 }
 
 class KNOCKOUT {
@@ -198,7 +171,7 @@ var get_game_data = function () {
             + validate_value(document.getElementById(element.id).value)
             + "\",";
     });
-    
+
     production.forEach(function (element) {
         result += "\""
             + element.name
@@ -207,13 +180,13 @@ var get_game_data = function () {
             + validate_value(document.getElementById(element.id).value)
             + "\",";
     });
-    
+
     result = result.substring(0, result.length - 1);
     result += "}";
 
     console.log(result);
     console.log(JSON.parse(result));
-    
+
     return JSON.parse(result);
 }
 
