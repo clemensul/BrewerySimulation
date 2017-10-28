@@ -1,6 +1,7 @@
 package org.planspiel.websocket;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.enterprise.context.ApplicationScoped;
@@ -128,8 +129,8 @@ public class SessionHandler {
             JsonProvider provider = JsonProvider.provider();
                 JsonObject startMessage = provider.createObjectBuilder()
                 .add("action", "initiate_game")
-                .add("budget", p.getBudget())
-                .add("fixed_cost", p.getFixedCosts())
+                .add("budget", new BigDecimal(p.getBudget()))
+                .add("fixed_cost", new BigDecimal(p.getFixedCosts()))
                 .add("variable_cost", p.getCostPerHectolitre())
                 .add("error", error)
                 .build();

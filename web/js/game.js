@@ -198,6 +198,16 @@ var get_game_data = function () {
             + validate_value(document.getElementById(element.id).value)
             + "\",";
     });
+    
+    production.forEach(function (element) {
+        result += "\""
+            + element.name
+            + "\""
+            + ": \""
+            + validate_value(document.getElementById(element.id).value)
+            + "\",";
+    });
+    
     result = result.substring(0, result.length - 1);
     result += "}";
 
@@ -217,7 +227,7 @@ var send_game_data = function () {
     console.log(content);
     socket.send(JSON.stringify(content));
 
-    ChangeToReport();
+    //ChangeToReport();
 }
 
 

@@ -25,7 +25,7 @@ private float budget, fixCost, costPerHectolitre;
 private int rounds; //important for the end of the game
 private String id;
 private int maxPeriods;
-
+private boolean initiated = false;
 private Market market;
 
 public Game(float budget, int rounds, String id, String playerName, String cookie){
@@ -68,10 +68,13 @@ public void addPlayer(String name, String cookie, Boolean admin){
 
 //start button
 public void initialize(){
+    if(!initiated){
         Collection<User> al = players.values();
         for(User u : al){
             u.getCompany().addPeriod(budget, fixCost, costPerHectolitre);
         }
+        initiated = true;
+    }
 }
 
 public ArrayList<User> getUsers(){
@@ -137,9 +140,9 @@ public void nextPeriod(){
             currentPeriod++;
             market.makeSimulation(users, currentPeriod);
         //breakpoint biatch!
-//        int i = 0;
-//        i = 4*3;
-//        int x = i+2;
+        int i = 0;
+        i = 4*3;
+        int x = i+2;
         }
 }
 
