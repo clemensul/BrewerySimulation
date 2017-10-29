@@ -1,4 +1,7 @@
-var investment = [
+var color = new Colors();
+var charts = [];
+
+var marketing = [
     {
         id: "mar_pla",
         name: "cost_m1",
@@ -14,7 +17,10 @@ var investment = [
         name: "cost_m3",
         display: "Marketing3",
         value: ko.observable(0)
-    }, {
+    }
+];
+var development = [
+    {
         id: "dev_bie",
         name: "cost_d1",
         display: "Development1",
@@ -62,7 +68,67 @@ ko.bindingHandlers.currencyText = {
     }
 };
 
-setListeners(investment);
+ko.bindingHandlers.hektoLiter = {
+    update: function (elem, valueAccessor) {
+        var amount = valueAccessor();
+        var formattedAmount = numberWithCommas(amount()) + " hl";
+        $(elem).text(formattedAmount);
+    }
+};
+
+class KNOCKOUT {
+    constructor() {
+        this.marketing = ko.observableArray(marketing);
+        this.development = ko.observableArray(development);
+        this.productionAmount = ko.observable(production[0]);
+        this.price = ko.observable(production[1]);
+
+        this.budget = ko.observable(0);
+        this.fixedcost = ko.observable(0);
+        this.variablecost = ko.observable(0);
+
+        this.totalVariableCost = ko.computed(function () {
+            return this.productionAmount().value() * this.variablecost();
+        }, this);
+
+        this.productionCost = ko.computed(function () {
+            return this.totalVariableCost() + this.fixedcost();
+        }, this);
+
+        this.investmentCost = ko.computed(function () {
+            var result = 0;
+            this.marketing().forEach(function (element) {
+                result += element.value();
+            }, this);
+            this.development().forEach(function (element) {
+                result += element.value();
+            }, this);
+
+            return result;
+        }, this);
+
+        this.cost = ko.computed(function () {
+            var result = 0;
+            result += this.investmentCost();
+            result += this.productionCost();
+
+            return result;
+        }, this);
+
+        this.budgetLeft = ko.computed(function () {
+            return this.budget() - this.cost();
+        }, this);
+
+        this.error = ko.observable("");
+    }
+}
+
+var knockout = new KNOCKOUT();
+ko.applyBindings(knockout);
+
+
+setListeners(marketing);
+setListeners(development);
 setListeners(production);
 
 function setListeners(array) {
@@ -70,7 +136,7 @@ function setListeners(array) {
         var elem = document.getElementById(element.id);
         elem.onkeydown = function (e) {
             // Allow: backspace, delete, tab, escape, enter and .
-            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            if ($.inArray(e.keyCode, [8, 9, 27, 13, 110, 190]) !== -1 ||
                 // Allow: Ctrl/cmd+A
                 (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
                 // Allow: Ctrl/cmd+C
@@ -90,58 +156,18 @@ function setListeners(array) {
         };
 
         elem.oninput = function (e) {
-            var value = cleanFromCommas(e.target.value);
-            e.target.value = numberWithCommas(value);
+            // var value = cleanFromCommas(e.target.value);
+            // e.target.value = numberWithCommas(value);
 
-            for (var i = 0; i < investment.length; i++) {
-                if (investment[i].id == e.target.id) {
-                    investment[i].value(validate_value(value));
-                    break;
-                }
-            }
+            // for (var i = 0; i < investment.length; i++) {
+            //     if (investment[i].id == e.target.id) {
+            //         investment[i].value(validate_value(value));
+            //         break;
+            //     }
+            // }
         }
     });
 }
-
-class KNOCKOUT {
-    constructor() {
-        this.investment = ko.observableArray(investment);
-        this.productionAmount = ko.observable(production[0]);
-        this.price = ko.observable(production[1]);
-
-        this.budget = ko.observable(0);
-        this.fixedcost = ko.observable(0);
-        this.variablecost = ko.observable(0);
-
-        this.totalVariableCost = ko.computed(function () {
-            return this.productionAmount().value() * this.variablecost();
-        }, this);
-
-        this.productionCost = ko.computed(function () {
-            return this.totalVariableCost() + this.fixedcost();
-        }, this);
-
-        this.cost = ko.computed(function () {
-            var result = 0;
-            this.investment().forEach(function (element) {
-                result += element.value();
-            }, this);
-            result += this.productionCost();
-
-            return result;
-        }, this);
-
-        this.budgetLeft = ko.computed(function () {
-            return this.budget() - this.cost();
-        }, this);
-
-        this.error = ko.observable("");
-    }
-}
-
-var knockout = new KNOCKOUT();
-ko.applyBindings(knockout);
-
 
 function init(budget, fixedcost, variablecost) {
     console.log("init");
@@ -163,7 +189,16 @@ var get_game_data = function () {
 
     var result = "{";
 
-    investment.forEach(function (element) {
+    marketing.forEach(function (element) {
+        result += "\""
+            + element.name
+            + "\""
+            + ": \""
+            + validate_value(document.getElementById(element.id).value)
+            + "\",";
+    });
+
+    development.forEach(function (element) {
         result += "\""
             + element.name
             + "\""
@@ -204,6 +239,173 @@ var send_game_data = function () {
 }
 
 
+/******/
+//CHARTS
+/******/
+
+function getUmsatz(step) {
+    var umsatz = [];
+    for (var i = 0; i <= 10; i++) {
+        var sold = step * i;
+        umsatz.push(knockout.price().value()*sold);
+    }
+    return umsatz;
+}
+function getGewinn(step) {
+    var gewinn = [];
+    var umsatz = getUmsatz(step);
+    for (var i = 0; i <= 10; i++) {
+        var sold = step * i;
+        var value = umsatz[i] - knockout.fixedcost() - knockout.variablecost() * sold - knockout.investmentCost();
+        gewinn.push(value);
+    }
+    return gewinn;
+}
+
+function updateCharts() {
+    var target = knockout.productionAmount().value();
+    var step = target / 10;
+
+    charts[0].config.data.datasets[0].data = getGewinn(step);
+    charts[0].config.data.datasets[1].data = getUmsatz(step);
+    charts[0].update();
+};
+
+function getPreisfunktionen() {
+
+    var target = knockout.productionAmount().value();
+    var step = target / 10;
+
+    var labels = [];
+    for (var i = 0; i <= 10; i++) {
+        var sold = step * i;
+        labels.push((i * 10).toString() + "%");
+    }
+
+    var umsatz = getUmsatz(step);
+    var gewinn = getGewinn(step);
+
+
+    var datasets = [];
+    datasets.push(getData(gewinn, "Gewinn", color.green[0]));
+    datasets.push(getData(umsatz, "Umsatz", color.blue[0]));
+
+    return getLineChart(datasets, labels, "Umsatzfunktion", "abgesetzter Anteil vom Produziertem", "Umsatz");
+}
+
+function getData(datasets, title, color) {
+    return {
+        label: title,
+        backgroundColor: color,
+        borderColor: color,
+        data: datasets,
+        fill: true,
+    };
+}
+
+function getLineChart(datasets, labels, title, xAxis, yAxis) {
+    return config = {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: title
+            },
+            tooltips: {
+                mode: "index",
+                intersect: false,
+            },
+            hover: {
+                mode: "nearest",
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: xAxis
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: yAxis
+                    }
+                }]
+            }
+        }
+    };
+}
+
+//Prduktion
+var ctx = document.getElementById("umsatzfunktion").getContext("2d");
+charts.push(new Chart(ctx, getPreisfunktionen()));
+production.forEach(function (elem) {
+    elem.value.subscribe(function (value) {
+        updateCharts();
+    });
+});
+marketing.forEach(function (elem) {
+    elem.value.subscribe(function (value) {
+        updateCharts();
+    });
+});
+development.forEach(function (elem) {
+    elem.value.subscribe(function (value) {
+        updateCharts();
+    });
+});
+
+//     return config;
+// }
+
+// function getPieChart(data, label) {
+//     return config_pie1 = {
+//         type: "pie",
+//         data: {
+//             labels: ["Periode 1", "Periode 2", "Periode 3"],
+//             datasets: [{
+//                 label: label,
+//                 backgroundColor: color.red,
+//                 borderColor: color.red,
+//                 data: data,
+//                 fill: false,
+//             }]
+//         },
+//         options: {
+//             responsive: true,
+//             title: {
+//                 display: true,
+//                 text: label
+//             },
+//             tooltips: {
+//                 mode: "index",
+//                 intersect: false,
+//             },
+//             hover: {
+//                 mode: "nearest",
+//                 intersect: true
+//             }
+//         }
+//     };
+// }
+
+// function getDataset(label, color, data) {
+//     return {
+//         label: label,
+//         backgroundColor: color[0],
+//         borderColor: color[0],
+//         data: data,
+//         fill: false
+//     }
+// }
 
 
 // var validparameter= function(){
@@ -255,148 +457,3 @@ var send_game_data = function () {
 //          return false;
 //      }else return true;
 // };
-
-/******/
-//CHARTS
-/******/
-
-// var color = new Colors();
-
-
-// var charts = [];
-
-// //Marketing
-// var ctx = document.getElementById("marketing-plakat").getContext("2d");
-// charts.push(new Chart(ctx, getPieChart(gameObj.marketing1(), "Plakatwerbung")));
-
-// var ctx = document.getElementById("marketing-tv").getContext("2d");
-// charts.push(new Chart(ctx, getPieChart(gameObj.marketing2(), "TV-Werbung")));
-
-// var ctx = document.getElementById("marketing-radio").getContext("2d");
-// charts.push(new Chart(ctx, getPieChart(gameObj.marketing3(), "Radiowerbung")));
-
-// var ctx = document.getElementById("marketing-vergleich").getContext("2d");
-// var datasets =
-//     [
-//         getDataset("Plakate", color.red, gameObj.marketing1()),
-//         getDataset("TV-Werbung", color.blue, gameObj.marketing2()),
-//         getDataset("Radio-Werbung", color.green, gameObj.marketing3())
-//     ];
-
-// charts.push(new Chart(ctx,
-//     getLineChart(
-//         ["1 Periode", "2 Periode", "3 Periode"],
-//         datasets
-//     )
-// ));
-
-
-// //Forschung und Entwicklung
-// var ctx = document.getElementById("FuE-geschmack").getContext("2d");
-// charts.push(new Chart(ctx, getPieChart(gameObj.development1(), "Geschmack")));
-
-// var ctx = document.getElementById("FuE-chemie").getContext("2d");
-// charts.push(new Chart(ctx, getPieChart(gameObj.development2(), "Chemie")));
-
-// var ctx = document.getElementById("FuE-hopfen").getContext("2d");
-// charts.push(new Chart(ctx, getPieChart(gameObj.development3(), "Hopfen")));
-
-// var ctx = document.getElementById("FuE-vergleich").getContext("2d");
-// var datasets =
-//     [
-//         getDataset("Geschmack", color.red, gameObj.development1()),
-//         getDataset("Chemie", color.blue, gameObj.development2()),
-//         getDataset("Hopfen", color.green, gameObj.development3())
-//     ];
-
-// charts.push(new Chart(ctx,
-//     getLineChart(
-//         ["1 Periode", "2 Periode", "3 Periode"],
-//         datasets
-//     )
-// ));
-
-
-// function getLineChart(labels, datasets) {
-//     var config = {
-//         type: "line",
-//         data: {
-//             labels: labels,
-//             datasets: datasets,
-//         },
-//         options: {
-//             responsive: true,
-//             title: {
-//                 display: true,
-//                 text: "Chart.js Line Chart"
-//             },
-//             tooltips: {
-//                 mode: "index",
-//                 intersect: false,
-//             },
-//             hover: {
-//                 mode: "nearest",
-//                 intersect: true
-//             },
-//             scales: {
-//                 xAxes: [{
-//                     display: true,
-//                     scaleLabel: {
-//                         display: true,
-//                         labelString: "Perioden"
-//                     }
-//                 }],
-//                 yAxes: [{
-//                     display: true,
-//                     scaleLabel: {
-//                         display: true,
-//                         labelString: "Investment"
-//                     }
-//                 }]
-//             }
-//         }
-//     };
-
-//     return config;
-// }
-
-// function getPieChart(data, label) {
-//     return config_pie1 = {
-//         type: "pie",
-//         data: {
-//             labels: ["Periode 1", "Periode 2", "Periode 3"],
-//             datasets: [{
-//                 label: label,
-//                 backgroundColor: color.red,
-//                 borderColor: color.red,
-//                 data: data,
-//                 fill: false,
-//             }]
-//         },
-//         options: {
-//             responsive: true,
-//             title: {
-//                 display: true,
-//                 text: label
-//             },
-//             tooltips: {
-//                 mode: "index",
-//                 intersect: false,
-//             },
-//             hover: {
-//                 mode: "nearest",
-//                 intersect: true
-//             }
-//         }
-//     };
-// }
-
-// function getDataset(label, color, data) {
-//     return {
-//         label: label,
-//         backgroundColor: color[0],
-//         borderColor: color[0],
-//         data: data,
-//         fill: false
-//     }
-// }

@@ -77,6 +77,9 @@ function onMessage(event) {
                 alert(reply.error);
             }
         }
+        case "report": {
+            console.log(reply);
+        }
 
         default: {
         }

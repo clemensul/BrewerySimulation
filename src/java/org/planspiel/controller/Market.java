@@ -8,6 +8,7 @@ package org.planspiel.controller;
 import java.util.ArrayList;
 import org.planspiel.model.Period;
 import org.planspiel.model.User;
+import java.util.Iterator;
 //quote: "Wenn ihr mir nen Button gebt, läuft der Scheiß"
 //#1 noone understands the market
 
@@ -67,7 +68,7 @@ public class Market {
             marketShareNew += u.getCompany().getCurrentPeriod(currentPeriod).getMarketShare();
         }
         
-        for (org.planspiel.model.User u : players) {
+        for (User u : players) {
 
             Period p = u.getCompany().getCurrentPeriod(currentPeriod);
             
@@ -132,8 +133,10 @@ public class Market {
         float sumMarketingOption2 = 0;
         float sumMarketingOption3 = 0;
         
-        for (User u : players) {
-            Period p = u.getCompany().getCurrentPeriod(currentPeriod);
+        Iterator<User> it = players.iterator();
+        
+        while (it.hasNext()) {
+            Period p = it.next().getCompany().getCurrentPeriod(currentPeriod);
             
             sum += p.getProducedHectolitres();
             sumMarketingOption1 += p.getOptionMarketing1();
@@ -141,9 +144,12 @@ public class Market {
             sumMarketingOption3 += p.getOptionMarketing3();
         }
 
+        it = players.iterator();
         //setMarketShare with the players share of the market and the marketing
-        for (User u : players) {
+        while (it.hasNext()) {
             //TODO renew Method
+            User u = it.next();
+            
             Period p = u.getCompany().getCurrentPeriod(currentPeriod);
             p.setMarketShare(
                     (sum * (1 - marketingShareMarket) / p.getProducedHectolitres())

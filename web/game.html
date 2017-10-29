@@ -60,9 +60,13 @@
                                     <p>Dein Bier ist das Hausbier der Partner-Gaststätte.</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" data-bind="foreach: marketing">
                                 <div class="col input-group">
-                                    <input name="investment_plakate" class="form-control form-money background-dark3 " placeholder="00" id="mar_pla" type="text">
+                                    <input class="form-control form-money background-dark3" placeholder="00" type="text" data-bind="attr: {id: id }, currencyText: value">
+                                    <span class="input-group-addon background-dark1">€</span>
+                                </div>
+                                <!-- <div class="col input-group">
+                                    <input name="investment_plakate" class="form-control form-money background-dark3" placeholder="00" id="mar_pla" type="text">
                                     <span class="input-group-addon background-dark1">€</span>
                                 </div>
                                 <div class="col input-group">
@@ -74,7 +78,7 @@
                                     <input type="text" name="investment_radio" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                         id="mar_rad">
                                     <span class="input-group-addon background-dark1">€</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -111,8 +115,12 @@
                                     <p>Ertragreichere Ernten durch die Verwendung von Biodünger.</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" data-bind="foreach: development">
                                 <div class="col input-group">
+                                    <input class="form-control form-money background-dark3" placeholder="00" type="text" data-bind="attr: {id: id }, textInput: value">
+                                    <span class="input-group-addon background-dark1">€</span>
+                                </div>
+                                <!-- <div class="col input-group">
                                     <input type="text" name="investment_geschmack" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                         id="dev_bie">
                                     <span class="input-group-addon background-dark1">€</span>
@@ -126,7 +134,7 @@
                                     <input type="text" name="investment_hopfen" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                         id="dev_get">
                                     <span class="input-group-addon background-dark1">€</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -142,9 +150,9 @@
 
                         <form name="form_pro">
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-7">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i> Menge</div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="input-group" data-bind="with: productionAmount">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="pro_amount" data-bind="value: value, valueUpdate: 'afterkeydown'">
@@ -154,9 +162,9 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-7">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i> Preis</div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="input-group" data-bind="with: price">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" id="pro_price" data-bind="value: value, valueUpdate: 'afterkeydown'">
                                         <span class="input-group-addon background-dark1">€</span>
@@ -164,6 +172,17 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="row">
+                            <div class="col-6">
+                                <h2 class="card-title">Preisfunktion</h2>
+                                <p class="card-text">Wie viel Bier willst du produzieren?</p>
+
+                                <canvas id="umsatzfunktion"></canvas>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -203,6 +222,15 @@
             <div class="col-xl-3">
                 <div class="widget-row" id="sidebar">
                     <div class="widget">
+                        <div class="widget-content">
+                            <h3>Periode: 1 von 4</h3>
+                            <h4>
+                                Besonderheiten:
+                            </h4>
+                            <span>
+                                Es findet die Fußballweltmeisterschaft statt. Das Verlangen nach Bier wird ca. 30% über dem Durchschnitt sein.
+                            </span>
+                        </div>
                         <div class="panel-group">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -263,7 +291,7 @@
                                                     <i data-bind="text: display"></i>
                                                 </td>
                                                 <td>
-                                                    <span data-bind="text: value"></span>
+                                                    <span data-bind="hektoLiter: value"></span>
                                                 </td>
                                             </tr>
                                             <tr data-bind="with: price">
@@ -294,7 +322,17 @@
                                         <thead>
 
                                         </thead>
-                                        <tbody data-bind="foreach: investment">
+                                        <tbody data-bind="foreach: marketing">
+                                            <tr>
+                                                <td>
+                                                    <i data-bind="text: display"></i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: value"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody data-bind="foreach: development">
                                             <tr>
                                                 <td>
                                                     <i data-bind="text: display"></i>
@@ -336,7 +374,7 @@
                                                     <i>Produzierte Menge:</i>
                                                 </td>
                                                 <td data-bind="with: productionAmount">
-                                                    <span data-bind="text: value"></span>
+                                                    <span data-bind="hektoLiter: value"></span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -402,7 +440,7 @@
         <script src="js/knockout-3.4.1.js"></script>
 
         <script src="js/model/game.js"></script>
-        <script src="js/game.js"></script>  
+        <script src="js/game.js"></script>
     </div>
 
 </body>
