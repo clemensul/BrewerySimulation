@@ -8,25 +8,25 @@ Chart.defaults.global.defaultFontSize = Chart.defaults.global.defaultFontSize * 
 
 var report = new Report(
     [
-        new Period (
+        new Period(
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
         ),
-        new Period (
+        new Period(
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
         ),
-        new Period (
+        new Period(
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
         ),
-        new Period (
+        new Period(
             randomscalingfactor(),
             randomscalingfactor(),
             randomscalingfactor(),
@@ -34,7 +34,8 @@ var report = new Report(
         )
     ]
 );
-ko.applyBindings(report);
+
+//ko.applyBindings(report);
 
 
 function getLineChart(color, data) {
@@ -101,6 +102,8 @@ function getBarChartData() {
 window.onload = function () {
     var ctx = document.getElementById("canvas-bericht-1").getContext("2d");
     window.myLine_1 = new Chart(ctx, getLineChart(colors.red[0], report.umsatz()));
+
+    console.log(report);
 
     var ctx = document.getElementById("canvas-bericht-2").getContext("2d");
     window.myLine_2 = new Chart(ctx, getLineChart(colors.blue[0], report.gewinn()));

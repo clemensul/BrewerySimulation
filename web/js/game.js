@@ -78,6 +78,8 @@ ko.bindingHandlers.hektoLiter = {
 
 class KNOCKOUT {
     constructor() {
+        this.report = ko.observable(new Report());
+
         this.marketing = ko.observableArray(marketing);
         this.development = ko.observableArray(development);
         this.productionAmount = ko.observable(production[0]);
@@ -98,10 +100,10 @@ class KNOCKOUT {
         this.investmentCost = ko.computed(function () {
             var result = 0;
             this.marketing().forEach(function (element) {
-                result += element.value();
+                result += parseInt(element.value());
             }, this);
             this.development().forEach(function (element) {
-                result += element.value();
+                result += parseInt(element.value());
             }, this);
 
             return result;
@@ -119,13 +121,17 @@ class KNOCKOUT {
             return this.budget() - this.cost();
         }, this);
 
+        this.getCurrentPeriod = ko.computed(function () {
+            var report = this.report();
+            return report.periods()[report.periods().length - 1];
+        }, this);
+
         this.error = ko.observable("");
     }
 }
 
 var knockout = new KNOCKOUT();
 ko.applyBindings(knockout);
-
 
 setListeners(marketing);
 setListeners(development);
@@ -154,28 +160,13 @@ function setListeners(array) {
                 e.preventDefault();
             }
         };
-
-        elem.oninput = function (e) {
-            // var value = cleanFromCommas(e.target.value);
-            // e.target.value = numberWithCommas(value);
-
-            // for (var i = 0; i < investment.length; i++) {
-            //     if (investment[i].id == e.target.id) {
-            //         investment[i].value(validate_value(value));
-            //         break;
-            //     }
-            // }
-        }
     });
 }
 
-function init(budget, fixedcost, variablecost) {
-    console.log("init");
-    knockout.budget(budget);
-    knockout.fixedcost(fixedcost);
-    knockout.variablecost(variablecost);
+function init(periods) {
+    knockout.report.newPeriods(periods);
+    console.log(knockout);
 }
-
 
 var validate_value = function (value) {
     if (value === undefined || value === "")
@@ -183,7 +174,6 @@ var validate_value = function (value) {
     else
         return parseInt(value);
 };
-
 
 var get_game_data = function () {
 
@@ -247,7 +237,7 @@ function getUmsatz(step) {
     var umsatz = [];
     for (var i = 0; i <= 10; i++) {
         var sold = step * i;
-        umsatz.push(knockout.price().value()*sold);
+        umsatz.push(knockout.price().value() * sold);
     }
     return umsatz;
 }

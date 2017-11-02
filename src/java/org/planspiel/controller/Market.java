@@ -27,12 +27,19 @@ public class Market {
     // Stellschrauben
     //
     //Anteil des Marktanteils der sich auf Grund von Werbung umentscheidet
-    final double changingMarketShare = 0.3;
+    final double changingMarketShareMarketing = 0.3;
+    //Anteil des Marktanteils der sich auf Grund von Forschung umentscheidet
+    final double changingMarketShareDevelopment = 0.3;
 
     //share of the market each marketing option can influence
-    private double marketingOptionEffect1 = 0.15;
-    private double marketingOptionEffect2 = 0.15;
-    private double marketingOptionEffect3 = 0.15;
+    private double marketingOptionEffect1 = 1;
+    private double marketingOptionEffect2 = 1;
+    private double marketingOptionEffect3 = 1;
+
+    //share of the market each marketing option can influence
+    private double developmentOptionEffect1 = 1;
+    private double developmentOptionEffect2 = 1;
+    private double developmentOptionEffect3 = 1;
 
     //threshhold to pass for a free lottery spin
     private double developmentEdge1 = 10000;
@@ -46,7 +53,9 @@ public class Market {
 
         calcMarketShare();
 
-        sellBeer(players, marketVolume);
+        sellBeer(players);
+        
+        setRealMarketShare();
     }
 
     //percentage of market/revenue the company gets from the cake
@@ -54,11 +63,14 @@ public class Market {
 
         double totalProducedBeer = 0;  //all produced hectolitres of everyone
 
-        double sumMarketingOption1 = 0;  //marketing spent by everyone
+        //marketing spent by everyone
+        double sumMarketingOption1 = 0;
         double sumMarketingOption2 = 0;
         double sumMarketingOption3 = 0;
-
-        double totalChangingMarketShare = 0;
+        //development spent by everyone
+        double sumDevelopmentOption1 = 0;
+        double sumDevelopmentOption2 = 0;
+        double sumDevelopmentOption3 = 0;
 
         Iterator<User> it = players.iterator();
         while (it.hasNext()) {
@@ -71,17 +83,23 @@ public class Market {
             sumMarketingOption1 += p.getOptionMarketing1();
             sumMarketingOption2 += p.getOptionMarketing2();
             sumMarketingOption3 += p.getOptionMarketing3();
+            //Combine the amount of money spend on Development
+            sumDevelopmentOption1 += p.getOptionDevelopment1();
+            sumDevelopmentOption2 += p.getOptionDevelopment2();
+            sumDevelopmentOption3 += p.getOptionDevelopment3();
 
-            //Anteil der Käufer des Marktanteils die Wechseln
-            totalChangingMarketShare += p.getMarketShare() * changingMarketShare;
             //Neuer Marktanteil bevor die wechselnden hinzu kommen
-            p.setMarketShare(p.getMarketShare() * (1 - changingMarketShare));
+            p.setMarketShare(p.getMarketShare() * (1 - changingMarketShareMarketing + changingMarketShareDevelopment));
         }
 
         //Gesamte Marketingausgaben der Periode mit MarketingOptionsEffect
         double sumMarketing1 = sumMarketingOption1 * marketingOptionEffect1;
         double sumMarketing2 = sumMarketingOption2 * marketingOptionEffect2;
         double sumMarketing3 = sumMarketingOption3 * marketingOptionEffect3;
+        //Gesamte Forschungsausgaben der Periode mit DevelopmentOptionsEffect
+        double sumDevelopment1 = sumDevelopmentOption1 * developmentOptionEffect1;
+        double sumDevelopment2 = sumDevelopmentOption2 * developmentOptionEffect2;
+        double sumDevelopment3 = sumDevelopmentOption3 * developmentOptionEffect3;
 
         it = players.iterator();
         while (it.hasNext()) {
@@ -91,21 +109,28 @@ public class Market {
             double m1 = p.getOptionMarketing1() * marketingOptionEffect1;
             double m2 = p.getOptionMarketing2() * marketingOptionEffect2;
             double m3 = p.getOptionMarketing3() * marketingOptionEffect3;
+            //Developmentausgaben der Company mit MarketingOptionEffect ausrechnen
+            double d1 = p.getOptionDevelopment1() * developmentOptionEffect1;
+            double d2 = p.getOptionDevelopment2() * developmentOptionEffect2;
+            double d3 = p.getOptionDevelopment3() * developmentOptionEffect3;
 
             p.setMarketShareMarketing1(sumMarketing1 != 0 ? m1 / sumMarketing1 : 0);
             p.setMarketShareMarketing2(sumMarketing1 != 0 ? m2 / sumMarketing2 : 0);
             p.setMarketShareMarketing3(sumMarketing1 != 0 ? m3 / sumMarketing3 : 0);
 
-            double MarketingShare = p.getMarketShareMarketing1() + p.getMarketShareMarketing2() + p.getMarketShareMarketing3();
+            p.setMarketShareDevelopment1(sumDevelopment1 != 0 ? d1 / sumDevelopment1 : 0);
+            p.setMarketShareDevelopment2(sumDevelopment2 != 0 ? d2 / sumDevelopment2 : 0);
+            p.setMarketShareDevelopment3(sumDevelopment3 != 0 ? d3 / sumDevelopment3 : 0);
 
-            double MarketShareToAdd = totalChangingMarketShare * MarketingShare;
+            double MarketingShare = p.getMarketShareMarketing1() + p.getMarketShareMarketing2() + p.getMarketShareMarketing3();
+            double DevelopmentShare = p.getMarketShareDevelopment1() + p.getMarketShareDevelopment2() + p.getMarketShareDevelopment3();
+
+            double MarketShareToAdd = 0;
+            MarketShareToAdd += changingMarketShareMarketing * MarketingShare;
+            MarketShareToAdd += changingMarketShareDevelopment * DevelopmentShare;
 
             p.setMarketShare(p.getMarketShare() + MarketShareToAdd);
         }
-    }
-
-    private void calcHectolitresSold(User user, int currentPeriod, float sumMarketingOption1, float sumMarketingOption2, float sumMarketingOption3, float marketVolume) {
-
     }
 
     protected double getMarketVolume(int currentPeriod) {
@@ -125,7 +150,18 @@ public class Market {
         return 1000000 * (-0.000731785 * Math.pow(x, 9) + 0.0358807 * Math.pow(x, 8) - 0.753038 * Math.pow(x, 7) + 8.84993 * Math.pow(x, 6) - 63.965 * Math.pow(x, 5) + 293.709 * Math.pow(x, 4) - 852.146 * Math.pow(x, 3) + 1492.56 * Math.pow(x, 2) - 1407.76 * x + 548.12);
     }
 
-    protected void sellBeer(ArrayList<User> players, double marketVolume) {
+    protected void sellBeer (ArrayList<User> players) {
+        
+        Iterator<User> it = players.iterator();
+        while (it.hasNext()) {
+            Period period = it.next().getCompany().getCurrentPeriod();
+            period.setTempMarketShare(period.getMarketShare());
+        }
+        
+        sellBeerRek(players, marketVolume);
+    }
+    
+    protected void sellBeerRek(ArrayList<User> players, double marketVolume) {
         double leftOver = marketVolume;
         ArrayList<User> UserNotSoldOut = new ArrayList<User>();
 
@@ -137,7 +173,7 @@ public class Market {
             User user = it.next();
             Period period = user.getCompany().getCurrentPeriod();
 
-            marketShare += period.getMarketShare();
+            marketShare += period.getTempMarketShare();
         }
         if (marketShare != 1) {
             it = players.iterator();
@@ -145,7 +181,7 @@ public class Market {
                 User user = it.next();
                 Period period = user.getCompany().getCurrentPeriod();
 
-                period.setMarketShare(period.getMarketShare() / marketShare);
+                period.setTempMarketShare(period.getTempMarketShare() / marketShare);
             }
         }
 
@@ -159,11 +195,11 @@ public class Market {
             User user = it.next();
             Period period = user.getCompany().getCurrentPeriod();
 
-            if (period.getProducedHectolitres() <= period.getMarketShare() * marketVolume) {
+            if (period.getProducedHectolitres() <= period.getTempMarketShare() * marketVolume) {
                 absatz[index] = (period.getProducedHectolitres()) - period.getSoldHectolitres();
                 period.setSoldHectolitres(period.getSoldHectolitres() + absatz[index]);
             } else {
-                absatz[index] = period.getMarketShare() * marketVolume;
+                absatz[index] = period.getTempMarketShare() * marketVolume;
                 period.setSoldHectolitres(period.getSoldHectolitres() + absatz[index]);
                 UserNotSoldOut.add(user);
             }
@@ -175,7 +211,27 @@ public class Market {
         //Rekursione wenn Spiele nicht alles verkauft haben 
         //und noch Bier verkaufbar ist.
         if (UserNotSoldOut.size() != 0 && leftOver > 0) {
-            sellBeer(UserNotSoldOut, leftOver);
+            sellBeerRek(UserNotSoldOut, leftOver);
+        }
+    }
+
+    private void setRealMarketShare() {
+        double totalSoldBeer = 0;
+        Iterator<User> it = players.iterator();
+        while (it.hasNext()) {
+            totalSoldBeer += it.next().getCompany().getCurrentPeriod().getSoldHectolitres();
+        }
+
+        System.out.println("Total sold beer: " + totalSoldBeer);
+        
+        it = players.iterator();
+        while (it.hasNext()) {
+            Period period = it.next().getCompany().getCurrentPeriod();
+            period.setRealMarketShare(
+                   totalSoldBeer != 0 
+                           ? period.getSoldHectolitres() / totalSoldBeer 
+                           : 0
+            );
         }
     }
 }
