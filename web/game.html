@@ -26,6 +26,256 @@
 
     <div class="container-fluid">
 
+        <!--  ****  -->
+        <!-- Widget -->
+        <!--  ****  -->
+        <!-- <div id="bericht" class="row">
+            <div class="container-fluid justify-content-center">
+                <div class="row widget-row">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Umsatz</h3>
+                                        <p>Die Umsatzsteigerung der vergangenen Perioden in Prozent.</p>
+                                        <div class="counter counter-warning">
+                                            <span>1000€</span>
+                                            <span>
+                                                9%
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-1"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Gewinn</h3>
+                                        <p>Die Gewinnsteigerung der vergangenen Perioden in Prozent.</p>
+                                        <div class="counter counter-info">
+                                            <span>1000€</span>
+                                            <span>
+                                                9%
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>ROI</h3>
+                                        <p>Der Return-Of-Investment Wert der vergangenen Periode in Prozent.</p>
+                                        <div class="counter counter-info">
+                                            <span>1000€</span>
+                                            <span>
+                                                9%
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-3"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="widget">
+                                    <div class="widget-content">
+                                        <h3>Absatzmenge</h3>
+                                        <p>Die Absatzsteigerung der vergangenen Periode in Prozent.</p>
+                                        <div class="counter counter-good">
+                                            <span>1000€</span>
+                                            <span>
+                                                9%
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <canvas id="canvas-bericht-4"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row widget-row">
+                    <div class="col">
+                        <div class="widget">
+                            <div class="widget-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Periode</td>
+                                            <td>Umsatz</td>
+                                            <td>Gewinn</td>
+                                            <td>ROI</td>
+                                            <td>Absatz</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: periods">
+                                        <tr>
+                                            <td>Periode 1</td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    <span data-bind="text: umsatz"></span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                    <span data-bind="text: gewinn"></span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    <span data-bind="text: ausgaben"></span>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    <span data-bind="text: absatz"></span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row widget-row">
+                    <div class="col-xl-6">
+                        <div class="widget">
+                            <div class="widget-content">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>Ausgaben</h3>
+                                        <p>Alle Ausgaben der vergangenen Perioden.</p>
+                                    </div>
+                                    <div class="col">
+                                        <div class="counter counter-warning">
+                                            <span>20.000€</span>
+                                            <span>
+                                                10%
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <canvas id="canvas-bericht-5"></canvas>
+                        </div>
+                        <div class="widget">
+                            <div class="widget-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Periode</td>
+                                            <td>Personal</td>
+                                            <td>Rohstoffe</td>
+                                            <td>Sonstiges</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Periode 1</td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    343284
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                    343284
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    343284
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="widget">
+                            <div class="widget-content">
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>Einnahmen</h3>
+                                        <p>Alle Einnahmen der vergangenen Perioden.</p>
+                                    </div>
+                                    <div class="col">
+                                        <div class="counter counter-good">
+                                            <span>32.000€</span>
+                                            <span>
+                                                10%
+                                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <canvas id="canvas-bericht-6"></canvas>
+                        </div>
+                        <div class="widget">
+                            <div class="widget-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Periode</td>
+                                            <td>Personal</td>
+                                            <td>Rohstoffe</td>
+                                            <td>Sonstiges</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Periode 1</td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    343284
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                                    343284
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    <i class="fa fa-angle-up" aria-hidden="true"></i>
+                                                    343284
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
         <div class="row">
             <div class="col-xl-9">
                 <!--  ****  -->
@@ -60,9 +310,13 @@
                                     <p>Dein Bier ist das Hausbier der Partner-Gaststätte.</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" data-bind="foreach: marketing">
                                 <div class="col input-group">
-                                    <input name="investment_plakate" class="form-control form-money background-dark3 " placeholder="00" id="mar_pla" type="text">
+                                    <input class="form-control form-money background-dark3" placeholder="00" type="text" data-bind="attr: {id: id }, textInput: value">
+                                    <span class="input-group-addon background-dark1">€</span>
+                                </div>
+                                <!-- <div class="col input-group">
+                                    <input name="investment_plakate" class="form-control form-money background-dark3" placeholder="00" id="mar_pla" type="text">
                                     <span class="input-group-addon background-dark1">€</span>
                                 </div>
                                 <div class="col input-group">
@@ -74,7 +328,7 @@
                                     <input type="text" name="investment_radio" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                         id="mar_rad">
                                     <span class="input-group-addon background-dark1">€</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -111,8 +365,12 @@
                                     <p>Ertragreichere Ernten durch die Verwendung von Biodünger.</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" data-bind="foreach: development">
                                 <div class="col input-group">
+                                    <input class="form-control form-money background-dark3" placeholder="00" type="text" data-bind="attr: {id: id }, textInput: value">
+                                    <span class="input-group-addon background-dark1">€</span>
+                                </div>
+                                <!-- <div class="col input-group">
                                     <input type="text" name="investment_geschmack" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                         id="dev_bie">
                                     <span class="input-group-addon background-dark1">€</span>
@@ -126,7 +384,7 @@
                                     <input type="text" name="investment_hopfen" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                         id="dev_get">
                                     <span class="input-group-addon background-dark1">€</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -142,9 +400,9 @@
 
                         <form name="form_pro">
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-7">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i> Menge</div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="input-group" data-bind="with: productionAmount">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
                                             id="pro_amount" data-bind="value: value, valueUpdate: 'afterkeydown'">
@@ -154,9 +412,9 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-7">
                                     <i class="fa fa-info-circle" aria-hidden="true"></i> Preis</div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <div class="input-group" data-bind="with: price">
                                         <input type="text" class="form-control form-money background-dark3" placeholder="00" id="pro_price" data-bind="value: value, valueUpdate: 'afterkeydown'">
                                         <span class="input-group-addon background-dark1">€</span>
@@ -164,6 +422,17 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="row">
+                            <div class="col-6">
+                                <h2 class="card-title">Preisfunktion</h2>
+                                <p class="card-text">Wie viel Bier willst du produzieren?</p>
+
+                                <canvas id="umsatzfunktion"></canvas>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -203,6 +472,15 @@
             <div class="col-xl-3">
                 <div class="widget-row" id="sidebar">
                     <div class="widget">
+                        <div class="widget-content">
+                            <h3>Periode: 1 von 4</h3>
+                            <h4>
+                                Besonderheiten:
+                            </h4>
+                            <span>
+                                Es findet die Fußballweltmeisterschaft statt. Das Verlangen nach Bier wird ca. 30% über dem Durchschnitt sein.
+                            </span>
+                        </div>
                         <div class="panel-group">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
@@ -225,7 +503,7 @@
                                                 <td>
                                                     <i>gesamtes Budget</i>
                                                 </td>
-                                                <td>
+                                                <td data-bind="with: getCurrentPeriod">
                                                     <span data-bind="currencyText: budget"></span>
                                                 </td>
                                             </tr>
@@ -263,7 +541,7 @@
                                                     <i data-bind="text: display"></i>
                                                 </td>
                                                 <td>
-                                                    <span data-bind="text: value"></span>
+                                                    <span data-bind="hektoLiter: value"></span>
                                                 </td>
                                             </tr>
                                             <tr data-bind="with: price">
@@ -294,7 +572,17 @@
                                         <thead>
 
                                         </thead>
-                                        <tbody data-bind="foreach: investment">
+                                        <tbody data-bind="foreach: marketing">
+                                            <tr>
+                                                <td>
+                                                    <i data-bind="text: display"></i>
+                                                </td>
+                                                <td>
+                                                    <span data-bind="currencyText: value"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody data-bind="foreach: development">
                                             <tr>
                                                 <td>
                                                     <i data-bind="text: display"></i>
@@ -336,7 +624,7 @@
                                                     <i>Produzierte Menge:</i>
                                                 </td>
                                                 <td data-bind="with: productionAmount">
-                                                    <span data-bind="text: value"></span>
+                                                    <span data-bind="hektoLiter: value"></span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -377,7 +665,7 @@
                             </div>
                         </div>
                         <button class="btn action-button" onclick="send_game_data();">
-                            <h2>Submit</h2>
+                            Submit
                         </button>
                     </div>
                 </div>
@@ -401,9 +689,11 @@
 
         <script src="js/knockout-3.4.1.js"></script>
 
-        <script src="js/model/game.js"></script>
+        <script src="js/model/report.js"></script>
         <script src="js/game.js"></script>
 
+
+    </div>
 
 </body>
 

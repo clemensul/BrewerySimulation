@@ -13,8 +13,9 @@
 }
 
 #sidebar {
-    position: fixed;
-    width: calc(25% - 15px);
+    display: block;
+    position: relative;
+    overflow:auto;
     right:15px;
 }
 
