@@ -1,6 +1,7 @@
 package org.planspiel.websocket;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.enterprise.context.ApplicationScoped;
@@ -12,10 +13,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.spi.JsonProvider;
 import org.planspiel.controller.Game;
+import org.planspiel.controller.helper;
 import org.planspiel.model.Period;
 import org.planspiel.model.User;
 
@@ -26,11 +30,11 @@ public class SessionHandler {
     private final HashMap<String, Game> gamesActive = new HashMap<>();
     private final HashMap<String, Session> sessions = new HashMap<>();
 
-    public void add(Game addGame, String hashValue) {
+    public synchronized void add(Game addGame, String hashValue) {
         gamesActive.put(hashValue, addGame);
     }
 
-    public void login(JsonObject jsonMessage, Session session) {
+    public synchronized void login(JsonObject jsonMessage, Session session) {
         System.out.println(jsonMessage.getString("name") + " - " + jsonMessage.getString("game_id"));
 
         String name = jsonMessage.getString("name");
@@ -41,14 +45,14 @@ public class SessionHandler {
         String user_hash = hashItUp(name);
         String game_hash = hashItUp(game_id.toLowerCase());
         String cookie = user_hash + "x" + game_hash;
-        String hashCodeGame = hashItUp(name);     
-        
+        String hashCodeGame = hashItUp(name);
+
         this.addSession(session, cookie);
 
         String error = "";   //TODO errorhandling add errors here
 
         if (gamesActive.containsKey(game_hash)) {
-            Game game = gamesActive.get(game_hash); 
+            Game game = gamesActive.get(game_hash);
             game.addPlayer(name, cookie, false);
             players = gamesActive.get(game_hash).showPlayers();
 
@@ -64,7 +68,7 @@ public class SessionHandler {
             System.out.println("Created new Game and Added " + name + " to game " + game_id);
         }
         JsonProvider provider = JsonProvider.provider();
-        
+
         //return information
         JsonObject addMessage = provider.createObjectBuilder()
                 .add("action", "login")
@@ -77,10 +81,10 @@ public class SessionHandler {
                 .build();
         //System.out.println(addMessage);
         sendToSession(session, addMessage);
-        
+
         JsonObject lobbyMsg = provider.createObjectBuilder()
                 .add("action", "lobby")
-                .add("name", name)  //name of admin?
+                .add("name", name) //name of admin?
                 .add("game_id", game_id)
                 .add("player", players)
                 .add("error", error)
@@ -89,210 +93,152 @@ public class SessionHandler {
         //sendToAllConnectedSessions(lobbyMsg);
         sendToGame(game_hash, lobbyMsg);
     }
-    public void startGame(JsonObject jsonMessage, Session session){
+
+    //When the StartButton is pressed.
+    //Guides all Users to the GameSite
+    public synchronized void startGame(JsonObject jsonMessage, Session session) {
         String error = "";
-        String hash = jsonMessage.getString("cookie");
-        String[] hashes = hash.split("x");
-        
-        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
-        for(User u : al){
-            JsonProvider provider = JsonProvider.provider();
-                JsonObject startMessage = provider.createObjectBuilder()
+        String cookie = jsonMessage.getString("cookie");
+
+        gamesActive.get(helper.getGameHash(cookie)).initialize();
+
+        JsonObject startMessage = Json.createObjectBuilder()
                 .add("action", "start_game")
                 .add("error", error)
                 .build();
-                
-                sendToCookie(u.getCookie(), startMessage);
-        }
-    }
-    private void initiateGame(JsonObject jsonMessage, Session session) {
-        String error = "";
-        String hash = jsonMessage.getString("cookie");
-        String[] hashes = hash.split("x");
-        
-        if (hashes.length != 2) {
-                error = "Cookie is not valid!";
-            } 
-            else{ 
-                //if("true".equals(jsonMessage.getString("admin"))){
-                    gamesActive.get(hashes[1]).initialize();
-                //}
-                //else{
-                    //error = "No admin!";
-                //}
-            }
-            
-        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
-        for(User u : al){
-            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
-            JsonProvider provider = JsonProvider.provider();
-                JsonObject startMessage = provider.createObjectBuilder()
-                .add("action", "initiate_game")
-                .add("budget", p.getBudget())
-                .add("fixed_cost", p.getFixedCosts())
-                .add("variable_cost", p.getCostPerHectolitre())
-                .add("error", error)
-                .build();
-                
-                sendToSession(session, startMessage);
-               break;
-        }
-         
-        //sendToGame(hashes[1], startMessage);
+
+        sendToGame(helper.getGameHash(cookie), startMessage);
+
     }
 
-    //thats where we can add some MAGIC to SPICE up the HashCodes ;)
-    private String hashItUp(int value) {
-        return Integer.toString(Integer.toString(value).hashCode());
-    }
-
-    private String hashItUp(String value) {
+    private synchronized String hashItUp(String value) {
         return Integer.toString(value.hashCode());
     }
-    
-    
-    //prod. Menge
-    //preis p. Hectolitre
-    //Marketing 1,2,3
-    //Dev 1,2,3
-    public void submit(JsonObject jsonMessage, Session session){
+
+    public synchronized void submit(JsonObject jsonMessage, Session session) {
         //search correct user in the current game
-        String [] hashes = jsonMessage.getString("cookie").split("x");
-        Game g = gamesActive.get(hashes[1]);
-        ArrayList<User> users = g.getUsers();
-        
-        for(Iterator it = users.iterator(); it.hasNext();){
-            User u = (User)it.next();
-            if(u.getCookie().equals(jsonMessage.getString("cookie"))){
-                String error = "";
-                JsonObject jsonObj = jsonMessage.getJsonObject("data");
-                
-                Float producedLitres = Float.parseFloat(jsonObj.getString("produced_litres"));
-                Float priceLitre = Float.parseFloat(jsonObj.getString("price_litre"));
-                Float marketing1 = Float.parseFloat(jsonObj.getString("cost_m1"));
-                Float marketing2 = Float.parseFloat(jsonObj.getString("cost_m2"));
-                Float marketing3 = Float.parseFloat(jsonObj.getString("cost_m3"));
-                Float development1 = Float.parseFloat(jsonObj.getString("cost_d1"));
-                Float development2 = Float.parseFloat(jsonObj.getString("cost_d2"));
-                Float development3 = Float.parseFloat(jsonObj.getString("cost_d3"));
-                
-                Boolean finish = g.submitValues(jsonMessage.getString("cookie"), producedLitres, priceLitre, 
-                                                marketing1, marketing2, marketing3, 
-                                                development1, development2, development3);
-                
-                if(finish){
-                    g.nextPeriod();
-                }
-               
-                break;
+        String cookie = jsonMessage.getString("cookie");
+        Game game = gamesActive.get(helper.getGameHash(cookie));
+
+        String error = "";
+        JsonObject jsonObj = jsonMessage.getJsonObject("data");
+
+        double producedLitres = Double.parseDouble(jsonObj.getString("produced_litres"));
+        double priceLitre = Double.parseDouble(jsonObj.getString("price_litre"));
+        double marketing1 = Double.parseDouble(jsonObj.getString("cost_m1"));
+        double marketing2 = Double.parseDouble(jsonObj.getString("cost_m2"));
+        double marketing3 = Double.parseDouble(jsonObj.getString("cost_m3"));
+        double development1 = Double.parseDouble(jsonObj.getString("cost_d1"));
+        double development2 = Double.parseDouble(jsonObj.getString("cost_d2"));
+        double development3 = Double.parseDouble(jsonObj.getString("cost_d3"));
+
+        Boolean finish = game.submitValues(jsonMessage.getString("cookie"), producedLitres, priceLitre,
+                marketing1, marketing2, marketing3,
+                development1, development2, development3);
+
+        if (finish) {
+            game.nextPeriod();
+
+            Iterator<User> it = game.getUsers().values().iterator();
+            while (it.hasNext()) {
+                sendToCookie(cookie, get_report(helper.getGameHash(cookie), helper.getUserHash(cookie)));
             }
-           
-        }
-    }
-    
-    private void report(JsonObject jsonMessage, Session session){
-        String error ="";
-        String[] hashes = jsonMessage.getString("cookie").split("x");
-        
-        ArrayList<User> al = gamesActive.get(hashes[1]).getUsers();
-        for(User u : al){
-            Period p = u.getCompany().getCurrentPeriod(gamesActive.get(hashes[1]).getCurrentPeriod());
-            JsonProvider provider = JsonProvider.provider();
-                JsonObject reportMessage = provider.createObjectBuilder()
-                .add("action", "report")
-                .add("budget", String.valueOf(p.getBudget()))
-                .add("produced_litres", String.valueOf(p.getProducedHectolitres()))
-                .add("sold_litres", String.valueOf(p.getSoldHectolitres()))
-                .add("price_litre", String.valueOf(p.getPricePerHectolitre()))
-                .add("left_litre", String.valueOf(p.getHectolitresLeft()))
-                .add("fixed_cost", String.valueOf(p.getFixedCosts()))
-                .add("variable_cost", String.valueOf(p.getCostPerHectolitre()))
-                .add("cost_m1", String.valueOf(p.getOptionMarketing1()))
-                .add("impact_m1", String.valueOf(p.getSoldHectolitresM1()))
-                .add("cost_m2", String.valueOf(p.getOptionMarketing2()))
-                .add("impact_m2", String.valueOf(p.getSoldHectolitresM2()))
-                .add("cost_m3", String.valueOf(p.getOptionMarketing3()))
-                .add("impact_m3", String.valueOf(p.getSoldHectolitresM3()))
-                .add("cost_d1", String.valueOf(p.getOptionDevelopment1()))
-                .add("cost_d2", String.valueOf(p.getOptionDevelopment2()))
-                .add("cost_d3", String.valueOf(p.getOptionDevelopment3()))
-                .add("error", error)
-                .build();
-                
-                sendToCookie(u.getCookie(), reportMessage);
-        }
-    }
-    //Sendet an alle Sessions
-    //unabhängig in welchem Spiel sie sind!
-    private void sendToAllConnectedSessions(JsonObject message) {
-        for (Session session : sessions.values()) {
-            sendToSession(session, message);
-            System.out.println("Sent to Session");
         }
     }
 
-    //Sendet an eine spezifische Session
-    private void sendToSession(Session session, JsonObject message) {
-        try {
-            session.getBasicRemote().sendText(message.toString());
-        } catch (IOException ex) {
-            sessions.remove(session);
-            Logger.getLogger(SessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+    //Gets full Report of one Company
+    private synchronized JsonObject get_report(String gameHash, String userHash) {
+        String error = "";
+
+        Game game = gamesActive.get(gameHash);
+
+        if (game.isFinished()) {
+            //Gewinner bekannt geben
+
+            //sendToGame(gameHash, message);
+            return null;
+        } else {
+
+            User user = game.getUsers().get(userHash);
+            JsonObjectBuilder builder = Json.createObjectBuilder();
+            builder.add("action", "report");
+            builder.add("error", error);
+            builder.add("report", user.getCompany().toJson());
+
+            return builder.build();
         }
+
     }
-    
+
     //Sendet an einen Client mit spezifischem Cookie
-    private void sendToCookie (String cookie, JsonObject message) {
-        sendToSession(sessions.get(cookie), message);
-        System.out.println("Sent to Session with Cookie: " + cookie);
-    }
-
-    public void addSession(Session session, String cookie) {
+    public synchronized void addSession(Session session, String cookie) {
         sessions.put(cookie, session);
     }
-    
-    public void renewSession(Session session, JsonObject jsonMessage){
-        Iterator it = sessions.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry mp = (Map.Entry)it.next();
-            if(mp.getKey().equals(jsonMessage.getString("cookie"))){
-                mp.setValue(session);
-                
-                JsonProvider provider = JsonProvider.provider();
-                JsonObject status = provider.createObjectBuilder()
+
+    public synchronized void renewSession(Session session, JsonObject jsonMessage) {
+        String cookie = jsonMessage.getString("cookie");
+
+        if (sessions.containsKey(jsonMessage.getString("cookie"))) {
+            sessions.replace(jsonMessage.getString("cookie"), session);
+        } else {
+            sessions.put(jsonMessage.getString("cookie"), session);
+        }
+
+        JsonProvider provider = JsonProvider.provider();
+        JsonObject status = provider.createObjectBuilder()
                 .add("action", "status")
                 .add("status", "200") //neededS so sendToAll doesnt trigger the wrong games
                 .add("error", "")
                 .build();
-                sendToSession(session, status);
-            }
-        }
+        sendToSession(session, status);
+
+        System.out.println("Cookie: " + cookie + " entered: " + jsonMessage.getString("site"));
         
-        if("game.html".equals(jsonMessage.getString("site"))){
-            initiateGame(jsonMessage, session);
-        }
-        else if("report.html".equals(jsonMessage.getString("site"))){
-            report(jsonMessage, session);
+        if ("game.html".equals(jsonMessage.getString("site"))) {
+            sendToCookie(cookie, get_report(helper.getGameHash(cookie), helper.getUserHash(cookie)));
         }
     }
-        //System.out.println("renewed");
-    
 
-    public void removeSession(Session session) {
+    public synchronized void removeSession(Session session) {
         sessions.remove(session);
     }
 
-    private void sendToGame(String game_hash, JsonObject jsonMessage) {
+    private synchronized void sendToGame(String game_hash, JsonObject jsonMessage) {
         Game g = gamesActive.get(game_hash);
-        ArrayList<User> gUser = g.getUsers();
-        if(gUser!=null){
-            for(Iterator it = gUser.iterator(); it.hasNext();){
-                try{
+        Iterator<User> it = g.getUsers().values().iterator();
+        while (it.hasNext()) {
+            try {
                 User u = (User) it.next();
-                sendToCookie(u.getCookie(), jsonMessage);}catch(Exception e){e.printStackTrace();};
+                sendToCookie(u.getCookie(), jsonMessage);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }else{
-            System.out.print("Error, no Users exist!");
-            }
+        };
+    }
+
+    private synchronized void sendToCookie(String cookie, JsonObject message) {
+        sendToSession(sessions.get(cookie), message);
+        System.out.println("Sent \"action: " + message.getString(("action")) + "\" to Session with Cookie: " + cookie);
+    }
+    //Sendet an eine spezifische Session
+
+    private synchronized void sendToSession(Session session, JsonObject message) {
+        try {
+            session.getBasicRemote().sendText(message.toString());
+        } catch (IOException ex) {
+            sessions.remove(session);
+            Logger
+                    .getLogger(SessionHandler.class
+                            .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //Sendet an alle Sessions
+    //unabhängig in welchem Spiel sie sind!
+    private synchronized void sendToAllConnectedSessions(JsonObject message) {
+        for (Session session : sessions.values()) {
+            sendToSession(session, message);
+            System.out.println("Sent to Session");
+        }
     }
 }
