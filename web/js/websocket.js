@@ -71,7 +71,6 @@ function onMessage(event) {
             break;
         }
         case "report": {
-
             if (reply.error === "") {
                 init(reply.report.periods);
             } else {
