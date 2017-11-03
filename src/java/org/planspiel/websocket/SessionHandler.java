@@ -1,16 +1,10 @@
 package org.planspiel.websocket;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.HashSet;
-import java.util.Set;
 import javax.websocket.Session;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.json.Json;
@@ -20,7 +14,6 @@ import javax.json.JsonObjectBuilder;
 import javax.json.spi.JsonProvider;
 import org.planspiel.controller.Game;
 import org.planspiel.controller.helper;
-import org.planspiel.model.Period;
 import org.planspiel.model.User;
 
 @ApplicationScoped
@@ -39,18 +32,15 @@ public class SessionHandler {
 
         String name = jsonMessage.getString("name");
         String game_id = jsonMessage.getString("game_id");
-        Boolean admin = false;
-        //String players = "";  //TODO cant put array in json | useful at all?
-        JsonArray players;
-        String user_hash = hashItUp(name);
-        String game_hash = hashItUp(game_id.toLowerCase());
+        String user_hash = helper.hashItUp(name);
+        String game_hash = helper.hashItUp(game_id.toLowerCase());
         String cookie = user_hash + "x" + game_hash;
-        String hashCodeGame = hashItUp(name);
-
-        this.addSession(session, cookie);
-
+        Boolean admin = false;
+        JsonArray players;
         String error = "";   //TODO errorhandling add errors here
-
+        
+        this.addSession(session, cookie);
+       
         if (gamesActive.containsKey(game_hash)) {
             Game game = gamesActive.get(game_hash);
             game.addPlayer(name, cookie, false);
@@ -79,7 +69,6 @@ public class SessionHandler {
                 .add("cookie", cookie)
                 .add("error", error)
                 .build();
-        //System.out.println(addMessage);
         sendToSession(session, addMessage);
 
         JsonObject lobbyMsg = provider.createObjectBuilder()
@@ -89,8 +78,6 @@ public class SessionHandler {
                 .add("player", players)
                 .add("error", error)
                 .build();
-        //System.out.println(lobbyMsg);
-        //sendToAllConnectedSessions(lobbyMsg);
         sendToGame(game_hash, lobbyMsg);
     }
 
@@ -109,10 +96,6 @@ public class SessionHandler {
 
         sendToGame(helper.getGameHash(cookie), startMessage);
 
-    }
-
-    private synchronized String hashItUp(String value) {
-        return Integer.toString(value.hashCode());
     }
 
     public synchronized void submit(JsonObject jsonMessage, Session session) {
@@ -154,9 +137,8 @@ public class SessionHandler {
 
         if (game.isFinished()) {
             //Gewinner bekannt geben
-
             //sendToGame(gameHash, message);
-            return null;
+            return game.endGame();
         } else {
 
             User user = game.getUsers().get(userHash);
@@ -167,7 +149,6 @@ public class SessionHandler {
 
             return builder.build();
         }
-
     }
 
     //Sendet an einen Client mit spezifischem Cookie
@@ -197,10 +178,6 @@ public class SessionHandler {
         if ("game.html".equals(jsonMessage.getString("site"))) {
             sendToCookie(cookie, get_report(helper.getGameHash(cookie), helper.getUserHash(cookie)));
         }
-    }
-
-    public synchronized void removeSession(Session session) {
-        sessions.remove(session);
     }
 
     private synchronized void sendToGame(String game_hash, JsonObject jsonMessage) {

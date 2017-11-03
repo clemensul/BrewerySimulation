@@ -35,24 +35,24 @@ public class WebSocketServer {
 
         try (JsonReader reader = Json.createReader(new StringReader(message))) {
             JsonObject jsonMessage = reader.readObject();
-            //System.out.println(message);
-            
-            if ("login".equals(jsonMessage.getString("action"))) {
-                System.out.println("logging in");
-                sessionHandler.login(jsonMessage, session);
-                System.out.println("logged in");
-//                sessionHandler.sendGameId(0, session);
-            }
-            if ("start_game".equals(jsonMessage.getString("action"))) {
-                sessionHandler.startGame(jsonMessage, session);
-                //System.out.println("started game");
-            }
-            if("newSession".equals(jsonMessage.getString("action"))){
-                sessionHandler.renewSession(session,jsonMessage);
-                //System.out.println("renewed game");
-            }
-            if("submit".equals(jsonMessage.getString("action"))){
-                sessionHandler.submit(jsonMessage, session);
+            switch(jsonMessage.getString("action")){
+                case "login":{
+                    sessionHandler.login(jsonMessage, session);
+                    break;
+                }
+                case "start_game":{
+                    sessionHandler.startGame(jsonMessage, session);
+                     break;
+                }
+                case "newSession":{
+                    sessionHandler.renewSession(session,jsonMessage);
+                     break;
+                }
+                case "submit":{
+                    sessionHandler.submit(jsonMessage, session);
+                     break;
+                }
+                default: break;
             }
         }
     }

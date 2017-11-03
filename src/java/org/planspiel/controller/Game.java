@@ -132,11 +132,7 @@ public class Game {
         ArrayList<User> users = new ArrayList(players.values());
         market.makeSimulation(users, currentPeriod);
 
-        if (currentPeriod == maxPeriods) {
-
-            System.out.println("Game ended.");
-            endGame();
-        } else {
+        if (currentPeriod < maxPeriods) {
             //Neue Periode erstellen
             Collection<User> al = players.values();
             for (User user : al) {
@@ -146,7 +142,7 @@ public class Game {
         }
     }
 
-    protected JsonObject endGame() {
+    public JsonObject endGame() {
         String error = "";
 
         User winner = null;
@@ -170,7 +166,7 @@ public class Game {
     }
 
     public boolean isFinished() {
-        return currentPeriod == maxPeriods;
+        return (currentPeriod - 1) == maxPeriods;
     }
 
     public int getCurrentPeriod() {
