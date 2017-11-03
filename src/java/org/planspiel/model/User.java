@@ -5,17 +5,15 @@
  */
 package org.planspiel.model;
 
-import java.util.Set;
-
 public class User {
 
     private Company company;
     private String cookie;
     private Boolean admin;
 
-    public User(String cname, float budget, float fixCost, String cookie, Boolean admin) {
+    public User(String cname, String cookie, Boolean admin) {
         this.cookie = cookie;
-        this.company = new Company(cname/*, budget, fixCost*/);
+        this.company = new Company(cname);
         this.admin = admin;
     }
 

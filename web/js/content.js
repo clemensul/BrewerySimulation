@@ -20,12 +20,9 @@ function ChangeToLobby(game_id, player, admin) {
 }
 
 function ChangeToReport() {
-  window.location.href = "report.html";
+  window.open("report.html", "Periodenbericht", 'toolbar=0,location=0,menubar=0,height=1000,width=1600');
 }
 
-function ChangeToGame() {
-
-  start_game();
-  
+function ChangeToGame() {  
   window.location.href = "game.html";
 }
