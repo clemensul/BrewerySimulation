@@ -140,7 +140,7 @@ public class Market {
     }
 
     //calculates the litres User u gets with his investment in OptionX
-    private float disMarketing(org.planspiel.model.User u, int currentPeriod, float sumMarketingOption, double marketingOptionShare, int i) {
+    protected float disMarketing(org.planspiel.model.User u, int currentPeriod, float sumMarketingOption, double marketingOptionShare, int i) {
 
         float marketingShare = 0;
         if (i == 1) {
@@ -159,7 +159,7 @@ public class Market {
     private float developmentEdge2 = 12000;
     private float developmentEdge3 = 14000;
 
-    private void disDevelopment(Period p) {
+    protected void disDevelopment(Period p) {
 
         int dev3 = (int) (p.getOptionDevelopment3() / developmentEdge3);
         int dev2 = (int) (p.getOptionDevelopment2() / developmentEdge2 + (dev3 / 2));
@@ -178,7 +178,9 @@ public class Market {
         p.setOtherFixedCosts((float) (p.getOtherFixedCosts() * sumDev1));
     }
 
-    private double getMarketVolume(int currentPeriod) {
+     //TODO: nur Perioden > 0 --> sonst Exception
+    //TODO: Modolo
+    protected double getMarketVolume(int currentPeriod) {
         if (currentPeriod == 6) {
             //WM or EM (every 2 years one of them), chance that Germany wins a lot of games and more beer is sold
             return marketFunction(currentPeriod + 1) * (double) Math.random() * (1.1 - 1) + 1;
@@ -189,7 +191,10 @@ public class Market {
     }
 
     //periods 1-8
-    private float marketFunction(int x) {
-        return (float) (1000000 * (-0.000731785 * Math.pow(x, 9) + 0.0358807 * Math.pow(x, 8) - 0.753038 * Math.pow(x, 7) + 8.84993 * Math.pow(x, 6) - 63.965 * Math.pow(x, 5) + 293.709 * Math.pow(x, 4) - 852.146 * Math.pow(x, 3) + 1492.56 * Math.pow(x, 2) - 1407.76 * x + 548.12));
+    //TODO: nur Perioden > 0 --> sonst Exception
+    protected float marketFunction(int x) {
+        return (float) (1000000 * (-0.000731785 * Math.pow(x, 9) + 0.0358807 * Math.pow(x, 8) - 0.753038 * Math.pow(x, 7) 
+                + 8.84993 * Math.pow(x, 6) - 63.965 * Math.pow(x, 5) + 293.709 * Math.pow(x, 4) - 852.146 * Math.pow(x, 3) 
+                + 1492.56 * Math.pow(x, 2) - 1407.76 * x + 548.12));
     }
 }
