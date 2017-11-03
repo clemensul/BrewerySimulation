@@ -174,8 +174,9 @@ public class Market {
             Period period = user.getCompany().getCurrentPeriod();
 
             marketShare += period.getTempMarketShare();
-        }
-        if (marketShare != 1) {
+      }
+      
+      if (marketShare != 1) {
             it = players.iterator();
             while (it.hasNext()) {
                 User user = it.next();
