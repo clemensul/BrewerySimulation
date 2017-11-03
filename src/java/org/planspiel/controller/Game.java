@@ -35,7 +35,7 @@ public class Game {
         this.budget = budget;
         this.rounds = rounds;
         this.fixCost = (float) (budget * 0.234);
-        this.costPerHectolitre = 500; //TODO manipulate value 
+        this.costPerHectolitre = 420;
         this.maxPeriods = 3;
         market = new Market();
     }

@@ -66,6 +66,8 @@ class Report {
 
     }
 
+    
+
     addPeriod(inputPeriods) {
         console.log("Period added.")
         this.periods().push(
