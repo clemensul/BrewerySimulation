@@ -124,7 +124,8 @@ public class SessionHandler {
 
             Iterator<User> it = game.getUsers().values().iterator();
             while (it.hasNext()) {
-                sendToCookie(cookie, get_report(helper.getGameHash(cookie), helper.getUserHash(cookie)));
+                String keks = it.next().getCookie();
+                sendToCookie(keks, get_report(helper.getGameHash(keks), helper.getUserHash(keks)));
             }
         }
     }
@@ -138,7 +139,7 @@ public class SessionHandler {
         if (game.isFinished()) {
             //Gewinner bekannt geben
             //sendToGame(gameHash, message);
-            return game.endGame();
+            return game.endGame();  //TODO not getting there
         } else {
 
             User user = game.getUsers().get(userHash);
