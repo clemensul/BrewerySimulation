@@ -43,7 +43,7 @@ public class WebSocketServer {
                 System.out.println("logged in");
 //                sessionHandler.sendGameId(0, session);
             }
-             if ("start_game".equals(jsonMessage.getString("action"))) {
+            if ("start_game".equals(jsonMessage.getString("action"))) {
                 sessionHandler.startGame(jsonMessage, session);
                 //System.out.println("started game");
             }
@@ -54,24 +54,6 @@ public class WebSocketServer {
             if("submit".equals(jsonMessage.getString("action"))){
                 sessionHandler.submit(jsonMessage, session);
             }
-//            if ("add".equals(jsonMessage.getString("action"))) {
-//                Device device = new Device();
-//                device.setName(jsonMessage.getString("name"));
-//                device.setDescription(jsonMessage.getString("description"));
-//                device.setType(jsonMessage.getString("type"));
-//                device.setStatus("Off");
-//                sessionHandler.addDevice(device);
-//            }
-//
-//            if ("remove".equals(jsonMessage.getString("action"))) {
-//                int id = (int) jsonMessage.getInt("id");
-//                sessionHandler.removeDevice(id);
-//            }
-//
-//            if ("toggle".equals(jsonMessage.getString("action"))) {
-//                int id = (int) jsonMessage.getInt("id");
-//                sessionHandler.toggleDevice(id);
-//            }
         }
     }
     

@@ -70,15 +70,13 @@ function onMessage(event) {
             }
             break;
         }
-        case "initiate_game": {
+        case "report": {
+
             if (reply.error === "") {
-                init(reply.budget, reply.fixed_cost, reply.variable_cost);
+                init(reply.report.periods);
             } else {
                 alert(reply.error);
             }
-        }
-        case "report": {
-            console.log(reply);
         }
 
         default: {
