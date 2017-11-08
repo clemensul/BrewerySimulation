@@ -5,8 +5,8 @@
  */
 package org.planspiel.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,21 +25,11 @@ public class GameIT {
     public GameIT() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
     }
     
-    @After
-    public void tearDown() {
-    }
+    
 
     /**
      * Test of showPlayers method, of class Game.
@@ -48,8 +38,8 @@ public class GameIT {
     public void testShowPlayers() {
         System.out.println("showPlayers");
         Game instance = null;
-        JsonObject expResult = null;
-        JsonObject result = instance.showPlayers();
+        JsonArray expResult = null;
+        JsonArray result = instance.showPlayers();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -85,15 +75,13 @@ public class GameIT {
     }
 
     /**
-     * Test of startGame method, of class Game.
+     * Test of initialize method, of class Game.
      */
     @Test
-    public void testStartGame() {
-        System.out.println("startGame");
+    public void testInitialize() {
+        System.out.println("initialize");
         Game instance = null;
-        Collection<User> expResult = null;
-        Collection<User> result = instance.startGame();
-        assertEquals(expResult, result);
+        instance.initialize();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -105,8 +93,22 @@ public class GameIT {
     public void testGetUsers() {
         System.out.println("getUsers");
         Game instance = null;
-        ArrayList<User> expResult = null;
-        ArrayList<User> result = instance.getUsers();
+        HashMap<String, User> expResult = null;
+        HashMap<String, User> result = instance.getUsers();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of checkClosed method, of class Game.
+     */
+    @Test
+    public void testCheckClosed() {
+        System.out.println("checkClosed");
+        Game instance = null;
+        Boolean expResult = null;
+        Boolean result = instance.checkClosed();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -118,14 +120,19 @@ public class GameIT {
     @Test
     public void testSubmitValues() {
         System.out.println("submitValues");
-        float producedHectolitres = 0.0F;
-        float pricePerHectolitre = 0.0F;
-        float optionMarketing1 = 0.0F;
-        float optionMarketing2 = 0.0F;
-        float optionMarketing3 = 0.0F;
-        float development = 0.0F;
+        String cookie = "";
+        double producedHectolitres = 0.0;
+        double pricePerHectolitre = 0.0;
+        double optionMarketing1 = 0.0;
+        double optionMarketing2 = 0.0;
+        double optionMarketing3 = 0.0;
+        double optionDevelopment1 = 0.0;
+        double optionDevelopment2 = 0.0;
+        double optionDevelopment3 = 0.0;
         Game instance = null;
-        instance.submitValues(producedHectolitres, pricePerHectolitre, optionMarketing1, optionMarketing2, optionMarketing3, development);
+        Boolean expResult = null;
+        Boolean result = instance.submitValues(cookie, producedHectolitres, pricePerHectolitre, optionMarketing1, optionMarketing2, optionMarketing3, optionDevelopment1, optionDevelopment2, optionDevelopment3);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -141,5 +148,50 @@ public class GameIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of endGame method, of class Game.
+     */
+    @Test
+    public void testEndGame() {
+        System.out.println("endGame");
+        Game instance = null;
+        JsonObject expResult = null;
+        JsonObject result = instance.endGame();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of isFinished method, of class Game.
+     */
+    @Test
+    public void testIsFinished() {
+        System.out.println("isFinished");
+        Game instance = null;
+        boolean expResult = false;
+        boolean result = instance.isFinished();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getCurrentPeriod method, of class Game.
+     */
+    @Test
+    public void testGetCurrentPeriod() {
+        System.out.println("getCurrentPeriod");
+        Game instance = null;
+        int expResult = 0;
+        int result = instance.getCurrentPeriod();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
+    @After
+    public void tearDown() {
+    }
 }

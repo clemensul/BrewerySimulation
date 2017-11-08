@@ -134,6 +134,7 @@ public class Market {
     }
 
     protected double getMarketVolume(int currentPeriod) {
+        
         int currentPeriodCalc = (currentPeriod % 8) + 1;
         //only values between 1-8
         if ((currentPeriodCalc % 2) == 0) {
@@ -142,7 +143,7 @@ public class Market {
         } else {
             //no WM, some random variable
             return marketFunction(currentPeriod + 1) * (double) Math.random() * (1 - 0.9) + 0.9;
-        }
+        }         
     }
 
     //periods 1-8
