@@ -35,7 +35,7 @@ public class Game {
         this.budget = budget;
         this.rounds = rounds;
         this.fixCost = (float) (budget * 0.234);
-        this.costPerHectolitre = 500; //TODO manipulate value 
+        this.costPerHectolitre = 420;
         this.maxPeriods = 3;
         market = new Market();
     }
@@ -131,12 +131,10 @@ public class Game {
         //Markt simulieren
         ArrayList<User> users = new ArrayList(players.values());
         market.makeSimulation(users, currentPeriod);
-
-        if (currentPeriod == maxPeriods) {
-
-            System.out.println("Game ended.");
+        if(isFinished()){
             endGame();
-        } else {
+        }
+        else{
             //Neue Periode erstellen
             Collection<User> al = players.values();
             for (User user : al) {
@@ -146,11 +144,11 @@ public class Game {
         }
     }
 
-    protected JsonObject endGame() {
+    public JsonObject endGame() {
         String error = "";
 
         User winner = null;
-
+        
         Iterator<User> it = players.values().iterator();
         while (it.hasNext()) {
             User user = it.next();
@@ -158,7 +156,7 @@ public class Game {
                 winner = user;
             }
         }
-
+        System.out.print("Game ended! Player " + winner.getCompany().getName() + " has won!");
         JsonProvider provider = JsonProvider.provider();
         JsonObject message = provider.createObjectBuilder()
                 .add("action", "end")
@@ -170,7 +168,7 @@ public class Game {
     }
 
     public boolean isFinished() {
-        return currentPeriod == maxPeriods;
+        return (currentPeriod - 1) >= maxPeriods;
     }
 
     public int getCurrentPeriod() {

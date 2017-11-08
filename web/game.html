@@ -285,7 +285,9 @@
                     <div class="widget">
                         <div class="widget-head">
                             <h2>Investitionsmöglichkeiten Marketing</h2>
-                            <span class="widget-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung!</span>
+                            <span class="widget-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung! 
+                                <br> Je mehr Investitionen du in diesem Bereich tätigst, desto mehr Kunden kannst du gewinnen.
+                            </span>
                         </div>
                         <div class="widget-content">
 
@@ -294,20 +296,19 @@
                                     <h3>Sponsoring eines Fußballteams</h3>
                                     <p>
                                         Das Team erhält neue Trikots mit dem Firmenlogo. </br>
-                                        Je mehr du investierts, desto großer wird deine Reichweite. Bedenke jedoch, dass die Wirksamkeit der Werbung nachlässt, wenn
-                                        auch das gegnerische Team von einer Biermarke gesponsort wird.
+                                        Je mehr du investiert, desto bekannter wird deine Marke bei den Fußballfans!
                                     </p>
                                 </div>
                                 <div class="col">
                                     <h3>Bierstände</h3>
                                     <p>
                                         Stelle Bierstände auf Volksfesten und anderen öffentlichen Veranstaltungen auf.</br>
-                                        Die Besucher werden
+                                        Bedenke jedoch, dass deine Gegner je nach Höhe ihrer Investition ebenfalls auf den Volksfesten vertreten sind.
                                     </p>
                                 </div>
                                 <div class="col">
                                     <h3>Gaststättenveträge</h3>
-                                    <p>Dein Bier ist das Hausbier der Partner-Gaststätte.</p>
+                                    <p>Dein Bier ist das Hausbier ausgewählter Partner-Gaststätten, jedoch nur solange du der höchste Investor bist!</p>
                                 </div>
                             </div>
                             <div class="row" data-bind="foreach: marketing">
@@ -342,27 +343,27 @@
                     <div class="widget">
                         <div class="widget-head">
                             <h2>Investitionsmöglichkeiten Forschung</h2>
-                            <span class="widget-text">Verteile dein Budget innerhalb der deiner Forschungsprojekte!</span>
+                            <span class="widget-text">Verteile dein Budget innerhalb deiner Forschungsprojekte! Durch diese Investitionen erweiterst du dein Angebot und optimierst deine Produktion.</span>
                         </div>
                         <div class="widget-content">
                             <div class="row">
                                 <div class="col">
                                     <h3>Verbesserung der Biergährung</h3>
                                     <p>
-                                        Wie kann der Gährungsprozess schneller werden?
+                                        Investiere in die Erforschung und Optimierung des Gärungsprozesses.
                                     </p>
                                 </div>
 
                                 <div class="col">
                                     <h3>Hopfenanbau optimieren</h3>
                                     <p>
-                                        Möglichst resistente Hopfenkulturen züchten.
+                                        Forscher arbeiten an neuen, resistenteren Hopfenkulturen. So können Missernten verhindert werden.
                                     </p>
                                 </div>
 
                                 <div class="col">
-                                    <h3>Getreideanbau</h3>
-                                    <p>Ertragreichere Ernten durch die Verwendung von Biodünger.</p>
+                                    <h3>Weizen- & Gerstenanbau</h3>
+                                    <p>Nutze effizienten Biodünger für eine ertragreiche Getreideernte.</p>
                                 </div>
                             </div>
                             <div class="row" data-bind="foreach: development">
@@ -503,7 +504,7 @@
                                                 <td>
                                                     <i>gesamtes Budget</i>
                                                 </td>
-                                                <td data-bind="with: getCurrentPeriod">
+                                                <td >
                                                     <span data-bind="currencyText: budget"></span>
                                                 </td>
                                             </tr>
@@ -683,8 +684,6 @@
 
         <script src="js/jquery-3.2.1.js"></script>
 
-        <script src="js/websocket.js"></script>
-
         <script src="js/content.js"></script>
 
         <script src="js/knockout-3.4.1.js"></script>
@@ -692,7 +691,7 @@
         <script src="js/model/report.js"></script>
         <script src="js/game.js"></script>
 
-
+        <script src="js/websocket.js"></script>
     </div>
 
 </body>

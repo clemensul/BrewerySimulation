@@ -20,4 +20,8 @@ public final class helper {
         String[] hashes = cookie.split("x");
         return hashes[0];
     }
+    
+     public static String hashItUp(String value) {
+        return Integer.toString(value.hashCode());
+    }
 }

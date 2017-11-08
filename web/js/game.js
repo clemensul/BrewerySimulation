@@ -164,7 +164,17 @@ function setListeners(array) {
 }
 
 function init(periods) {
-    knockout.report.newPeriods(periods);
+    if (knockout.report === undefined)
+        knockout.report = ko.observable(new Report());
+
+    knockout.report().newPeriods(periods);
+
+    var period = periods[periods.length - 1];
+
+    knockout.budget = period.budget;
+    knockout.fixedcost = period.fixedcost;
+    knockout.variablecost = period.variablecost;
+
     console.log(knockout);
 }
 
