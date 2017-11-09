@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SessionHandler.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;WebsocketHome&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">org.planspiel.websocket</a> &gt; <span class="el_source">SessionHandler.java</span></div><h1>SessionHandler.java</h1><pre class="source lang-java linenums">package org.planspiel.websocket;
+
+import java.io.IOException;
+import javax.enterprise.context.ApplicationScoped;
+import javax.websocket.Session;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.spi.JsonProvider;
+import org.planspiel.controller.Game;
+import org.planspiel.controller.helper;
+import org.planspiel.model.User;
+
+@ApplicationScoped
+<span class="nc" id="L20">public class SessionHandler {</span>
+
+<span class="nc" id="L22">    private final HashMap&lt;String, org.planspiel.model.User&gt; users = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L23">    private final HashMap&lt;String, Game&gt; gamesActive = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L24">    private final HashMap&lt;String, Session&gt; sessions = new HashMap&lt;&gt;();</span>
+
+    public synchronized void add(Game addGame, String hashValue) {
+<span class="nc" id="L27">        gamesActive.put(hashValue, addGame);</span>
+<span class="nc" id="L28">    }</span>
+
+    public synchronized void login(JsonObject jsonMessage, Session session) {
+<span class="nc" id="L31">        System.out.println(jsonMessage.getString(&quot;name&quot;) + &quot; - &quot; + jsonMessage.getString(&quot;game_id&quot;));</span>
+
+<span class="nc" id="L33">        String name = jsonMessage.getString(&quot;name&quot;);</span>
+<span class="nc" id="L34">        String game_id = jsonMessage.getString(&quot;game_id&quot;);</span>
+<span class="nc" id="L35">        String user_hash = helper.hashItUp(name);</span>
+<span class="nc" id="L36">        String game_hash = helper.hashItUp(game_id.toLowerCase());</span>
+<span class="nc" id="L37">        String cookie = user_hash + &quot;x&quot; + game_hash;</span>
+<span class="nc" id="L38">        Boolean admin = false;</span>
+        JsonArray players;
+<span class="nc" id="L40">        String error = &quot;&quot;;   //TODO errorhandling add errors here</span>
+        
+<span class="nc" id="L42">        this.addSession(session, cookie);</span>
+       
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (gamesActive.containsKey(game_hash)) {</span>
+<span class="nc" id="L45">            Game game = gamesActive.get(game_hash);</span>
+<span class="nc" id="L46">            game.addPlayer(name, cookie, false);</span>
+<span class="nc" id="L47">            players = gamesActive.get(game_hash).showPlayers();</span>
+
+<span class="nc" id="L49">            System.out.println(&quot;Added &quot; + name + &quot; to game &quot; + game_id);</span>
+<span class="nc" id="L50">        } //else create a new game, add a new player to it</span>
+        else {
+<span class="nc" id="L52">            Game game = new Game(1000000, 2, game_id, name, cookie);</span>
+<span class="nc" id="L53">            game.addPlayer(name, cookie, true);</span>
+<span class="nc" id="L54">            gamesActive.put(game_hash, game); //TODO .add not working properly </span>
+<span class="nc" id="L55">            admin = true;</span>
+<span class="nc" id="L56">            players = game.showPlayers();</span>
+
+<span class="nc" id="L58">            System.out.println(&quot;Created new Game and Added &quot; + name + &quot; to game &quot; + game_id);</span>
+        }
+<span class="nc" id="L60">        JsonProvider provider = JsonProvider.provider();</span>
+
+        //return information
+<span class="nc" id="L63">        JsonObject addMessage = provider.createObjectBuilder()</span>
+<span class="nc" id="L64">                .add(&quot;action&quot;, &quot;login&quot;)</span>
+<span class="nc" id="L65">                .add(&quot;name&quot;, name)</span>
+<span class="nc" id="L66">                .add(&quot;game_id&quot;, game_id)</span>
+<span class="nc" id="L67">                .add(&quot;admin&quot;, admin)</span>
+<span class="nc" id="L68">                .add(&quot;player&quot;, players)</span>
+<span class="nc" id="L69">                .add(&quot;cookie&quot;, cookie)</span>
+<span class="nc" id="L70">                .add(&quot;error&quot;, error)</span>
+<span class="nc" id="L71">                .build();</span>
+<span class="nc" id="L72">        sendToSession(session, addMessage);</span>
+
+<span class="nc" id="L74">        JsonObject lobbyMsg = provider.createObjectBuilder()</span>
+<span class="nc" id="L75">                .add(&quot;action&quot;, &quot;lobby&quot;)</span>
+<span class="nc" id="L76">                .add(&quot;name&quot;, name) //name of admin?</span>
+<span class="nc" id="L77">                .add(&quot;game_id&quot;, game_id)</span>
+<span class="nc" id="L78">                .add(&quot;player&quot;, players)</span>
+<span class="nc" id="L79">                .add(&quot;error&quot;, error)</span>
+<span class="nc" id="L80">                .build();</span>
+<span class="nc" id="L81">        sendToGame(game_hash, lobbyMsg);</span>
+<span class="nc" id="L82">    }</span>
+
+    //When the StartButton is pressed.
+    //Guides all Users to the GameSite
+    public synchronized void startGame(JsonObject jsonMessage, Session session) {
+<span class="nc" id="L87">        String error = &quot;&quot;;</span>
+<span class="nc" id="L88">        String cookie = jsonMessage.getString(&quot;cookie&quot;);</span>
+
+<span class="nc" id="L90">        gamesActive.get(helper.getGameHash(cookie)).initialize();</span>
+
+<span class="nc" id="L92">        JsonObject startMessage = Json.createObjectBuilder()</span>
+<span class="nc" id="L93">                .add(&quot;action&quot;, &quot;start_game&quot;)</span>
+<span class="nc" id="L94">                .add(&quot;error&quot;, error)</span>
+<span class="nc" id="L95">                .build();</span>
+
+<span class="nc" id="L97">        sendToGame(helper.getGameHash(cookie), startMessage);</span>
+
+<span class="nc" id="L99">    }</span>
+
+    public synchronized void submit(JsonObject jsonMessage, Session session) {
+        //search correct user in the current game
+<span class="nc" id="L103">        String cookie = jsonMessage.getString(&quot;cookie&quot;);</span>
+<span class="nc" id="L104">        Game game = gamesActive.get(helper.getGameHash(cookie));</span>
+
+<span class="nc" id="L106">        String error = &quot;&quot;;</span>
+<span class="nc" id="L107">        JsonObject jsonObj = jsonMessage.getJsonObject(&quot;data&quot;);</span>
+
+<span class="nc" id="L109">        double producedLitres = Double.parseDouble(jsonObj.getString(&quot;produced_litres&quot;));</span>
+<span class="nc" id="L110">        double priceLitre = Double.parseDouble(jsonObj.getString(&quot;price_litre&quot;));</span>
+<span class="nc" id="L111">        double marketing1 = Double.parseDouble(jsonObj.getString(&quot;cost_m1&quot;));</span>
+<span class="nc" id="L112">        double marketing2 = Double.parseDouble(jsonObj.getString(&quot;cost_m2&quot;));</span>
+<span class="nc" id="L113">        double marketing3 = Double.parseDouble(jsonObj.getString(&quot;cost_m3&quot;));</span>
+<span class="nc" id="L114">        double development1 = Double.parseDouble(jsonObj.getString(&quot;cost_d1&quot;));</span>
+<span class="nc" id="L115">        double development2 = Double.parseDouble(jsonObj.getString(&quot;cost_d2&quot;));</span>
+<span class="nc" id="L116">        double development3 = Double.parseDouble(jsonObj.getString(&quot;cost_d3&quot;));</span>
+
+<span class="nc" id="L118">        Boolean finish = game.submitValues(jsonMessage.getString(&quot;cookie&quot;), producedLitres, priceLitre,</span>
+                marketing1, marketing2, marketing3,
+                development1, development2, development3);
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (finish) {</span>
+<span class="nc" id="L123">            game.nextPeriod();</span>
+
+<span class="nc" id="L125">            Iterator&lt;User&gt; it = game.getUsers().values().iterator();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            while (it.hasNext()) {</span>
+<span class="nc" id="L127">                String keks = it.next().getCookie();</span>
+<span class="nc" id="L128">                sendToCookie(keks, get_report(helper.getGameHash(keks), helper.getUserHash(keks)));</span>
+<span class="nc" id="L129">            }</span>
+        }
+<span class="nc" id="L131">    }</span>
+
+    //Gets full Report of one Company
+    private synchronized JsonObject get_report(String gameHash, String userHash) {
+<span class="nc" id="L135">        String error = &quot;&quot;;</span>
+
+<span class="nc" id="L137">        Game game = gamesActive.get(gameHash);</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (game.isFinished()) {</span>
+            //Gewinner bekannt geben
+            //sendToGame(gameHash, message);
+<span class="nc" id="L142">            return game.endGame();  //TODO not getting there</span>
+        } else {
+
+<span class="nc" id="L145">            User user = game.getUsers().get(userHash);</span>
+<span class="nc" id="L146">            JsonObjectBuilder builder = Json.createObjectBuilder();</span>
+<span class="nc" id="L147">            builder.add(&quot;action&quot;, &quot;report&quot;);</span>
+<span class="nc" id="L148">            builder.add(&quot;error&quot;, error);</span>
+<span class="nc" id="L149">            builder.add(&quot;report&quot;, user.getCompany().toJson());</span>
+
+<span class="nc" id="L151">            return builder.build();</span>
+        }
+    }
+
+    //Sendet an einen Client mit spezifischem Cookie
+    public synchronized void addSession(Session session, String cookie) {
+<span class="nc" id="L157">        sessions.put(cookie, session);</span>
+<span class="nc" id="L158">    }</span>
+
+    public synchronized void renewSession(Session session, JsonObject jsonMessage) {
+<span class="nc" id="L161">        String cookie = jsonMessage.getString(&quot;cookie&quot;);</span>
+
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (sessions.containsKey(jsonMessage.getString(&quot;cookie&quot;))) {</span>
+<span class="nc" id="L164">            sessions.replace(jsonMessage.getString(&quot;cookie&quot;), session);</span>
+        } else {
+<span class="nc" id="L166">            sessions.put(jsonMessage.getString(&quot;cookie&quot;), session);</span>
+        }
+
+<span class="nc" id="L169">        JsonProvider provider = JsonProvider.provider();</span>
+<span class="nc" id="L170">        JsonObject status = provider.createObjectBuilder()</span>
+<span class="nc" id="L171">                .add(&quot;action&quot;, &quot;status&quot;)</span>
+<span class="nc" id="L172">                .add(&quot;status&quot;, &quot;200&quot;) //neededS so sendToAll doesnt trigger the wrong games</span>
+<span class="nc" id="L173">                .add(&quot;error&quot;, &quot;&quot;)</span>
+<span class="nc" id="L174">                .build();</span>
+<span class="nc" id="L175">        sendToSession(session, status);</span>
+
+<span class="nc" id="L177">        System.out.println(&quot;Cookie: &quot; + cookie + &quot; entered: &quot; + jsonMessage.getString(&quot;site&quot;));</span>
+        
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (&quot;game.html&quot;.equals(jsonMessage.getString(&quot;site&quot;))) {</span>
+<span class="nc" id="L180">            sendToCookie(cookie, get_report(helper.getGameHash(cookie), helper.getUserHash(cookie)));</span>
+        }
+<span class="nc" id="L182">    }</span>
+
+    private synchronized void sendToGame(String game_hash, JsonObject jsonMessage) {
+<span class="nc" id="L185">        Game g = gamesActive.get(game_hash);</span>
+<span class="nc" id="L186">        Iterator&lt;User&gt; it = g.getUsers().values().iterator();</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">        while (it.hasNext()) {</span>
+            try {
+<span class="nc" id="L189">                User u = (User) it.next();</span>
+<span class="nc" id="L190">                sendToCookie(u.getCookie(), jsonMessage);</span>
+<span class="nc" id="L191">            } catch (Exception e) {</span>
+<span class="nc" id="L192">                e.printStackTrace();</span>
+<span class="nc" id="L193">            }</span>
+        };
+<span class="nc" id="L195">    }</span>
+
+    private synchronized void sendToCookie(String cookie, JsonObject message) {
+<span class="nc" id="L198">        sendToSession(sessions.get(cookie), message);</span>
+<span class="nc" id="L199">        System.out.println(&quot;Sent \&quot;action: &quot; + message.getString((&quot;action&quot;)) + &quot;\&quot; to Session with Cookie: &quot; + cookie);</span>
+<span class="nc" id="L200">    }</span>
+    //Sendet an eine spezifische Session
+
+    private synchronized void sendToSession(Session session, JsonObject message) {
+        try {
+<span class="nc" id="L205">            session.getBasicRemote().sendText(message.toString());</span>
+<span class="nc" id="L206">        } catch (IOException ex) {</span>
+<span class="nc" id="L207">            sessions.remove(session);</span>
+<span class="nc" id="L208">            Logger</span>
+<span class="nc" id="L209">                    .getLogger(SessionHandler.class</span>
+<span class="nc" id="L210">                            .getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L211">        }</span>
+<span class="nc" id="L212">    }</span>
+
+    //Sendet an alle Sessions
+    //unabhängig in welchem Spiel sie sind!
+    private synchronized void sendToAllConnectedSessions(JsonObject message) {
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        for (Session session : sessions.values()) {</span>
+<span class="nc" id="L218">            sendToSession(session, message);</span>
+<span class="nc" id="L219">            System.out.println(&quot;Sent to Session&quot;);</span>
+<span class="nc" id="L220">        }</span>
+<span class="nc" id="L221">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

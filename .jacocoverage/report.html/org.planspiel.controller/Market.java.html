@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Market.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;WebsocketHome&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">org.planspiel.controller</a> &gt; <span class="el_source">Market.java</span></div><h1>Market.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.planspiel.controller;
+
+import java.util.ArrayList;
+import org.planspiel.model.Period;
+import org.planspiel.model.User;
+import java.util.Iterator;
+//quote: &quot;Wenn ihr mir nen Button gebt, läuft der Scheiß&quot;
+//#1 noone understands the market
+
+//TODO statistics (read from periods?)
+//TODO how to win?
+//TODO development, marketing, investments -&gt; specialisation
+//TODO get credits from bank?
+//TODO information field where credits have to be redeemed, events occur, ...
+<span class="fc" id="L20">public class Market {</span>
+
+    private int currentPeriod;
+    private double marketVolume; //how many hectolitres the market buys
+    private ArrayList&lt;User&gt; players;
+
+    //
+    // Stellschrauben
+    //
+    //Anteil des Marktanteils der sich auf Grund von Werbung umentscheidet
+<span class="fc" id="L30">    final double changingMarketShareMarketing = 0.3;</span>
+    //Anteil des Marktanteils der sich auf Grund von Forschung umentscheidet
+<span class="fc" id="L32">    final double changingMarketShareDevelopment = 0.3;</span>
+
+    //share of the market each marketing option can influence
+<span class="fc" id="L35">    private double marketingOptionEffect1 = 1;</span>
+<span class="fc" id="L36">    private double marketingOptionEffect2 = 1;</span>
+<span class="fc" id="L37">    private double marketingOptionEffect3 = 1;</span>
+
+    //share of the market each marketing option can influence
+<span class="fc" id="L40">    private double developmentOptionEffect1 = 1;</span>
+<span class="fc" id="L41">    private double developmentOptionEffect2 = 1;</span>
+<span class="fc" id="L42">    private double developmentOptionEffect3 = 1;</span>
+
+    //threshhold to pass for a free lottery spin
+<span class="fc" id="L45">    private double developmentEdge1 = 10000;</span>
+<span class="fc" id="L46">    private double developmentEdge2 = 12000;</span>
+<span class="fc" id="L47">    private double developmentEdge3 = 14000;</span>
+
+    public void makeSimulation(ArrayList&lt;User&gt; players, int currentPeriod) {
+
+<span class="fc" id="L51">        marketVolume = getMarketVolume(currentPeriod);</span>
+<span class="fc" id="L52">        this.players = players;</span>
+
+<span class="fc" id="L54">        calcMarketShare();</span>
+
+<span class="fc" id="L56">        sellBeer(players);</span>
+        
+<span class="fc" id="L58">        setRealMarketShare();</span>
+<span class="fc" id="L59">    }</span>
+
+    //percentage of market/revenue the company gets from the cake
+    protected void calcMarketShare() {
+
+<span class="fc" id="L64">        double totalProducedBeer = 0;  //all produced hectolitres of everyone</span>
+
+        //marketing spent by everyone
+<span class="fc" id="L67">        double sumMarketingOption1 = 0;</span>
+<span class="fc" id="L68">        double sumMarketingOption2 = 0;</span>
+<span class="fc" id="L69">        double sumMarketingOption3 = 0;</span>
+        //development spent by everyone
+<span class="fc" id="L71">        double sumDevelopmentOption1 = 0;</span>
+<span class="fc" id="L72">        double sumDevelopmentOption2 = 0;</span>
+<span class="fc" id="L73">        double sumDevelopmentOption3 = 0;</span>
+
+<span class="fc" id="L75">        Iterator&lt;User&gt; it = players.iterator();</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L77">            Period p = it.next().getCompany().getCurrentPeriod();</span>
+
+            //Combine the amount of produced Beer  
+<span class="nc" id="L80">            totalProducedBeer += p.getProducedHectolitres();</span>
+
+            //Combine the amount of money spend on Marketing
+<span class="nc" id="L83">            sumMarketingOption1 += p.getOptionMarketing1();</span>
+<span class="nc" id="L84">            sumMarketingOption2 += p.getOptionMarketing2();</span>
+<span class="nc" id="L85">            sumMarketingOption3 += p.getOptionMarketing3();</span>
+            //Combine the amount of money spend on Development
+<span class="nc" id="L87">            sumDevelopmentOption1 += p.getOptionDevelopment1();</span>
+<span class="nc" id="L88">            sumDevelopmentOption2 += p.getOptionDevelopment2();</span>
+<span class="nc" id="L89">            sumDevelopmentOption3 += p.getOptionDevelopment3();</span>
+
+            //Neuer Marktanteil bevor die wechselnden hinzu kommen
+<span class="nc" id="L92">            p.setMarketShare(p.getMarketShare() * (1 - changingMarketShareMarketing + changingMarketShareDevelopment));</span>
+<span class="nc" id="L93">        }</span>
+
+        //Gesamte Marketingausgaben der Periode mit MarketingOptionsEffect
+<span class="fc" id="L96">        double sumMarketing1 = sumMarketingOption1 * marketingOptionEffect1;</span>
+<span class="fc" id="L97">        double sumMarketing2 = sumMarketingOption2 * marketingOptionEffect2;</span>
+<span class="fc" id="L98">        double sumMarketing3 = sumMarketingOption3 * marketingOptionEffect3;</span>
+        //Gesamte Forschungsausgaben der Periode mit DevelopmentOptionsEffect
+<span class="fc" id="L100">        double sumDevelopment1 = sumDevelopmentOption1 * developmentOptionEffect1;</span>
+<span class="fc" id="L101">        double sumDevelopment2 = sumDevelopmentOption2 * developmentOptionEffect2;</span>
+<span class="fc" id="L102">        double sumDevelopment3 = sumDevelopmentOption3 * developmentOptionEffect3;</span>
+
+<span class="fc" id="L104">        it = players.iterator();</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L106">            Period p = it.next().getCompany().getCurrentPeriod();</span>
+
+            //Marketingausgaben der Company mit MarketingOptionEffect ausrechnen
+<span class="nc" id="L109">            double m1 = p.getOptionMarketing1() * marketingOptionEffect1;</span>
+<span class="nc" id="L110">            double m2 = p.getOptionMarketing2() * marketingOptionEffect2;</span>
+<span class="nc" id="L111">            double m3 = p.getOptionMarketing3() * marketingOptionEffect3;</span>
+            //Developmentausgaben der Company mit MarketingOptionEffect ausrechnen
+<span class="nc" id="L113">            double d1 = p.getOptionDevelopment1() * developmentOptionEffect1;</span>
+<span class="nc" id="L114">            double d2 = p.getOptionDevelopment2() * developmentOptionEffect2;</span>
+<span class="nc" id="L115">            double d3 = p.getOptionDevelopment3() * developmentOptionEffect3;</span>
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            p.setMarketShareMarketing1(sumMarketing1 != 0 ? m1 / sumMarketing1 : 0);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            p.setMarketShareMarketing2(sumMarketing1 != 0 ? m2 / sumMarketing2 : 0);</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            p.setMarketShareMarketing3(sumMarketing1 != 0 ? m3 / sumMarketing3 : 0);</span>
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            p.setMarketShareDevelopment1(sumDevelopment1 != 0 ? d1 / sumDevelopment1 : 0);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            p.setMarketShareDevelopment2(sumDevelopment2 != 0 ? d2 / sumDevelopment2 : 0);</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            p.setMarketShareDevelopment3(sumDevelopment3 != 0 ? d3 / sumDevelopment3 : 0);</span>
+
+<span class="nc" id="L125">            double MarketingShare = p.getMarketShareMarketing1() + p.getMarketShareMarketing2() + p.getMarketShareMarketing3();</span>
+<span class="nc" id="L126">            double DevelopmentShare = p.getMarketShareDevelopment1() + p.getMarketShareDevelopment2() + p.getMarketShareDevelopment3();</span>
+
+<span class="nc" id="L128">            double MarketShareToAdd = 0;</span>
+<span class="nc" id="L129">            MarketShareToAdd += changingMarketShareMarketing * MarketingShare;</span>
+<span class="nc" id="L130">            MarketShareToAdd += changingMarketShareDevelopment * DevelopmentShare;</span>
+
+<span class="nc" id="L132">            p.setMarketShare(p.getMarketShare() + MarketShareToAdd);</span>
+<span class="nc" id="L133">        }</span>
+<span class="fc" id="L134">    }</span>
+
+    protected double getMarketVolume(int currentPeriod) {
+        
+<span class="fc" id="L138">        int currentPeriodCalc = (currentPeriod % 8) + 1;</span>
+        //only values between 1-8
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if ((currentPeriodCalc % 2) == 0) {</span>
+            //WM or EM (every 2 years one of them), chance that Germany wins a lot of games and more beer is sold
+<span class="fc" id="L142">            return marketFunction(currentPeriod + 1) * (double) Math.random() * (1.2 - 1.1) + 1.1;</span>
+        } else {
+            //no WM, some random variable
+<span class="fc" id="L145">            return marketFunction(currentPeriod + 1) * (double) Math.random() * (1 - 0.9) + 0.9;</span>
+        }         
+    }
+
+    //periods 1-8
+    private double marketFunction(int x) {
+<span class="fc" id="L151">        return 1000000 * (-0.000731785 * Math.pow(x, 9) + 0.0358807 * Math.pow(x, 8) - 0.753038 * Math.pow(x, 7) + 8.84993 * Math.pow(x, 6) - 63.965 * Math.pow(x, 5) + 293.709 * Math.pow(x, 4) - 852.146 * Math.pow(x, 3) + 1492.56 * Math.pow(x, 2) - 1407.76 * x + 548.12);</span>
+    }
+
+    protected void sellBeer (ArrayList&lt;User&gt; players) {
+        
+<span class="fc" id="L156">        Iterator&lt;User&gt; it = players.iterator();</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L158">            Period period = it.next().getCompany().getCurrentPeriod();</span>
+<span class="nc" id="L159">            period.setTempMarketShare(period.getMarketShare());</span>
+<span class="nc" id="L160">        }</span>
+        
+<span class="fc" id="L162">        sellBeerRek(players, marketVolume);</span>
+<span class="fc" id="L163">    }</span>
+    
+    protected void sellBeerRek(ArrayList&lt;User&gt; players, double marketVolume) {
+<span class="fc" id="L166">        double leftOver = marketVolume;</span>
+<span class="fc" id="L167">        ArrayList&lt;User&gt; UserNotSoldOut = new ArrayList&lt;User&gt;();</span>
+
+        //Berechnet den Marktanteil auf Grund der Summe alle Marktanteile     
+        //Wichtig für Rekursion, wenn nicht mehr alle Spiele dabei sind
+<span class="fc" id="L171">        double marketShare = 0;</span>
+<span class="fc" id="L172">        Iterator&lt;User&gt; it = players.iterator();</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L174">            User user = it.next();</span>
+<span class="nc" id="L175">            Period period = user.getCompany().getCurrentPeriod();</span>
+
+<span class="nc" id="L177">            marketShare += period.getTempMarketShare();</span>
+<span class="nc" id="L178">      }</span>
+      
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">      if (marketShare != 1) {</span>
+<span class="fc" id="L181">            it = players.iterator();</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">            while (it.hasNext()) {</span>
+<span class="nc" id="L183">                User user = it.next();</span>
+<span class="nc" id="L184">                Period period = user.getCompany().getCurrentPeriod();</span>
+
+<span class="nc" id="L186">                period.setTempMarketShare(period.getTempMarketShare() / marketShare);</span>
+<span class="nc" id="L187">            }</span>
+        }
+
+        //Berechnet den Absatz jedes Spielers
+        //Zusätzlicher Absatz wird vorher separat in Array gespeichert
+<span class="fc" id="L192">        double[] absatz = new double[players.size()];</span>
+<span class="fc" id="L193">        int index = 0;</span>
+
+<span class="fc" id="L195">        it = players.iterator();</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L197">            User user = it.next();</span>
+<span class="nc" id="L198">            Period period = user.getCompany().getCurrentPeriod();</span>
+
+<span class="nc bnc" id="L200" title="All 2 branches missed.">            if (period.getProducedHectolitres() &lt;= period.getTempMarketShare() * marketVolume) {</span>
+<span class="nc" id="L201">                absatz[index] = (period.getProducedHectolitres()) - period.getSoldHectolitres();</span>
+<span class="nc" id="L202">                period.setSoldHectolitres(period.getSoldHectolitres() + absatz[index]);</span>
+            } else {
+<span class="nc" id="L204">                absatz[index] = period.getTempMarketShare() * marketVolume;</span>
+<span class="nc" id="L205">                period.setSoldHectolitres(period.getSoldHectolitres() + absatz[index]);</span>
+<span class="nc" id="L206">                UserNotSoldOut.add(user);</span>
+            }
+<span class="nc" id="L208">            leftOver -= absatz[index];</span>
+
+<span class="nc" id="L210">            index++;</span>
+<span class="nc" id="L211">        }</span>
+
+        //Rekursione wenn Spiele nicht alles verkauft haben 
+        //und noch Bier verkaufbar ist.
+<span class="pc bpc" id="L215" title="3 of 4 branches missed.">        if (UserNotSoldOut.size() != 0 &amp;&amp; leftOver &gt; 0) {</span>
+<span class="nc" id="L216">            sellBeerRek(UserNotSoldOut, leftOver);</span>
+        }
+<span class="fc" id="L218">    }</span>
+
+    private void setRealMarketShare() {
+<span class="fc" id="L221">        double totalSoldBeer = 0;</span>
+<span class="fc" id="L222">        Iterator&lt;User&gt; it = players.iterator();</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L224">            totalSoldBeer += it.next().getCompany().getCurrentPeriod().getSoldHectolitres();</span>
+        }
+
+<span class="fc" id="L227">        System.out.println(&quot;Total sold beer: &quot; + totalSoldBeer);</span>
+        
+<span class="fc" id="L229">        it = players.iterator();</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        while (it.hasNext()) {</span>
+<span class="nc" id="L231">            Period period = it.next().getCompany().getCurrentPeriod();</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            period.setRealMarketShare(</span>
+                   totalSoldBeer != 0 
+<span class="nc" id="L234">                           ? period.getSoldHectolitres() / totalSoldBeer </span>
+<span class="nc" id="L235">                           : 0</span>
+            );
+<span class="nc" id="L237">        }</span>
+<span class="fc" id="L238">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

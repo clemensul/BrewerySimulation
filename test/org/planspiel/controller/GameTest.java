@@ -9,27 +9,23 @@ import java.util.HashMap;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.planspiel.model.User;
 
 /**
  *
- * @author Caterina
+ * @author makra
  */
-public class GameIT {
-    
-    public GameIT() {
+public class GameTest {
+
+    public GameTest() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
-    
 
     /**
      * Test of showPlayers method, of class Game.
@@ -190,7 +186,7 @@ public class GameIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     @After
     public void tearDown() {
     }
