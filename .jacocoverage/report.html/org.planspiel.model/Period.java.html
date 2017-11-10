@@ -43,7 +43,7 @@ public class Period {
     private double marketShareDevelopment2;
     private double marketShareDevelopment3;
 
-<span class="pc" id="L46">    private Boolean closed = false;</span>
+<span class="fc" id="L46">    private Boolean closed = false;</span>
 
 <span class="fc" id="L48">    public Period(double budget, double fixCost, double costPerHectolitre, double initialMarketShare) {</span>
 <span class="fc" id="L49">        this.budget = budget;</span>
@@ -62,14 +62,14 @@ public class Period {
 <span class="fc" id="L62">        this.optionDevelopment3 = 1;</span>
 <span class="fc" id="L63">    }</span>
 
-<span class="nc" id="L65">    public Period(Period lastPeriod) {</span>
-<span class="nc" id="L66">        this.budget = lastPeriod.getBudgetLeft() + lastPeriod.getRevenue();</span>
-<span class="nc" id="L67">        this.otherFixedCosts = lastPeriod.otherFixedCosts;</span>
-<span class="nc" id="L68">        this.costPerHectolitre = lastPeriod.costPerHectolitre;</span>
+<span class="fc" id="L65">    public Period(Period lastPeriod) {</span>
+<span class="fc" id="L66">        this.budget = lastPeriod.getBudgetLeft() + lastPeriod.getRevenue();</span>
+<span class="fc" id="L67">        this.otherFixedCosts = lastPeriod.otherFixedCosts;</span>
+<span class="fc" id="L68">        this.costPerHectolitre = lastPeriod.costPerHectolitre;</span>
 
         //Vorläufig den alten Marktanteil eintragen. Wird später mit Marketingmaßnahem neu berechnet.
-<span class="nc" id="L71">        this.marketShare = lastPeriod.marketShare;</span>
-<span class="nc" id="L72">    }</span>
+<span class="fc" id="L71">        this.marketShare = lastPeriod.marketShare;</span>
+<span class="fc" id="L72">    }</span>
     
     public JsonObject toJson() {
 <span class="nc" id="L75">        return Json.createObjectBuilder()</span>
@@ -101,7 +101,7 @@ public class Period {
 
 // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Getter and Setter&quot;&gt;    
     public double getBudget() {
-<span class="nc" id="L104">        return budget;</span>
+<span class="fc" id="L104">        return budget;</span>
     }
 
     public void setBudget(double budget) {
@@ -109,87 +109,87 @@ public class Period {
 <span class="nc" id="L109">    }</span>
 
     public double getRevenue() {
-<span class="nc" id="L112">        return pricePerHectolitre * soldHectolitres;</span>
+<span class="fc" id="L112">        return pricePerHectolitre * soldHectolitres;</span>
     }
 
     public double getFixedCosts() {
-<span class="nc" id="L116">        return this.getMarketing() + this.getDevelopment() + this.getOtherFixedCosts();</span>
+<span class="fc" id="L116">        return this.getMarketing() + this.getDevelopment() + this.getOtherFixedCosts();</span>
     }
 
     public double getProducedHectolitres() {
-<span class="nc" id="L120">        return producedHectolitres;</span>
+<span class="fc" id="L120">        return producedHectolitres;</span>
     }
 
     public void setProducedHectolitres(double producedHectolitres) {
-<span class="nc" id="L124">        this.producedHectolitres = producedHectolitres;</span>
-<span class="nc" id="L125">    }</span>
+<span class="fc" id="L124">        this.producedHectolitres = producedHectolitres;</span>
+<span class="fc" id="L125">    }</span>
 
     public double getPricePerHectolitre() {
 <span class="nc" id="L128">        return pricePerHectolitre;</span>
     }
 
     public void setPricePerHectolitre(double pricePerHectolitre) {
-<span class="nc" id="L132">        this.pricePerHectolitre = pricePerHectolitre;</span>
-<span class="nc" id="L133">    }</span>
+<span class="fc" id="L132">        this.pricePerHectolitre = pricePerHectolitre;</span>
+<span class="fc" id="L133">    }</span>
 
     public double getDevelopment() {
-<span class="nc" id="L136">        return optionDevelopment1 + optionDevelopment2 + optionDevelopment3;</span>
+<span class="fc" id="L136">        return optionDevelopment1 + optionDevelopment2 + optionDevelopment3;</span>
     }
 
     public double getMarketing() {
-<span class="nc" id="L140">        return optionMarketing1 + optionMarketing2 + optionMarketing3;</span>
+<span class="fc" id="L140">        return optionMarketing1 + optionMarketing2 + optionMarketing3;</span>
     }
 
     public double getOptionMarketing1() {
-<span class="nc" id="L144">        return optionMarketing1;</span>
+<span class="fc" id="L144">        return optionMarketing1;</span>
     }
 
     public void setOptionMarketing1(double optionMarketing1) {
-<span class="nc" id="L148">        this.optionMarketing1 = optionMarketing1;</span>
-<span class="nc" id="L149">    }</span>
+<span class="fc" id="L148">        this.optionMarketing1 = optionMarketing1;</span>
+<span class="fc" id="L149">    }</span>
 
     public double getOptionMarketing2() {
-<span class="nc" id="L152">        return optionMarketing2;</span>
+<span class="fc" id="L152">        return optionMarketing2;</span>
     }
 
     public void setOptionMarketing2(double optionMarketing2) {
-<span class="nc" id="L156">        this.optionMarketing2 = optionMarketing2;</span>
-<span class="nc" id="L157">    }</span>
+<span class="fc" id="L156">        this.optionMarketing2 = optionMarketing2;</span>
+<span class="fc" id="L157">    }</span>
 
     public double getOptionMarketing3() {
-<span class="nc" id="L160">        return optionMarketing3;</span>
+<span class="fc" id="L160">        return optionMarketing3;</span>
     }
 
     public void setOptionMarketing3(double optionMarketing3) {
-<span class="nc" id="L164">        this.optionMarketing3 = optionMarketing3;</span>
-<span class="nc" id="L165">    }</span>
+<span class="fc" id="L164">        this.optionMarketing3 = optionMarketing3;</span>
+<span class="fc" id="L165">    }</span>
 
     public double getOptionDevelopment1() {
-<span class="nc" id="L168">        return optionDevelopment1;</span>
+<span class="fc" id="L168">        return optionDevelopment1;</span>
     }
 
     public void setOptionDevelopment1(double optionDevelopment1) {
-<span class="nc" id="L172">        this.optionDevelopment1 = optionDevelopment1;</span>
-<span class="nc" id="L173">    }</span>
+<span class="fc" id="L172">        this.optionDevelopment1 = optionDevelopment1;</span>
+<span class="fc" id="L173">    }</span>
 
     public double getOptionDevelopment2() {
-<span class="nc" id="L176">        return optionDevelopment2;</span>
+<span class="fc" id="L176">        return optionDevelopment2;</span>
     }
 
     public void setOptionDevelopment2(double optionDevelopment2) {
-<span class="nc" id="L180">        this.optionDevelopment2 = optionDevelopment2;</span>
-<span class="nc" id="L181">    }</span>
+<span class="fc" id="L180">        this.optionDevelopment2 = optionDevelopment2;</span>
+<span class="fc" id="L181">    }</span>
 
     public double getOptionDevelopment3() {
-<span class="nc" id="L184">        return optionDevelopment3;</span>
+<span class="fc" id="L184">        return optionDevelopment3;</span>
     }
 
     public void setOptionDevelopment3(double optionDevelopment3) {
-<span class="nc" id="L188">        this.optionDevelopment3 = optionDevelopment3;</span>
-<span class="nc" id="L189">    }</span>
+<span class="fc" id="L188">        this.optionDevelopment3 = optionDevelopment3;</span>
+<span class="fc" id="L189">    }</span>
 
     public double getBudgetLeft() {
-<span class="nc" id="L192">        return budget - getTotalCosts();</span>
+<span class="fc" id="L192">        return budget - getTotalCosts();</span>
     }
 
     public double getHectolitresLeft() {
@@ -197,7 +197,7 @@ public class Period {
     }
 
     public double getTotalCosts() {
-<span class="nc" id="L200">        return costPerHectolitre * producedHectolitres + getFixedCosts();</span>
+<span class="fc" id="L200">        return costPerHectolitre * producedHectolitres + getFixedCosts();</span>
     }
 
     public double getProfit() {
@@ -205,23 +205,23 @@ public class Period {
     }
 
     public double getMarketShare() {
-<span class="nc" id="L208">        return marketShare;</span>
+<span class="fc" id="L208">        return marketShare;</span>
     }
 
     public void setMarketShare(double marketShare) {
-<span class="nc" id="L212">        this.marketShare = marketShare;</span>
-<span class="nc" id="L213">    }</span>
+<span class="fc" id="L212">        this.marketShare = marketShare;</span>
+<span class="fc" id="L213">    }</span>
 
     public double getSoldHectolitres() {
-<span class="nc" id="L216">        return soldHectolitres;</span>
+<span class="fc" id="L216">        return soldHectolitres;</span>
     }
 
     public void setSoldHectolitres(double soldHectolitres) {
-<span class="nc" id="L220">        this.soldHectolitres = soldHectolitres;</span>
-<span class="nc" id="L221">    }</span>
+<span class="fc" id="L220">        this.soldHectolitres = soldHectolitres;</span>
+<span class="fc" id="L221">    }</span>
 
     public double getOtherFixedCosts() {
-<span class="nc" id="L224">        return otherFixedCosts;</span>
+<span class="fc" id="L224">        return otherFixedCosts;</span>
     }
 
     public void setOtherFixedCosts(double otherFixedCosts) {
@@ -229,15 +229,15 @@ public class Period {
 <span class="nc" id="L229">    }</span>
 
     public Boolean getClosed() {
-<span class="nc" id="L232">        return closed;</span>
+<span class="fc" id="L232">        return closed;</span>
     }
 
     public void setClosed(Boolean closed) {
-<span class="nc" id="L236">        this.closed = closed;</span>
-<span class="nc" id="L237">    }</span>
+<span class="fc" id="L236">        this.closed = closed;</span>
+<span class="fc" id="L237">    }</span>
 
     public double getCostPerHectolitre() {
-<span class="nc" id="L240">        return costPerHectolitre;</span>
+<span class="fc" id="L240">        return costPerHectolitre;</span>
     }
 
     public void setCostPerHectolitre(double costPerHectolitre) {
@@ -245,68 +245,68 @@ public class Period {
 <span class="nc" id="L245">    }</span>
 
     public double getMarketShareMarketing1() {
-<span class="nc" id="L248">        return marketShareMarketing1;</span>
+<span class="fc" id="L248">        return marketShareMarketing1;</span>
     }
 
     public void setMarketShareMarketing1(double marketShareMarketing1) {
-<span class="nc" id="L252">        this.marketShareMarketing1 = marketShareMarketing1;</span>
-<span class="nc" id="L253">    }</span>
+<span class="fc" id="L252">        this.marketShareMarketing1 = marketShareMarketing1;</span>
+<span class="fc" id="L253">    }</span>
 
     public double getMarketShareMarketing2() {
-<span class="nc" id="L256">        return marketShareMarketing2;</span>
+<span class="fc" id="L256">        return marketShareMarketing2;</span>
     }
 
     public void setMarketShareMarketing2(double marketShareMarketing2) {
-<span class="nc" id="L260">        this.marketShareMarketing2 = marketShareMarketing2;</span>
-<span class="nc" id="L261">    }</span>
+<span class="fc" id="L260">        this.marketShareMarketing2 = marketShareMarketing2;</span>
+<span class="fc" id="L261">    }</span>
 
     public double getMarketShareMarketing3() {
-<span class="nc" id="L264">        return marketShareMarketing3;</span>
+<span class="fc" id="L264">        return marketShareMarketing3;</span>
     }
 
     public void setMarketShareMarketing3(double marketShareMarketing3) {
-<span class="nc" id="L268">        this.marketShareMarketing3 = marketShareMarketing3;</span>
-<span class="nc" id="L269">    }</span>
+<span class="fc" id="L268">        this.marketShareMarketing3 = marketShareMarketing3;</span>
+<span class="fc" id="L269">    }</span>
 
     public double getMarketShareDevelopment1() {
-<span class="nc" id="L272">        return marketShareDevelopment1;</span>
+<span class="fc" id="L272">        return marketShareDevelopment1;</span>
     }
 
     public void setMarketShareDevelopment1(double marketShareDevelopment1) {
-<span class="nc" id="L276">        this.marketShareDevelopment1 = marketShareDevelopment1;</span>
-<span class="nc" id="L277">    }</span>
+<span class="fc" id="L276">        this.marketShareDevelopment1 = marketShareDevelopment1;</span>
+<span class="fc" id="L277">    }</span>
 
     public double getMarketShareDevelopment2() {
-<span class="nc" id="L280">        return marketShareDevelopment2;</span>
+<span class="fc" id="L280">        return marketShareDevelopment2;</span>
     }
 
     public void setMarketShareDevelopment2(double marketShareDevelopment2) {
-<span class="nc" id="L284">        this.marketShareDevelopment2 = marketShareDevelopment2;</span>
-<span class="nc" id="L285">    }</span>
+<span class="fc" id="L284">        this.marketShareDevelopment2 = marketShareDevelopment2;</span>
+<span class="fc" id="L285">    }</span>
 
     public double getMarketShareDevelopment3() {
-<span class="nc" id="L288">        return marketShareDevelopment3;</span>
+<span class="fc" id="L288">        return marketShareDevelopment3;</span>
     }
 
     public void setMarketShareDevelopment3(double marketShareDevelopment3) {
-<span class="nc" id="L292">        this.marketShareDevelopment3 = marketShareDevelopment3;</span>
-<span class="nc" id="L293">    }</span>
+<span class="fc" id="L292">        this.marketShareDevelopment3 = marketShareDevelopment3;</span>
+<span class="fc" id="L293">    }</span>
 
     public double getRealMarketShare() {
-<span class="nc" id="L296">        return realMarketShare;</span>
+<span class="fc" id="L296">        return realMarketShare;</span>
     }
 
     public void setRealMarketShare(double realMarketShare) {
-<span class="nc" id="L300">        this.realMarketShare = realMarketShare;</span>
-<span class="nc" id="L301">    }</span>
+<span class="fc" id="L300">        this.realMarketShare = realMarketShare;</span>
+<span class="fc" id="L301">    }</span>
     
     public double getTempMarketShare() {
-<span class="nc" id="L304">        return tempMarketShare;</span>
+<span class="fc" id="L304">        return tempMarketShare;</span>
     }
 
     public void setTempMarketShare(double tempMarketShare) {
-<span class="nc" id="L308">        this.tempMarketShare = tempMarketShare;</span>
-<span class="nc" id="L309">    }</span>
+<span class="fc" id="L308">        this.tempMarketShare = tempMarketShare;</span>
+<span class="fc" id="L309">    }</span>
 
     // &lt;/editor-fold&gt;
 }

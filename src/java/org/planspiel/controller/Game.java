@@ -30,7 +30,7 @@ public class Game {
     private boolean initiated = false;
     private Market market;
 
-    public Game(float budget, int rounds, String id, String playerName, String cookie) {
+    public Game(float budget, int rounds, String id, String cookie) {
         this.id = id;
         this.budget = budget;
         this.rounds = rounds;

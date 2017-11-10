@@ -16,38 +16,38 @@ import javax.json.spi.JsonProvider;
 public class Company {
 
     private String name;
-<span class="nc" id="L19">    private ArrayList&lt;Period&gt; periods = new ArrayList&lt;Period&gt;();</span>
+<span class="fc" id="L19">    private ArrayList&lt;Period&gt; periods = new ArrayList&lt;Period&gt;();</span>
 
-<span class="nc" id="L21">    public Company(String name) {</span>
-<span class="nc" id="L22">        this.name = name;</span>
-<span class="nc" id="L23">    }</span>
+<span class="fc" id="L21">    public Company(String name) {</span>
+<span class="fc" id="L22">        this.name = name;</span>
+<span class="fc" id="L23">    }</span>
 
     //Returns the name of the company
     public String getName() {
-<span class="nc" id="L27">        return name;</span>
+<span class="fc" id="L27">        return name;</span>
     }
 
     //First Period of the company with predefined Budget
     public void initializePeriods(float budget, float fixCost, float costPerHectolitre, double initialMarketShare) {
-<span class="nc" id="L32">        Period p = new Period(budget, fixCost, costPerHectolitre, initialMarketShare);</span>
-<span class="nc" id="L33">        periods.add(p);</span>
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L32">        Period p = new Period(budget, fixCost, costPerHectolitre, initialMarketShare);</span>
+<span class="fc" id="L33">        periods.add(p);</span>
+<span class="fc" id="L34">    }</span>
 
     //Following Period on the stats of the previous Period
     public void addPeriod(Period previousPeriod) {
-<span class="nc" id="L38">        periods.add(new Period(previousPeriod));</span>
-<span class="nc" id="L39">    }</span>
+<span class="fc" id="L38">        periods.add(new Period(previousPeriod));</span>
+<span class="fc" id="L39">    }</span>
 
     public Period getCurrentPeriod() {
-<span class="nc" id="L42">        return periods.get(periods.size() - 1);</span>
+<span class="fc" id="L42">        return periods.get(periods.size() - 1);</span>
     }
 
     public Period getLastPeriod() {
-<span class="nc" id="L46">        return periods.get(periods.size() - 2);</span>
+<span class="fc" id="L46">        return periods.get(periods.size() - 2);</span>
     }
 
     public double getMarketShare() {
-<span class="nc" id="L50">        return getLastPeriod().getRealMarketShare();</span>
+<span class="fc" id="L50">        return getLastPeriod().getRealMarketShare();</span>
     }
 
     public JsonObject toJson() {

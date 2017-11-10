@@ -49,7 +49,7 @@ import org.planspiel.model.User;
 <span class="nc" id="L49">            System.out.println(&quot;Added &quot; + name + &quot; to game &quot; + game_id);</span>
 <span class="nc" id="L50">        } //else create a new game, add a new player to it</span>
         else {
-<span class="nc" id="L52">            Game game = new Game(1000000, 2, game_id, name, cookie);</span>
+<span class="nc" id="L52">            Game game = new Game(1000000, 2, game_id, cookie);</span>
 <span class="nc" id="L53">            game.addPlayer(name, cookie, true);</span>
 <span class="nc" id="L54">            gamesActive.put(game_hash, game); //TODO .add not working properly </span>
 <span class="nc" id="L55">            admin = true;</span>

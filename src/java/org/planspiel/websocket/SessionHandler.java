@@ -49,7 +49,7 @@ public class SessionHandler {
             System.out.println("Added " + name + " to game " + game_id);
         } //else create a new game, add a new player to it
         else {
-            Game game = new Game(1000000, 2, game_id, name, cookie);
+            Game game = new Game(1000000, 2, game_id, cookie);
             game.addPlayer(name, cookie, true);
             gamesActive.put(game_hash, game); //TODO .add not working properly 
             admin = true;
