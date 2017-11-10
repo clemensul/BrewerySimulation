@@ -119,7 +119,7 @@
                                             <td>Absatz</td>
                                         </tr>
                                     </thead>
-                                    <tbody data-bind="foreach: periods">
+                                    <tbody data-bind="foreach: report.periods">
                                         <tr>
                                             <td>Periode 1</td>
                                             <td>
@@ -285,7 +285,7 @@
                     <div class="widget">
                         <div class="widget-head">
                             <h2>Investitionsmöglichkeiten Marketing</h2>
-                            <span class="widget-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung! 
+                            <span class="widget-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung!
                                 <br> Je mehr Investitionen du in diesem Bereich tätigst, desto mehr Kunden kannst du gewinnen.
                             </span>
                         </div>
@@ -308,7 +308,8 @@
                                 </div>
                                 <div class="col">
                                     <h3>Gaststättenveträge</h3>
-                                    <p>Dein Bier ist das Hausbier ausgewählter Partner-Gaststätten, jedoch nur solange du der höchste Investor bist!</p>
+                                    <p>Dein Bier ist das Hausbier ausgewählter Partner-Gaststätten, jedoch nur solange du der
+                                        höchste Investor bist!</p>
                                 </div>
                             </div>
                             <div class="row" data-bind="foreach: marketing">
@@ -343,7 +344,8 @@
                     <div class="widget">
                         <div class="widget-head">
                             <h2>Investitionsmöglichkeiten Forschung</h2>
-                            <span class="widget-text">Verteile dein Budget innerhalb deiner Forschungsprojekte! Durch diese Investitionen erweiterst du dein Angebot und optimierst deine Produktion.</span>
+                            <span class="widget-text">Verteile dein Budget innerhalb deiner Forschungsprojekte! Durch diese Investitionen erweiterst
+                                du dein Angebot und optimierst deine Produktion.</span>
                         </div>
                         <div class="widget-content">
                             <div class="row">
@@ -504,7 +506,7 @@
                                                 <td>
                                                     <i>gesamtes Budget</i>
                                                 </td>
-                                                <td >
+                                                <td>
                                                     <span data-bind="currencyText: budget"></span>
                                                 </td>
                                             </tr>
@@ -675,9 +677,9 @@
 
 
         <!-- Optional JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="js/jquery-3.2.1.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js" crossorigin="anonymous"></script>
 
         <script src="js/model/colors.js"></script>
         <script src="node_modules/chart.js/dist/Chart.js"></script>

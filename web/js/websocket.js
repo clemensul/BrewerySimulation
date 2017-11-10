@@ -72,6 +72,7 @@ function onMessage(event) {
         }
         case "report": {
             if (reply.error === "") {
+                console.log(reply.report.periods);
                 init(reply.report.periods);
             } else {
                 alert(reply.error);

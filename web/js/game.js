@@ -57,6 +57,7 @@ function cleanFromCommas(nStr) {
 }
 
 function numberWithCommas(x) {
+    x = x + "";
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
@@ -121,11 +122,6 @@ class KNOCKOUT {
             return this.budget() - this.cost();
         }, this);
 
-        this.getCurrentPeriod = ko.computed(function () {
-            var report = this.report();
-            return report.periods()[report.periods().length - 1];
-        }, this);
-
         this.error = ko.observable("");
     }
 }
@@ -164,16 +160,16 @@ function setListeners(array) {
 }
 
 function init(periods) {
-    if (knockout.report === undefined)
-        knockout.report = ko.observable(new Report());
-
     knockout.report().newPeriods(periods);
 
     var period = periods[periods.length - 1];
 
-    knockout.budget = period.budget;
-    knockout.fixedcost = period.fixedcost;
-    knockout.variablecost = period.variablecost;
+    console.log("Budget: " + period.budget);
+    knockout.budget(period.budget);
+    console.log("Fixcost: " + period.fixed_cost);
+    knockout.fixedcost(period.fixed_cost);
+    console.log("Variablenkosten: " + period.variable_cost);
+    knockout.variablecost(period.variable_cost);
 
     console.log(knockout);
 }
@@ -227,15 +223,17 @@ var get_game_data = function () {
 
 var send_game_data = function () {
 
-    var content = {
-        action: "submit",
-        cookie: document.cookie,
-        data: get_game_data()
-    };
-    console.log(content);
-    socket.send(JSON.stringify(content));
-
-    //ChangeToReport();
+    if (knockout.budgetLeft() < 0)
+        alert("Du hast dein Budget überschritten!");
+    else {
+        var content = {
+            action: "submit",
+            cookie: document.cookie,
+            data: get_game_data()
+        };
+        console.log(content);
+        socket.send(JSON.stringify(content));
+    }
 }
 
 
@@ -363,39 +361,35 @@ development.forEach(function (elem) {
     });
 });
 
-//     return config;
-// }
 
-// function getPieChart(data, label) {
-//     return config_pie1 = {
-//         type: "pie",
-//         data: {
-//             labels: ["Periode 1", "Periode 2", "Periode 3"],
-//             datasets: [{
-//                 label: label,
-//                 backgroundColor: color.red,
-//                 borderColor: color.red,
-//                 data: data,
-//                 fill: false,
-//             }]
-//         },
-//         options: {
-//             responsive: true,
-//             title: {
-//                 display: true,
-//                 text: label
-//             },
-//             tooltips: {
-//                 mode: "index",
-//                 intersect: false,
-//             },
-//             hover: {
-//                 mode: "nearest",
-//                 intersect: true
-//             }
-//         }
-//     };
-// }
+
+
+/* DEMO */
+
+
+
+function getBarChartData() {
+
+    return barChartData = {
+        labels: ["January", "February", "March", "April", "May", "June"],
+        datasets: [
+            getDataset("Personal", color.red[0], report.ausgaben()[0]),
+            getDataset("Rohstoffe", color.blue[0], report.ausgaben()[1]),
+            getDataset("Sonstige", color.green[0], report.ausgaben()[2])
+        ]
+
+    };
+
+    function getDataset(name, color, data) {
+        return {
+            label: name,
+            backgroundColor: color,
+            borderColor: color,
+            borderWidth: 1,
+            data: data
+        }
+    }
+}
 
 // function getDataset(label, color, data) {
 //     return {
@@ -407,53 +401,109 @@ development.forEach(function (elem) {
 //     }
 // }
 
+// function getDemoLineChart(color, data) {
+//     return config_2 = {
+//         type: 'line',
+//         data: {
+//             labels: ["Periode 1", "Periode 2", "Periode 3", "Periode 4", "Periode 5", "Periode 6"],
+//             datasets: [{
+//                 label: false,
+//                 borderColor: color,
+//                 backgroundColor: color,
+//                 data: data,
+//                 pointRadius: 0.1,
+//                 pointHitRadius: 10
+//             }]
+//         },
+//         options: {
+//             legend: {
+//                 display: false
+//             },
+//             responsive: true,
+//             tooltips: {
+//                 mode: 'index',
+//             },
+//             hover: {
+//                 mode: 'index'
+//             },
+//             scales: {
+//                 display: false,
+//                 xAxes: [{
+//                     display: false
+//                 }],
+//                 yAxes: [{
+//                     display: false
+//                 }]
+//             }
+//         }
+//     };
+// }
 
-// var validparameter= function(){
-//     // hier müssen nun alle input Felder überprüft werden und geschaut werden ob 
-//     // alle eingaben valide sind
-//     // man könnte auch alle Eingabefelder mit 0 vorinitalisieren
-
-//     var temp = document.getElementById("mar_pla");
-//     if (temp !== null && temp.value === ""){
-//       mar_pl=0;
-//     }else mar_pl = parseInt(temp.value);
-
-//     var temp = document.getElementById("mar_tvw");
-//     if (temp !== null && temp.value === ""){
-//       mar_tv=0;
-//     }else mar_tv = parseInt(temp.value);
-//     var temp = document.getElementById("mar_rad");
-//     if (temp !== null && temp.value === ""){
-//       mar_ra=0;
-//     }else mar_ra = parseInt(temp.value);
-
-//     var temp = document.getElementById("for_bie");
-//     if (temp !== null && temp.value === ""){
-//       for_bi=0;
-//     }else for_bi = parseInt(temp.value);
-//     var temp= document.getElementById("for_che");
-//     if (temp !== null && temp.value === ""){
-//       for_ch=0;
-//     }else for_ch = parseInt(temp.value);
-//     var temp= document.getElementById("for_wei");
-//     if (temp !== null && temp.value === ""){
-//       for_we=0;
-//     }else for_we = parseInt(temp.value);
-
-//     // Kapital abrufen und testen. Testen wird aber unnötig, weil es nachher kein eingabe Feld mehr ist
-
-//     var kap = document.getElementById("kapital");
-//     if (kap !== null && kap.value === ""){
-//       kapital=0;
-//     }else kapital = parseInt(kap.value);
-
-//     var ausgaben = mar_pl + mar_tv + mar_ra + for_bi + for_ch + for_we;
+// function randomscalingfactor() {
+//     return Math.round(Math.random(10) * 10000);
+// }
 
 
-//     // test ob ich zu viele Ausgaben hätte
-//     // später vllt ummodeln mit Kredtvergabe oder so
+// var ctx = document.getElementById("canvas-bericht-1").getContext("2d");
+// window.myLine_1 = new Chart(ctx, getDemoLineChart(color.red[0], [
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+// ]));
 
-//      if((kapital-ausgaben)<0){ 
-//          return false;
-//      }else return true;
-// };
+// var ctx = document.getElementById("canvas-bericht-2").getContext("2d");
+// window.myLine_2 = new Chart(ctx, getDemoLineChart(color.blue[0], [
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+// ]));
+
+// var ctx = document.getElementById("canvas-bericht-3").getContext("2d");
+// window.myLine_3 = new Chart(ctx, getDemoLineChart(color.blue[0], [
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+// ]));
+
+// var ctx = document.getElementById("canvas-bericht-4").getContext("2d");
+// window.myLine_4 = new Chart(ctx, getDemoLineChart(color.green[0], [
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+//     randomscalingfactor(),
+// ]));
+
+// var ctx = document.getElementById("canvas-bericht-5").getContext("2d");
+// window.myBar_1 = new Chart(ctx, {
+//     type: 'bar',
+//     data: getBarChartData(),
+//     options: {
+//         responsive: true,
+//         legend: {
+//             position: 'top',
+//         },
+//         title: {
+//             display: false,
+//             text: 'Ausgaben nach Kategorie'
+//         }
+//     }
+// });
+
+// var ctx = document.getElementById("canvas-bericht-6").getContext("2d");
+// window.myBar_2 = new Chart(ctx, {
+//     type: 'bar',
+//     data: getBarChartData(),
+//     options: {
+//         responsive: true,
+//         legend: {
+//             position: 'top',
+//         },
+//         title: {
+//             display: false,
+//             text: 'Einnahmen nach Kategorie'
+//         }
+//     }
+// });

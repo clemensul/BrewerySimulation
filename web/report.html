@@ -30,11 +30,11 @@
         <!--  ****  -->
         <div id="bericht" class="row">
             <div class="container-fluid justify-content-center">
-                <div class="row widget-row">
+                <div class="row">
                     <div class="col-xl-6">
                         <div class="row">
                             <div class="col-6">
-                                <div class="widget">
+                                <div class="widget background-dark2">
                                     <div class="widget-content">
                                         <h3>Umsatz</h3>
                                         <p>Die Umsatzsteigerung der vergangenen Perioden in Prozent.</p>
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="widget">
+                                <div class="widget background-dark2">
                                     <div class="widget-content">
                                         <h3>Gewinn</h3>
                                         <p>Die Gewinnsteigerung der vergangenen Perioden in Prozent.</p>
@@ -70,7 +70,7 @@
                     <div class="col-xl-6">
                         <div class="row">
                             <div class="col-6">
-                                <div class="widget">
+                                <div class="widget background-dark2">
                                     <div class="widget-content">
                                         <h3>ROI</h3>
                                         <p>Der Return-Of-Investment Wert der vergangenen Periode in Prozent.</p>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="widget">
+                                <div class="widget background-dark2">
                                     <div class="widget-content">
                                         <h3>Absatzmenge</h3>
                                         <p>Die Absatzsteigerung der vergangenen Periode in Prozent.</p>
@@ -118,31 +118,33 @@
                                             <td>Absatz</td>
                                         </tr>
                                     </thead>
-                                    <tbody data-bind="foreach: periods">
+                                    <tbody data-bind="foreach: report">
                                         <tr>
-                                            <td>Periode 1</td>
+                                            <td>
+                                                <span data-bind="text: name"></span>
+                                            </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    <span data-bind="text: umsatz"></span>
+                                                    <span data-bind="text: data[0]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                    <span data-bind="text: gewinn"></span>
+                                                    <span data-bind="text: data[1]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    <span data-bind="text: ausgaben"></span>
+                                                    <span data-bind="text: data[2]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    <span data-bind="text: absatz"></span>
+                                                    <span data-bind="text: data[3]"></span>
                                                 </span>
                                             </td>
                                         </tr>
@@ -185,25 +187,27 @@
                                             <td>Sonstiges</td>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody data-bind="foreach: report">
                                         <tr>
-                                            <td>Periode 1</td>
+                                            <td>
+                                                <span data-bind="text: name"></span>
+                                            </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    343284
+                                                    <span data-bind="text: data[0]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                    343284
+                                                    <span data-bind="text: data[1]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    343284
+                                                    <span data-bind="text: data[2]"></span>
                                                 </span>
                                             </td>
                                         </tr>
@@ -244,25 +248,27 @@
                                             <td>Sonstiges</td>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody data-bind="foreach: report">
                                         <tr>
-                                            <td>Periode 1</td>
+                                            <td>
+                                                <span data-bind="text: name"></span>
+                                            </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    343284
+                                                    <span data-bind="text: data[0]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                                    343284
+                                                    <span data-bind="text: data[1]"></span>
                                                 </span>
                                             </td>
                                             <td>
                                                 <span>
                                                     <i class="fa fa-angle-up" aria-hidden="true"></i>
-                                                    343284
+                                                    <span data-bind="text: data[2]"></span>
                                                 </span>
                                             </td>
                                         </tr>
@@ -275,25 +281,25 @@
             </div>
         </div>
     </div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-        <script src="node_modules/chart.js/dist/Chart.js"></script>
-        <script src="js/model/colors.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.js"></script>
+    <script src="js/model/colors.js"></script>
 
-        <script src="js/jquery-3.2.1.js"></script>
-        <script src="js/smooth-scroll.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/smooth-scroll.js"></script>
 
-        <script src="js/websocket.js"></script>
+    <script src="js/websocket.js"></script>
 
-        <script src="js/content.js"></script>
+    <script src="js/content.js"></script>
 
-        <script src="js/knockout-3.4.1.js"></script>
-        <script src="js/model/report.js"></script>
-        <script src="js/report.js"></script>
+    <script src="js/knockout-3.4.1.js"></script>
+    <script src="js/model/report.js"></script>
+    <script src="js/report.js"></script>
 
 </body>
 

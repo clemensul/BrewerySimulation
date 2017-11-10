@@ -9,9 +9,11 @@ import java.util.HashMap;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.planspiel.model.User;
 
 /**
@@ -21,6 +23,14 @@ import org.planspiel.model.User;
 public class GameTest {
 
     public GameTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
     }
 
     @Before
