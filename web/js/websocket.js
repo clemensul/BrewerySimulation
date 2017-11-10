@@ -132,3 +132,18 @@ function signin() {
     socket.send(JSON.stringify(Player));
     console.log(JSON.stringify(Player));
 }
+
+var send_game_data = function () {
+
+    if (knockout.budgetLeft() < 0)
+        alert("Du hast dein Budget überschritten!");
+    else {
+        var content = {
+            action: "submit",
+            cookie: document.cookie,
+            data: get_game_data()
+        };
+        console.log(content);
+        socket.send(JSON.stringify(content));
+    }
+}
