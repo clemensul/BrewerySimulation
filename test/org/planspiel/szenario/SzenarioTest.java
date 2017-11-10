@@ -39,9 +39,6 @@ public class SzenarioTest {
         game.addPlayer("Bob", "BCookie", true);
         User bob = game.getUsers().get("BCookie");
         
-        game.addPlayer("Carol", "CCookie", true);
-        User carol = game.getUsers().get("CCookie");
-
         game.initialize();
 
         while (!game.isFinished()) {
