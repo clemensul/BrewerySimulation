@@ -122,6 +122,14 @@ class KNOCKOUT {
             return this.budget() - this.cost();
         }, this);
 
+        this.umsatz = ko.computed(function () {
+            return (this.price().value() * this.productionAmount().value());
+        }, this)
+
+        this.gewinn = ko.computed(function () {
+            return (this.umsatz() - this.cost());
+        }, this)
+
         this.error = ko.observable("");
     }
 }

@@ -26,7 +26,6 @@
 .tile {
     padding: 20px;
     margin: 10px;
-    background: #cccccc;
     text-align: center;
 }
 
@@ -42,12 +41,15 @@
     color: #777
 }
 
-.tile > div {
-    color: #111111;
+.tile > h4 {
     border: 0 solid #ffffff;
     align-content: center;
     text-align: center;
     padding: 0;
     margin: 0;
     font-weight: bold;
+}
+
+.tile > h4:last-of-type {
+    margin-top: 0.5rem;
 }

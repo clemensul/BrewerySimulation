@@ -18,7 +18,7 @@ import org.planspiel.model.User;
 
 @ApplicationScoped
 public class SessionHandler {
-
+    
     private final HashMap<String, org.planspiel.model.User> users = new HashMap<>();
     private final HashMap<String, Game> gamesActive = new HashMap<>();
     private final HashMap<String, Session> sessions = new HashMap<>();

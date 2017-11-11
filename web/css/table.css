@@ -16,3 +16,7 @@ tbody tr {
 td {
     padding: 15px;
 }
+
+tbody tr:hover {
+    background: darkslategray;
+}

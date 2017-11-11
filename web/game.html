@@ -285,8 +285,9 @@
                     <div class="widget">
                         <div class="widget-head">
                             <h2>Investitionsmöglichkeiten Marketing</h2>
-                            <span class="widget-text">Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung!
-                                <br> Je mehr Investitionen du in diesem Bereich tätigst, desto mehr Kunden kannst du gewinnen.
+                            <span class="widget-text">
+                                Verteile dein Budget in die verschiedenen Projekte deiner Marketing-Abteilung! </br>
+                                Je mehr Investitionen du in diesem Bereich tätigst, desto mehr Kunden kannst du gewinnen.
                             </span>
                         </div>
                         <div class="widget-content">
@@ -317,20 +318,6 @@
                                     <input class="form-control form-money background-dark3" placeholder="00" type="text" data-bind="attr: {id: id }, textInput: value">
                                     <span class="input-group-addon background-dark1">€</span>
                                 </div>
-                                <!-- <div class="col input-group">
-                                    <input name="investment_plakate" class="form-control form-money background-dark3" placeholder="00" id="mar_pla" type="text">
-                                    <span class="input-group-addon background-dark1">€</span>
-                                </div>
-                                <div class="col input-group">
-                                    <input type="text" name="investment_tv" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                        id="mar_tvw">
-                                    <span class="input-group-addon background-dark1">€</span>
-                                </div>
-                                <div class="col input-group">
-                                    <input type="text" name="investment_radio" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                        id="mar_rad">
-                                    <span class="input-group-addon background-dark1">€</span>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -344,8 +331,10 @@
                     <div class="widget">
                         <div class="widget-head">
                             <h2>Investitionsmöglichkeiten Forschung</h2>
-                            <span class="widget-text">Verteile dein Budget innerhalb deiner Forschungsprojekte! Durch diese Investitionen erweiterst
-                                du dein Angebot und optimierst deine Produktion.</span>
+                            <span class="widget-text">
+                                Verteile dein Budget innerhalb deiner Forschungsprojekte! </br>
+                                Durch diese Investitionen erweiterst du dein Angebot und optimierst deine Produktion.
+                            </span>
                         </div>
                         <div class="widget-content">
                             <div class="row">
@@ -373,21 +362,6 @@
                                     <input class="form-control form-money background-dark3" placeholder="00" type="text" data-bind="attr: {id: id }, textInput: value">
                                     <span class="input-group-addon background-dark1">€</span>
                                 </div>
-                                <!-- <div class="col input-group">
-                                    <input type="text" name="investment_geschmack" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                        id="dev_bie">
-                                    <span class="input-group-addon background-dark1">€</span>
-                                </div>
-                                <div class="col input-group">
-                                    <input type="text" name="investment_chemie" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                        id="dev_hop">
-                                    <span class="input-group-addon background-dark1">€</span>
-                                </div>
-                                <div class="col input-group">
-                                    <input type="text" name="investment_hopfen" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                        id="dev_get">
-                                    <span class="input-group-addon background-dark1">€</span>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -397,43 +371,73 @@
                 <!-- Production -->
                 <!-- *********  -->
                 <div class="row widget-row" id="forschung">
-                    <div class="widget widget-content">
-                        <h2 class="card-title">Produktion</h2>
-                        <p class="card-text">Wie viel Bier willst du produzieren?</p>
-
-                        <form name="form_pro">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Menge</div>
-                                <div class="col-md-5">
-                                    <div class="input-group" data-bind="with: productionAmount">
-                                        <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
-                                            id="pro_amount" data-bind="value: value, valueUpdate: 'afterkeydown'">
-                                        <span class="input-group-addon background-dark1">Hektoliter</span>
+                    <div class="widget">
+                        <div class="widget-head">
+                            <h2 class="card-title">Produktion</h2>
+                            <span class="widget-text">
+                                Wie viel Bier willst du produzieren?
+                            </span>
+                        </div>
+                        <div class="widget-content">
+                            <form name="form_pro">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <h4>
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i> Menge
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group" data-bind="with: productionAmount">
+                                            <input type="text" class="form-control form-money background-dark3" placeholder="00" aria-label="Amount (to the nearest dollar)"
+                                                id="pro_amount" data-bind="value: value, valueUpdate: 'afterkeydown'">
+                                            <span class="input-group-addon background-dark1">Hektoliter</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Preis</div>
-                                <div class="col-md-5">
-                                    <div class="input-group" data-bind="with: price">
-                                        <input type="text" class="form-control form-money background-dark3" placeholder="00" id="pro_price" data-bind="value: value, valueUpdate: 'afterkeydown'">
-                                        <span class="input-group-addon background-dark1">€</span>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <h4>
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i> Preis
+                                        </h4>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group" data-bind="with: price">
+                                            <input type="text" class="form-control form-money background-dark3" placeholder="00" id="pro_price" data-bind="value: value, valueUpdate: 'afterkeydown'">
+                                            <span class="input-group-addon background-dark1">€</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
-                        <div class="row">
-                            <div class="col-6">
+                            </form>
+                            <div class="widget-row">
                                 <h2 class="card-title">Preisfunktion</h2>
                                 <p class="card-text">Wie viel Bier willst du produzieren?</p>
-
-                                <canvas id="umsatzfunktion"></canvas>
                             </div>
-                            <div class="col-6">
+                            <div class="row">
+                                <div class="col">
 
+                                    <canvas id="umsatzfunktion"></canvas>
+                                </div>
+                                <div class="col">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <td>Größe</td>
+                                                <td>Wert</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Umsatz</td>
+                                                <td data-bind="currencyText: umsatz"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gewinn</td>
+                                                <td data-bind="currencyText: gewinn"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -442,32 +446,45 @@
                 <!--    ****     -->
                 <!-- Development -->
                 <!--    ****     -->
-                <!--    
-                <div class="row">
-                <div class="col tile checked" name="investment_pumpe" class="col tile">
-                    <div onclick="checkInvestment('investment_pumpe')">Alkoholfreies Bier ins Sortiment aufnehmen</div>
-                    <span> Der Fitness-Hype in Deutschland motiviert die Konsumenten, weniger alkohlische Getränke
-                        zu sich zu nehmen - es wird Zeit, diese Zielgruppe ebenfalls anzusprechen!
-                    </span>
-                    <div>Preis: 100.000€</div>
+
+                <div class="row widget-row" id="forschung">
+                    <div class="widget">
+                        <div class="widget-head">
+                            <h2>Einmalige Investitionen</h2>
+                            <span class="widget-text">
+                                Tätige große Investitionen welche dein Unternehmen direkt beeinflussen. </br>
+                                Durch einmalige Investitionen nimmst du direkten Einfluss auf deine Kosten oder die größe deiner Zielgruppe.
+                            </span>
+                        </div>
+                        <div class="row widget-content">
+                            <div class="col background-dark3 tile">
+                                <h4>Alkoholfreies Bier ins Sortiment aufnehmen</h4>
+                                <span> Der Fitness-Hype in Deutschland motiviert die Konsumenten, weniger alkohlische Getränke zu
+                                    sich zu nehmen - es wird Zeit, diese Zielgruppe ebenfalls anzusprechen!
+                                </span>
+                                <h4>Preis: 100.000€</h4>
+                            </div>
+                            <div class="col background-dark3 tile">
+                                <h4>Elektro LKWs</h4>
+                                <span>Umweltfreundliche LKWs bieten den großen Vorteil einer langjährigen Nutzungsdauer und geringfügigen
+                                    "Kraftstoffkosten".
+                                </span>
+                                <h4>Preis: 100.000€</h4>
+                            </div>
+                            <div class="col background-dark3 tile">
+                                <h4>Mischgetränke in das Sortiment aufnehmen</h4>
+                                <span>Schließe dich Veltins, Desperados und co. an und entwerfe dein eigenes Mischgetränk.
+                                </span>
+                                <h4>Preis: 1.000.000€</h4>
+                            </div>
+                            <div class="col background-dark3 tile">
+                                <h4>Neue Biersorten einführen</h4>
+                                <span>Aufnahme von Weizen und Pils.</span>
+                                <h4>Preis: 100.000€</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col tile">
-                    <div>Elektro LKWs</div>
-                    <span>Umweltfreundliche LKWs bieten den großen Vorteil einer langjährigen Nutzungsdauer und
-                        geringfügigen "Kraftstoffkosten".</span>
-                    <div>Preis: 100.000€</div>
-                </div>
-                <div class="col tile">
-                    <div>Mischgetränke in das Sortiment aufnehmen</div>
-                    <span>Schließe dich Veltins, Desperados und co. an und entwerfe dein eigenes Mischgetränk.
-                    </span>
-                    <div>Preis: 1.000.000€</div>
-                </div>
-                <div class="col tile">
-                    <div>Neue Biersorten einführen</div>
-                    <span>Aufnahme von Weizen und Pils.</span>
-                    <div>Preis: 100.000€</div>
-                </div> -->
 
 
             </div>
@@ -498,9 +515,6 @@
                                 </div>
                                 <div id="sidebar_budget" class="panel-collapse collapse">
                                     <table>
-                                        <thead>
-
-                                        </thead>
                                         <tbody>
                                             <tr>
                                                 <td>
