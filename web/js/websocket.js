@@ -116,10 +116,6 @@ function start_game() {
 
 function signin() {
     var form = document.forms["anmeldung"];
-
-    //console.log(form);
-    //console.log(socket);
-
     var name = form.elements["name"].value;
     var game_id = form.elements["game-id"].value;
 
