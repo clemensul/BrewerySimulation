@@ -2,6 +2,13 @@ socket = new WebSocket("ws://localhost:8080/planspielWebWeb/actions");
 socket.onmessage = onMessage;
 socket.onopen = onOpen;
 
+function getCookie() {
+    var name = "_bs";
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+
 
 function onMessage(event) {
     json = event.data;
@@ -11,7 +18,7 @@ function onMessage(event) {
 
         case "login": {
             if (reply.error === "") {
-                document.cookie = reply.cookie;
+                document.cookie = "_bs=" + reply.cookie;
                 console.log(reply);
 
                 //Give data to Lobby Screen
@@ -26,9 +33,9 @@ function onMessage(event) {
             if (reply.error === "") {
 
                 //Give data to Lobby Screen
-                if (lobbyObj !== undefined)
+                if (lobbyObj !== undefined) {
                     lobbyObj.changePlayerArray(reply.player);
-
+                }
             } else {
                 alert(reply.error);
             }
@@ -89,16 +96,20 @@ function onOpen(event) {
 
     $('document').ready(
         function () {
-            let cookieVal = document.cookie;
             var path = window.location.pathname;
             var page = path.split("/").pop();
 
-            var Cookie = {
-                cookie: cookieVal,
-                action: "newSession",
-                site: page
-            };
-            socket.send(JSON.stringify(Cookie));
+            if (page !== "") {
+                var cookieVal = getCookie();
+
+                var Cookie = {
+                    cookie: cookieVal,
+                    action: "newSession",
+                    site: page
+                };
+
+                socket.send(JSON.stringify(Cookie));
+            }
         }
     )
 
@@ -109,9 +120,9 @@ function start_game() {
         JSON.stringify(
             {
                 action: "start_game",
-                cookie: document.cookie
+                cookie: getCookie()
             })
-    );  
+    );
 }
 
 function signin() {
@@ -129,14 +140,14 @@ function signin() {
     console.log(JSON.stringify(Player));
 }
 
-var send_game_data = function () {
+function send_game_data() {
 
     if (knockout.budgetLeft() < 0)
         alert("Du hast dein Budget überschritten!");
     else {
         var content = {
             action: "submit",
-            cookie: document.cookie,
+            cookie: getCookie(),
             data: get_game_data()
         };
         console.log(content);
