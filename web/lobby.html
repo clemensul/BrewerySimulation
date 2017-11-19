@@ -28,40 +28,62 @@
         <div id="lobby" class="row">
             <div class="container">
                 <div class="widget-row">
-                        <div class="widget widget-content">
-                            <h3 class="card-title">Lobby</h3>
-                            <p class="card-text" id="lobby_game_id">Game-Id:
-                                <span data-bind="text: game_id"></span>
-                            </p>
-                            <p class="card-text" id="lobby_player">Spieler:</p>
-
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>Admin</td>
-                                    </tr>
-                                </thead>
-                                <tbody data-bind="foreach: players">
-                                    <tr>
-                                        <td>
-                                            <span data-bind="text: name"></span>
-                                        </td>
-                                        <td>
-                                            <span data-bind="text: admin"></span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <button class="btn action-button" data-bind="enable: admin" onclick="start_game();">
-                            Spiel starten
-                        </button>
+                    <div class="widget widget-content">
+                        <h1 style="text-align: center">Lobby</h1>
                     </div>
+                </div>
+                <div class="widget-row">
+                    <div class="widget widget-content">
+
+                        <div class="background-dark2" style="color: white">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-6" style="border-left: 1px solid gray;">
+                                        <h1 class="display-3" data-bind="text: game_id"></h1>
+                                        <p class="lead">Game-Id</p>
+                                    </div>
+                                    <div class="col-6" style="border-left: 1px solid gray;">
+                                        <h1 class="display-3" data-bind="text: player().name"></h1>
+                                        <p class="lead">Firma</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-row">
+                    <div class="widget widget-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Nr.</td>
+                                    <td>Name</td>
+                                    <td>Admin</td>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: players">
+                                <tr>
+                                    <td>
+                                        <span data-bind="text: $index"></span>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: name"></span>
+                                    </td>
+                                    <td>
+                                        <span data-bind="text: admin ? '✔' : '✘';"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn action-button" data-bind="enable: player().admin" onclick="start_game();">
+                        Spiel starten
+                    </button>
                 </div>
             </div>
         </div>
-    
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
