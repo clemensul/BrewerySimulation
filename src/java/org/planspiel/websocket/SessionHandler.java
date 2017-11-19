@@ -77,6 +77,9 @@ public class SessionHandler {
     protected void sendLobbyData(String game_hash) {
 
         Game game = gamesActive.get(game_hash);
+        if (game == null)
+            return;
+        
         JsonArray players = game.showPlayers();
 
         JsonObject lobbyMsg = Json.createObjectBuilder()
