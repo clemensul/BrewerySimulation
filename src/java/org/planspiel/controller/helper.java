@@ -21,7 +21,11 @@ public final class helper {
         return hashes[0];
     }
     
-     public static String hashItUp(String value) {
+    public static String hashItUp(String value) {
         return Integer.toString(value.hashCode());
+    }
+
+    public static String concatHashes(String user_hash, String game_hash) {
+        return user_hash + "x" + game_hash;
     }
 }

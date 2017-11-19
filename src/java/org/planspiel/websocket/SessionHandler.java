@@ -34,7 +34,7 @@ public class SessionHandler {
         String game_id = jsonMessage.getString("game_id");
         String user_hash = helper.hashItUp(name);
         String game_hash = helper.hashItUp(game_id.toLowerCase());
-        String cookie = user_hash + "x" + game_hash;
+        String cookie = helper.concatHashes(user_hash, game_hash);
         Boolean admin = false;
         JsonArray players;
         String error = "";   //TODO errorhandling add errors here
