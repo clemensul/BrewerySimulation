@@ -18,7 +18,7 @@ import org.planspiel.model.User;
 
 @ApplicationScoped
 public class SessionHandler {
-    
+
     private final HashMap<String, org.planspiel.model.User> users = new HashMap<>();
     private final HashMap<String, Game> gamesActive = new HashMap<>();
     private final HashMap<String, Session> sessions = new HashMap<>();
@@ -38,9 +38,9 @@ public class SessionHandler {
         Boolean admin = false;
         JsonArray players;
         String error = "";   //TODO errorhandling add errors here
-        
+
         this.addSession(session, cookie);
-       
+
         if (gamesActive.containsKey(game_hash)) {
             Game game = gamesActive.get(game_hash);
             game.addPlayer(name, cookie, false);
@@ -71,13 +71,20 @@ public class SessionHandler {
                 .build();
         sendToSession(session, addMessage);
 
-        JsonObject lobbyMsg = provider.createObjectBuilder()
+        sendLobbyData(game_hash);
+    }
+
+    protected void sendLobbyData(String game_hash) {
+
+        Game game = gamesActive.get(game_hash);
+        JsonArray players = game.showPlayers();
+
+        JsonObject lobbyMsg = Json.createObjectBuilder()
                 .add("action", "lobby")
-                .add("name", name) //name of admin?
-                .add("game_id", game_id)
-                .add("player", players)
-                .add("error", error)
+                .add("players", players)
+                .add("error", "")
                 .build();
+
         sendToGame(game_hash, lobbyMsg);
     }
 
@@ -175,9 +182,11 @@ public class SessionHandler {
         sendToSession(session, status);
 
         System.out.println("Cookie: " + cookie + " entered: " + jsonMessage.getString("site"));
-        
+
         if ("game.html".equals(jsonMessage.getString("site"))) {
             sendToCookie(cookie, get_report(helper.getGameHash(cookie), helper.getUserHash(cookie)));
+        } else if ("lobby.html".equals(jsonMessage.getString("site"))) {
+            sendLobbyData(helper.getGameHash(cookie));
         }
     }
 
