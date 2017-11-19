@@ -34,7 +34,7 @@ function onMessage(event) {
 
                 //Give data to Lobby Screen
                 if (lobbyObj !== undefined) {
-                    lobbyObj.changePlayerArray(reply.player);
+                    lobbyObj.changePlayerArray(reply.players);
                 }
             } else {
                 alert(reply.error);

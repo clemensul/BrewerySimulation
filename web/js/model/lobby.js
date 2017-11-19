@@ -5,6 +5,8 @@ class Lobby {
         console.log(admin);
         this.admin = ko.observable(admin);
         this.game_id = ko.observable(game_id);
+        console.log(players);   
+        this.player = ko.observable(players[0]);
         this.players = ko.observableArray(players);
     }
 
